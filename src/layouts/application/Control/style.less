@@ -1,0 +1,81 @@
+@width: 285px;
+.control {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &-action {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #00232970;
+    font-size: 18px;
+    &:hover {
+      background-color: #f7f7f7;
+    }
+  }
+  &-drawer {
+    width: @width;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.28) 0 0 16px;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-@width);
+    &-open {
+      transform: translateX(0);
+    }
+    &-top {
+      height: 75px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 20px;
+      &-title {
+        font-size: 26px;
+        color: #002329d4;
+      }
+    }
+    &-driver {
+      width: 100%;
+      margin: 6px auto;
+      height: 1px;
+      background-color: #eee;
+    }
+    &-body {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 20px 0 20px;
+    }
+    &-footer {
+      height: 65px;
+    }
+  }
+}
+.controlOption {
+  width: 235px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px 0 30px;
+  gap: 20px;
+  cursor: pointer;
+  font-size: 15px;
+  border-radius: 0 21px 21px 0;
+  margin-bottom: 15px;
+  &:hover {
+    background-color: #f6f6f6;
+  }
+}

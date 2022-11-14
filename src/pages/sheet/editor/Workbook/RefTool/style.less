@@ -1,0 +1,35 @@
+.ref {
+  height: 28px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  .textInput {
+    border: 2px solid transparent;
+    outline: none;
+    font-size: 13px;
+    padding: 0 12px;
+    background-color: transparent;
+    box-sizing: border-box;
+    &:focus {
+      border: 2px solid #13c2c2;
+    }
+  }
+
+  &-line {
+    width: 1px;
+    height: 14px;
+    background-color: #ddd;
+  }
+  &-cell {
+    display: flex;
+    align-items: center;
+    min-width: 650px;
+    height: 100%;
+    &-label {
+      font-size: 14px;
+      font-weight: 500;
+      margin-right: 12px;
+    }
+  }
+}

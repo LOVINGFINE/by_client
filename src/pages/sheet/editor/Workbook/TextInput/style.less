@@ -1,0 +1,22 @@
+.input {
+  border: none;
+  outline: none;
+  min-height: 100%;
+  display: block;
+  background-color: transparent;
+  box-sizing: border-box;
+  resize: none;
+  overflow: auto;
+  font-size: 1em;
+  box-sizing: border-box;
+  padding: 2px 4px;
+  display: flex;
+  flex-wrap: wrap;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &::selection {
+    background-color: var(--d-bgc-selection);
+  }
+}

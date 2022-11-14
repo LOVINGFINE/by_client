@@ -1,0 +1,31 @@
+.popover {
+  position: fixed;
+  z-index: 1000;
+  transition: all 0.1s;
+  &-inner {
+    position: relative;
+    &-arrow {
+      position: absolute;
+      background-color: transparent;
+      overflow: hidden;
+      & > span {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 2px;
+        background-color: var(--d-bgc);
+        box-shadow: 2px 2px 5px #0000000f;
+      }
+    }
+    &-content {
+      min-width: 120px;
+      min-height: 45px;
+      background-color: var(--d-bgc);
+      box-shadow: 0 3px 10px -4px #0000001f, 0 10px 16px #00000014,
+        0 9px 28px 10px #0000000d;
+      border-radius: 4px;
+    }
+  }
+}

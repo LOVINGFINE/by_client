@@ -1,0 +1,87 @@
+.signUp {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 520px;
+  align-items: center;
+  background-color: #fff;
+  &-card {
+    width: 420px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 20px 20px 45px;
+    &-top {
+      display: flex;
+      align-items: center;
+      height: 42px;
+      gap: 20px;
+      margin-bottom: 42px;
+      &-title {
+        font-size: 22px;
+      }
+    }
+  }
+}
+
+.form {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  &-accent {
+    height: 162px;
+  }
+  &-password {
+    height: 245px;
+  }
+  &-item {
+    margin-bottom: 15px;
+    width: 100%;
+    &-label {
+      margin-bottom: 12px;
+    }
+    &-body {
+      width: 100%;
+    }
+  }
+}
+
+.accent {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: all 0.3s;
+  &-current {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.password {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s;
+  &-current {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.submit {
+  padding: 28px 20px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+}

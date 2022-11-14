@@ -1,0 +1,160 @@
+.button {
+  display: inline-block;
+  .btn {
+    user-select: none;
+    cursor: pointer;
+    transition: all linear 0.1s;
+    position: relative;
+    display: flex;
+    align-items: center;
+    &-icon {
+      position: relative;
+      width: 1em;
+      height: 1em;
+      &-loading {
+        position: absolute;
+        animation: loadingRotate 1.5s linear infinite;
+      }
+    }
+
+    &-small {
+      font-size: 12px;
+      padding: 3px 6px;
+      gap: 6px;
+      border-radius: 2px;
+    }
+
+    &-middle {
+      font-size: 14px;
+      padding: 5px 10px;
+      gap: 8px;
+      border-radius: 3px;
+    }
+    &-large {
+      font-size: 16px;
+      padding: 7px 15px;
+      gap: 12px;
+      border-radius: 4px;
+    }
+
+    &-default {
+      border: 1px solid var(--d-border);
+      &:hover {
+        color: var(--d-primary);
+        border-color: var(--d-primary-1);
+      }
+    }
+    &-error {
+      border: 1px solid var(--d-text-error);
+      color: var(--d-text-error);
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+    &-primary {
+      color: var(--d-text-reverse);
+      background-color: var(--d-primary);
+      border: 1px solid var(--d-primary);
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    &-round {
+      justify-content: center;
+      border-radius: 50%;
+      &-small {
+        font-size: 12px;
+        width: 24px;
+        height: 24px;
+      }
+
+      &-middle {
+        font-size: 14px;
+        width: 32px;
+        height: 32px;
+      }
+      &-large {
+        font-size: 16px;
+        width: 42px;
+        height: 42px;
+      }
+
+      &-default {
+        color: var(--d-action-b);
+        &:hover {
+          color: var(--d-text);
+          background-color: #f6f6f6;
+        }
+      }
+      &-error {
+        color: var(--d-text-error);
+        &:hover {
+          opacity: 0.6;
+        }
+      }
+      &-primary {
+        color: var(--d-text-reverse);
+        background-color: var(--d-primary);
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+    &-link {
+      &-small {
+        font-size: 12px;
+        gap: 6px;
+        padding: 0 6px;
+      }
+
+      &-middle {
+        font-size: 14px;
+        padding: 0 10px;
+        gap: 8px;
+      }
+      &-large {
+        font-size: 16px;
+        padding: 0 14px;
+        gap: 12px;
+      }
+
+      &-default {
+        &:hover {
+          color: var(--d-primary);
+        }
+      }
+      &-error {
+        color: var(--d-text-error);
+        &:hover {
+          opacity: 0.6;
+        }
+      }
+      &-primary {
+        color: var(--d-primary);
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+    &-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+@keyframes loadingRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

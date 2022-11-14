@@ -1,0 +1,86 @@
+.json {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  padding: 12px 20px;
+  &-view {
+    width: auto;
+  }
+}
+
+.map {
+  &-view {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    &-key {
+      font-weight: 500;
+    }
+  }
+  &-values {
+    width: auto;
+    &-line {
+      border-left: 1px solid #eee;
+    }
+  }
+}
+
+.array {
+  &-view {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    &-key {
+      font-weight: 500;
+    }
+  }
+  &-values {
+    width: auto;
+    &-line {
+      border-left: 1px solid #eee;
+    }
+  }
+}
+
+.number {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  gap: 6px;
+  &-key {
+    font-weight: 500;
+  }
+  &-value {
+    flex-shrink: 0;
+    white-space: nowrap;
+    color: #13c2c2;
+  }
+}
+
+.boolean {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  gap: 6px;
+  &-key {
+    font-weight: 500;
+  }
+  &-value {
+    flex-shrink: 0;
+    white-space: nowrap;
+    color: #c6ac00;
+  }
+}
+
+.string {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  gap: 6px;
+  &-key {
+    font-weight: 500;
+  }
+  &-value {
+    flex-shrink: 0;
+  }
+}

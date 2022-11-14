@@ -1,0 +1,4 @@
+
+{
+  "plugins": ["portal-scripts/importCssPlugin.js"]
+}

@@ -1,0 +1,25 @@
+@top: 60px;
+.layout {
+  width: 100%;
+  height: 100%;
+  padding-top: @top;
+  background-color: #f1f3f4;
+  &-header {
+    height: @top;
+    width: 100%;
+    display: flex;
+    padding: 0 20px;
+    align-items: center;
+    gap: 15px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 365;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    &-content {
+      flex: 1;
+      height: 100%;
+    }
+  }
+}

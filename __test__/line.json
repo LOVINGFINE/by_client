@@ -1,0 +1,216 @@
+{
+  "columns": [
+    {
+      "id": "header0",
+      "label": "列0"
+    },
+    {
+      "id": "header1",
+      "label": "列1"
+    },
+    {
+      "id": "header2",
+      "label": "列2"
+    },
+    {
+      "id": "header3",
+      "label": "列3"
+    },
+    {
+      "id": "header4",
+      "label": "列4"
+    },
+    {
+      "id": "header5",
+      "label": "列5"
+    },
+    {
+      "id": "header6",
+      "label": "列6"
+    },
+    {
+      "id": "header7",
+      "label": "列7"
+    },
+    {
+      "id": "header8",
+      "label": "列8"
+    },
+    {
+      "id": "header9",
+      "label": "列9"
+    },
+    {
+      "id": "header10",
+      "label": "列10"
+    },
+    {
+      "id": "header11",
+      "label": "列11"
+    },
+    {
+      "id": "header12",
+      "label": "列12"
+    },
+    {
+      "id": "header13",
+      "label": "列13"
+    },
+    {
+      "id": "header14",
+      "label": "列14"
+    },
+    {
+      "id": "header15",
+      "label": "列15"
+    },
+    {
+      "id": "header16",
+      "label": "列16"
+    },
+    {
+      "id": "header17",
+      "label": "列17"
+    },
+    {
+      "id": "header18",
+      "label": "列18"
+    },
+    {
+      "id": "header19",
+      "label": "列19"
+    }
+  ],
+  "rows": [
+    {
+      "label": "求和项:0",
+      "id": "row-0",
+      "records": {
+        "header0": 34,
+        "header1": 66,
+        "header2": 32,
+        "header3": 92,
+        "header4": 88,
+        "header5": 92,
+        "header6": 33,
+        "header7": 5,
+        "header8": 64,
+        "header9": 58,
+        "header10": 42,
+        "header11": 21,
+        "header12": 14,
+        "header13": 89,
+        "header14": 40,
+        "header15": 84,
+        "header16": 28,
+        "header17": 51,
+        "header18": 25,
+        "header19": 41
+      }
+    },
+    {
+      "label": "求和项:1",
+      "id": "row-1",
+      "records": {
+        "header0": 57,
+        "header1": 38,
+        "header2": 99,
+        "header3": 38,
+        "header4": 77,
+        "header5": 64,
+        "header6": 22,
+        "header7": 66,
+        "header8": 94,
+        "header9": 61,
+        "header10": 74,
+        "header11": 28,
+        "header12": 47,
+        "header13": 8,
+        "header14": 40,
+        "header15": 23,
+        "header16": 85,
+        "header17": 83,
+        "header18": 52,
+        "header19": 60
+      }
+    },
+    {
+      "label": "求和项:2",
+      "id": "row-2",
+      "records": {
+        "header0": 15,
+        "header1": 92,
+        "header2": 65,
+        "header3": 35,
+        "header4": 10,
+        "header5": 69,
+        "header6": 5,
+        "header7": 25,
+        "header8": 86,
+        "header9": 15,
+        "header10": 3,
+        "header11": 92,
+        "header12": 40,
+        "header13": 83,
+        "header14": 13,
+        "header15": 56,
+        "header16": 63,
+        "header17": 0,
+        "header18": 69,
+        "header19": 0
+      }
+    },
+    {
+      "label": "求和项:3",
+      "id": "row-3",
+      "records": {
+        "header0": 33,
+        "header1": 89,
+        "header2": 13,
+        "header3": 89,
+        "header4": 89,
+        "header5": 55,
+        "header6": 19,
+        "header7": 89,
+        "header8": 91,
+        "header9": 11,
+        "header10": 92,
+        "header11": 40,
+        "header12": 88,
+        "header13": 32,
+        "header14": 48,
+        "header15": 92,
+        "header16": 38,
+        "header17": 38,
+        "header18": 48,
+        "header19": 25
+      }
+    },
+    {
+      "label": "求和项:4",
+      "id": "row-4",
+      "records": {
+        "header0": 28,
+        "header1": 26,
+        "header2": 37,
+        "header3": 55,
+        "header4": 98,
+        "header5": 65,
+        "header6": 68,
+        "header7": 59,
+        "header8": 90,
+        "header9": 47,
+        "header10": 66,
+        "header11": 35,
+        "header12": 27,
+        "header13": 43,
+        "header14": 22,
+        "header15": 86,
+        "header16": 72,
+        "header17": 84,
+        "header18": 72,
+        "header19": 56
+      }
+    }
+  ]
+}
