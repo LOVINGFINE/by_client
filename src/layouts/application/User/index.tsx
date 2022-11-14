@@ -5,22 +5,34 @@
 import { FC, useContext } from "react";
 import { userContext } from "@/plugins/user";
 import styles from "./style.less";
+import { Dropdown } from "@/packages/design";
+import UserInfo from "./Info";
+import UserAvatar from "./Avatar";
+import { useNavigate } from "react-router";
 
 const ApplicationUser: FC<ApplicationUserProps> = ({}) => {
   const context = useContext(userContext);
+  const navigate = useNavigate();
 
-  const firstCode = (() => {
-    const { nickname, username } = context.user;
-    return nickname[0] || username[0];
-  })();
+  /** @state */
 
   /**
    * @Methods
    */
+  function onLogout() {
+    navigate("/sign-in");
+  }
   /** @render */
-  return <div className={styles["user"]}>
-    <div className={styles["user-avatar"]}>{firstCode}</div>
-  </div>;
+  return (
+    <Dropdown
+      overlay={<UserInfo logout={onLogout} user={context.user} />}
+      placement={"bottomLeft"}
+    >
+      <div className={styles["user"]}>
+        <UserAvatar user={context.user} />
+      </div>
+    </Dropdown>
+  );
 };
 
 /**

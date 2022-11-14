@@ -18,7 +18,9 @@ const SignInPage: FC = () => {
    */
   function onSignInOk(res: UserWithToken) {
     context.setToken(res.token);
-    navigate("/excel");
+    navigate("/", {
+      replace: true,
+    });
   }
   /** render */
   return (
@@ -33,10 +35,5 @@ const SignInPage: FC = () => {
     </div>
   );
 };
-
-/**
- * @interface props
- */
-export interface SignInPageProps {}
 
 export default SignInPage;

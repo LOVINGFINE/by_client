@@ -3,18 +3,15 @@ import { ReactElement } from "react";
 
 export type MenuOptionDriver = "driver";
 
-export enum MenuOptionType {
-  default = "default",
-  error = "error",
-  warning = "warning",
+export interface MenuOption {
+  label?: string | ReactElement;
+  disabled?: boolean;
+  type?: "default" | "error" | "warning";
+  suffix?: string | number | ReactElement;
+  icon?: string | number | ReactElement;
 }
 
-export interface MenuOption {
-  label: string;
-  disabled?: boolean;
-  type?: MenuOptionType;
-  icon?: string;
-  suffix?: ReactElement;
+export interface MenuOptionChildren extends MenuOption {
   options?: (MenuOption | MenuOptionDriver)[];
 }
 

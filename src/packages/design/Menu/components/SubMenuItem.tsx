@@ -1,12 +1,12 @@
 import { FC, ReactElement } from "react";
-import { MenuOption, MenuOptionDriver, MenuOptionType } from "../index";
+import { MenuOptionChildren } from "../index";
 import Icon from "../../Icon";
 import Menu from "./Menu";
 
 const SubMenuItem: FC<SubMenuItemProps> = (props) => {
   const {
     label,
-    type = MenuOptionType.default,
+    type = "default",
     disabled,
     icon,
     options,
@@ -45,14 +45,9 @@ const SubMenuItem: FC<SubMenuItemProps> = (props) => {
   );
 };
 
-export interface SubMenuItemProps {
-  label?: string | ReactElement;
-  disabled?: boolean;
-  type?: MenuOptionType;
-  icon?: string | number | ReactElement;
-  onClick?(e: React.MouseEvent): void;
-  options?: (MenuOption | MenuOptionDriver)[];
+export interface SubMenuItemProps extends MenuOptionChildren {
   children?: ReactElement | ReactElement[];
+  onClick?(e: React.MouseEvent): void;
 }
 
 export default SubMenuItem;

@@ -4,6 +4,7 @@ export interface User {
   nickname: string;
   mobile: string;
   email: string;
+  avatar?: string;
 }
 
 export interface UserContextState {

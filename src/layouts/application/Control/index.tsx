@@ -6,8 +6,7 @@ import { FC, useState } from "react";
 import styles from "./style.less";
 import { Icon } from "@/packages/design";
 import ControlOption from "./ControlOption";
-import { CONTROL_LINKS } from "../final";
-import { ControlLink } from "../type";
+import { CONTROL_LINKS, ControlLink } from "@/config/application";
 import { useNavigate } from "react-router";
 import { useClassNames } from "@/plugins/style";
 

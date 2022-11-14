@@ -2,7 +2,7 @@ import { FC, ReactElement, MouseEvent, CSSProperties } from "react";
 import SubMenuItem from "./SubMenuItem";
 import MenuItem from "./MenuItem";
 import MenuDriver from "./MenuDriver";
-import { MenuOption, MenuOptionDriver } from "../index";
+import { MenuOptionChildren, MenuOptionDriver } from "../index";
 
 const Menu: FC<MenuProps> = ({
   options = [],
@@ -10,7 +10,10 @@ const Menu: FC<MenuProps> = ({
   onClick,
   children,
 }) => {
-  const getItem = (item: MenuOption | MenuOptionDriver, index: number) => {
+  const getItem = (
+    item: MenuOptionChildren | MenuOptionDriver,
+    index: number
+  ) => {
     if (item === "driver") {
       return <MenuDriver key={`driver-${index}`} />;
     }
@@ -41,7 +44,7 @@ const Menu: FC<MenuProps> = ({
 };
 
 export interface MenuProps {
-  options?: (MenuOption | MenuOptionDriver)[];
+  options?: (MenuOptionChildren | MenuOptionDriver)[];
   children?: ReactElement | ReactElement[];
   onClick?(e: MouseEvent): void;
   style?: CSSProperties;

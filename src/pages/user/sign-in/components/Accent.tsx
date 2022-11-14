@@ -12,10 +12,7 @@ import { useClassNames } from "@/plugins/style";
 const cn = useClassNames(styles);
 const AccentForm: FC<AccentFormProps> = ({ onOk, current }) => {
   /** @State */
-  const [email, setEmail] = useState<string>("loving@163.com");
-  /** @Effect */
-  useEffect(() => {}, []);
-
+  const [email, setEmail] = useState<string>("");
   const disabled = (() => {
     return !email;
   })();

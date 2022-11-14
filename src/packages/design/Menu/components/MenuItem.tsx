@@ -1,15 +1,8 @@
-import { FC, ReactElement, MouseEvent } from "react";
-import { MenuOptionType } from "../index";
+import { FC, MouseEvent } from "react";
+import { MenuOption } from "..";
 
 const MenuItem: FC<MenuItemProps> = (props) => {
-  const {
-    label,
-    type = MenuOptionType.default,
-    disabled,
-    icon,
-    suffix,
-    onClick,
-  } = props;
+  const { label, type = "default", disabled, icon, suffix, onClick } = props;
 
   const itemClassName = `menu-item menu-item-${type} ${
     disabled ? "menu-item-disabled" : ""
@@ -24,12 +17,7 @@ const MenuItem: FC<MenuItemProps> = (props) => {
   );
 };
 
-export interface MenuItemProps {
-  label?: string | ReactElement;
-  disabled?: boolean;
-  type?: MenuOptionType;
-  suffix?: string | number | ReactElement;
-  icon?: string | number | ReactElement;
+export interface MenuItemProps extends MenuOption {
   onClick?(e: MouseEvent): void;
 }
 
