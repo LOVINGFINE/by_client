@@ -1,8 +1,6 @@
-.userSheet {
-  height: calc(100% - 220px);
+.userSheets {
   width: 100%;
   background-color: #fff;
-  overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,6 +8,11 @@
   &-true {
     opacity: 0;
     height: 0;
+    overflow: hidden;
+  }
+  &-false {
+    overflow: auto;
+    height: calc(100% - 250px);
   }
   &-content {
     width: 100%;
@@ -17,6 +20,25 @@
     flex-direction: column;
     align-items: center;
     min-height: 220px;
+  }
+  &-empty {
+    width: 850px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 145px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    &-title {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    &-desc {
+      font-size: 13px;
+      color: #999;
+    }
   }
 }
 

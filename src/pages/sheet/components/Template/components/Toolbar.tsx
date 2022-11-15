@@ -15,7 +15,9 @@ const Toolbar: FC<ToolbarProps> = ({ full }) => {
   /** render */
   return (
     <div className={styles["toolbar"]}>
-      <div className={styles["toolbar-left"]}></div>
+      <div className={styles["toolbar-left"]}>
+        {full ? "推荐模版" : "新建电子表格"}
+      </div>
       <div className={styles["toolbar-right"]}>
         {!full && (
           <div onClick={onOpenAll} className={styles["toolbar-right-btn"]}>

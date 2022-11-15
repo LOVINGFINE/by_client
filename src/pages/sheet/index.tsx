@@ -8,29 +8,22 @@ import PageHeader from "./components/PageHeader";
 import UserSheets from "./components/UserSheets";
 import SheetTemplate from "./components/Template";
 import { useSearchParams } from "react-router-dom";
+import UserSheetSettings from "./components/Settings";
 
 const ExcelPage: FC = () => {
   const [query] = useSearchParams();
-  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
 
   const isTemplate = (() => {
     return !!query.get("st");
   })();
-  /**
-   * @Methods
-   */
-
-  /**
-   * @effect
-   */
 
   /** @render */
   return (
     <ApplicationLayout
       title={"表格"}
-      loading={loading}
       control={!isTemplate}
+      settings={<UserSheetSettings />}
       header={<PageHeader isTemplate={isTemplate} onSearch={setSearch} />}
     >
       <SheetTemplate full={isTemplate} />

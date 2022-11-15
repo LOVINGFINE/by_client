@@ -2,27 +2,26 @@
  * Created by zhangq on 2022/11/07
  * sheet list
  */
-import { FC, useContext } from "react";
+import { FC } from "react";
 import { ListMode } from "../type";
 import styles from "../style.less";
 import { SheetListItem } from "@/pages/sheet/editor";
 import SheetMoreAction from "./More";
 import dayjs from "dayjs";
-import { userContext } from "@/plugins/user";
+
 import { useNavigate } from "react-router";
 import { Icon } from "@/packages/design";
 
-const List: FC<ListProps> = ({ dataSource, onRename, onRemove, listMode }) => {
+const List: FC<ListProps> = ({
+  dataSource,
+  onRename,
+  onRemove,
+  listMode,
+  getOwner,
+}) => {
   const navigate = useNavigate();
-  const context = useContext(userContext);
 
   /** @State */
-  const getOwner = (item: SheetListItem) => {
-    if (context.user.id === item.owner) {
-      return "我";
-    }
-    return "其他人分享";
-  };
 
   const getUpdateTime = (item: SheetListItem) => {
     return dayjs(item.updatedTime).format("YYYY年M月D日 HH:mm");
@@ -113,6 +112,7 @@ export interface ListProps {
   listMode: ListMode;
   onRename(e: SheetListItem): void;
   onRemove(e: SheetListItem): void;
+  getOwner(e: SheetListItem): string;
 }
 
 export enum ListAction {

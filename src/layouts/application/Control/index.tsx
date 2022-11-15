@@ -2,7 +2,7 @@
  * Created by zhangq on 2022/11/02
  * style
  */
-import { FC, useState } from "react";
+import { FC, ReactElement, useState } from "react";
 import styles from "./style.less";
 import { Icon } from "@/packages/design";
 import ControlOption from "./ControlOption";
@@ -12,7 +12,10 @@ import { useClassNames } from "@/plugins/style";
 
 const cn = useClassNames(styles);
 
-const ApplicationControl: FC<ApplicationControlProps> = ({ title }) => {
+const ApplicationControl: FC<ApplicationControlProps> = ({
+  title,
+  settings,
+}) => {
   const navigate = useNavigate();
   /** @State */
   const [visible, setVisible] = useState(false);
@@ -63,6 +66,7 @@ const ApplicationControl: FC<ApplicationControlProps> = ({ title }) => {
             );
           })}
           <div className={styles["control-drawer-driver"]} />
+          {settings}
         </div>
         <div className={styles["control-drawer-footer"]}></div>
       </div>
@@ -71,5 +75,6 @@ const ApplicationControl: FC<ApplicationControlProps> = ({ title }) => {
 };
 interface ApplicationControlProps {
   title: string;
+  settings?: ReactElement | ReactElement[];
 }
 export default ApplicationControl;

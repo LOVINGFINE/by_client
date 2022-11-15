@@ -30,8 +30,8 @@ const PageHeader: FC<PageHeaderProps> = ({ onSearch, isTemplate }) => {
   }
   /** render */
   return (
-    <div className={styles["page-header"]}>
-      <div className={styles["page-header-left"]}>
+    <div className={styles["header"]}>
+      <div className={styles["header-left"]}>
         {isTemplate && (
           <>
             <Button round size="large" onClick={onBackSheetIndex}>
@@ -41,7 +41,7 @@ const PageHeader: FC<PageHeaderProps> = ({ onSearch, isTemplate }) => {
           </>
         )}
       </div>
-      <div className={styles["page-header-search"]}>
+      <div className={styles["header-search"]}>
         <Icon
           name="search"
           style={{
@@ -61,7 +61,7 @@ const PageHeader: FC<PageHeaderProps> = ({ onSearch, isTemplate }) => {
           onInput={onInput}
         />
       </div>
-      <div className={styles["page-header-right"]}></div>
+      <div className={styles["header-right"]}></div>
     </div>
   );
 };

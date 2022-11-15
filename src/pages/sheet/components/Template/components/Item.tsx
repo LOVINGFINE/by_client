@@ -8,7 +8,11 @@ import { FC } from "react";
 import { useNavigate } from "react-router";
 import styles from "../style.less";
 
-const TemplateItem: FC<TemplateItemProps> = ({ id, title, img }) => {
+const TemplateItem: FC<TemplateItemProps> = ({
+  id,
+  title = "空白表格",
+  img = "",
+}) => {
   const navigate = useNavigate();
 
   function onAddSheetByTemplate() {
@@ -27,10 +31,10 @@ const TemplateItem: FC<TemplateItemProps> = ({ id, title, img }) => {
         className={styles["template-item-card"]}
         onClick={onAddSheetByTemplate}
       >
-        {img ? (
-          <img src={img} />
-        ) : (
+        {!id ? (
           <Icon name={"plus"} style={{ color: "#ddd" }} size={35} />
+        ) : (
+          img && <img src={img} />
         )}
       </div>
       <div className={styles["template-item-bottom"]}>{title}</div>
@@ -43,8 +47,8 @@ const TemplateItem: FC<TemplateItemProps> = ({ id, title, img }) => {
  */
 export interface TemplateItemProps {
   id?: string;
-  title: string;
-  desc?: string;
+  title?: string;
+  description?: string;
   img?: string;
 }
 

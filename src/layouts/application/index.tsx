@@ -12,10 +12,11 @@ import { useNavigate } from "react-router";
 const ApplicationLayout: FC<ApplicationLayoutProps> = ({
   children,
   header,
-  loading,
+  loading = false,
   title = "",
   control = true,
   logo = false,
+  settings,
 }) => {
   const navigate = useNavigate();
   /** render */
@@ -30,7 +31,7 @@ const ApplicationLayout: FC<ApplicationLayoutProps> = ({
             <Icon name="doclogo" size={38} />
           </div>
         )}
-        {control && <ApplicationControl title={title} />}
+        {control && <ApplicationControl title={title} settings={settings} />}
         <div className={styles["layout-header-content"]}>{header}</div>
         <ApplicationUser />
       </div>
@@ -42,9 +43,12 @@ const ApplicationLayout: FC<ApplicationLayoutProps> = ({
 export interface ApplicationLayoutProps {
   header?: ReactElement | ReactElement[];
   children?: ReactElement | ReactElement[];
-  loading: boolean;
+  settings?: ReactElement | ReactElement[];
+  loading?: boolean;
   title?: string;
   control?: boolean;
   logo?: boolean;
 }
+export { default as ControlOption } from "./Control/ControlOption";
+
 export default ApplicationLayout;

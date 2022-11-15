@@ -2,8 +2,9 @@
  * Created by zhangq on 2022/11/07
  * style
  */
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState, useContext } from "react";
 import styles from "./style.less";
+import { userContext } from "@/plugins/user";
 import { Spanging } from "@/packages/design";
 import UserSheetsToolbar from "./components/Toolbar";
 import SheetList from "./components/List";
@@ -11,8 +12,12 @@ import { SheetListItem } from "../../editor";
 import { deleteUserSheet, getUserSheets } from "../../apis";
 import RenameModal, { RenameModalRef } from "./components/Rename";
 import { ListFilter, ListMode, ListSort } from "./type";
+import dayjs from "dayjs";
+import UserSheetsEmpty from "./components/Empty";
 
 const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
+  const context = useContext(userContext);
+
   /** @State */
   const [loading, setLoading] = useState(true);
   const [userSheets, setUserSheets] = useState<SheetListItem[]>([]);
@@ -23,6 +28,35 @@ const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
   // 重命名
   const renameRef = useRef<RenameModalRef>(null);
 
+  const displayUserSheets = (() => {
+    let list = [...userSheets];
+    // 排序
+    if (listSort === ListSort.openDate) {
+      list.sort((f, b) => {
+        return dayjs(f.lastOpenTime).isAfter(b.lastOpenTime) ? -1 : 1;
+      });
+    }
+    if (listSort === ListSort.openDate) {
+      list.sort((f, b) => {
+        return dayjs(f.updatedTime).isAfter(b.updatedTime) ? -1 : 1;
+      });
+    }
+    // 过滤
+    if (listFilter === ListFilter.createByMe) {
+      list = list.filter((ele) => {
+        return context.user.id === ele.owner;
+      });
+    }
+
+    if (listFilter === ListFilter.shareToMe) {
+      list = list.filter((ele) => {
+        return (
+          context.user.id !== ele.owner && ele.share.includes(context.user.id)
+        );
+      });
+    }
+    return list;
+  })();
   /**
    * @effect
    */
@@ -31,6 +65,12 @@ const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
   }, [search]);
 
   /** @Method */
+  const getOwner = (item: SheetListItem) => {
+    if (context.user.id === item.owner) {
+      return "我";
+    }
+    return "其他人分享";
+  };
   function initSheets() {
     setLoading(true);
     getUserSheets(search)
@@ -51,28 +91,45 @@ const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
       initSheets();
     });
   }
+
+  function onMode(e: ListMode) {
+    setLoading(true);
+    setTimeout(() => {
+      setListMode(e);
+      setLoading(false);
+    }, 200);
+  }
   /** render */
   return (
-    <div className={`${styles["userSheet"]} ${styles[`userSheet-${hide}`]}`}>
+    <div className={`${styles["userSheets"]} ${styles[`userSheets-${hide}`]}`}>
       <RenameModal ref={renameRef} onOk={initSheets} />
-      <UserSheetsToolbar
-        mode={listMode}
-        sort={listSort}
-        filter={listFilter}
-        onSort={setListSort}
-        onMode={setListMode}
-        onFilter={setListFilter}
-      />
-      <div className={styles["userSheet-content"]}>
-        <Spanging loading={loading} type="alternate" size="small">
-          <SheetList
-            onRemove={onSheetRemove}
-            onRename={onSheetRename}
-            dataSource={userSheets}
-            listMode={listMode}
+      {!hide && (
+        <>
+          <UserSheetsToolbar
+            mode={listMode}
+            sort={listSort}
+            filter={listFilter}
+            onSort={setListSort}
+            onMode={onMode}
+            onFilter={setListFilter}
           />
-        </Spanging>
-      </div>
+          <div className={styles["userSheets-content"]}>
+            <Spanging loading={loading} type="alternate" size="small">
+              {displayUserSheets.length === 0 ? (
+                <UserSheetsEmpty />
+              ) : (
+                <SheetList
+                  getOwner={getOwner}
+                  onRemove={onSheetRemove}
+                  onRename={onSheetRename}
+                  dataSource={displayUserSheets}
+                  listMode={listMode}
+                />
+              )}
+            </Spanging>
+          </div>
+        </>
+      )}
     </div>
   );
 };

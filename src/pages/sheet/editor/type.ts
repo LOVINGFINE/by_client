@@ -44,6 +44,7 @@ export interface SheetListItem {
   name: string;
   createdTime: string;
   updatedTime: string;
+  lastOpenTime: string;
   owner: string;
   share: string[];
 }
