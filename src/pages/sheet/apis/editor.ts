@@ -1,12 +1,11 @@
 import request from "@/config/request";
+import { Sheet, WorkbookListItem } from "@/pages/sheet/type";
 import {
   ColumnConfig,
   RowConfig,
-  DataSourcePayload,
-  ExcelDataSource,
-  Sheet,
+  DataPayload,
+  WorkbookData,
   Workbook,
-  WorkbookOption,
 } from "../editor";
 
 export function getSheetById(id: string) {
@@ -17,7 +16,7 @@ export function getSheetById(id: string) {
 }
 
 export function getSheetWorkbooksById(id: string) {
-  return request<WorkbookOption[]>({
+  return request<WorkbookListItem[]>({
     method: "get",
     url: `/sheets/${id}/workbooks`,
   });
@@ -64,9 +63,9 @@ export function updateWorkbookRow(
 export function updateWorkbookData(
   sheetId: string,
   workbookId: string,
-  data: DataSourcePayload
+  data: DataPayload
 ) {
-  return request<ExcelDataSource>({
+  return request<WorkbookData>({
     method: "patch",
     url: `/sheets/${sheetId}/workbooks/${workbookId}/command/data`,
     data,

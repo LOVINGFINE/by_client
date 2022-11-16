@@ -4,8 +4,9 @@
  */
 import { FC } from "react";
 import styles from "../style.less";
+import { ListFilter, ListMode, ListSort } from "@/pages/sheet/type";
 import { Icon, Button, Dropdown, Menu, Space } from "@/packages/design";
-import { ListFilter, ListMode, ListSort, ActionOptions } from "../type";
+import { ActionOptions } from "../type";
 import { MenuItem } from "@/packages/design/Menu";
 import { FILTER_OPTIONS, SORT_OPTIONS } from "../final";
 

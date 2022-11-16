@@ -24317,7 +24317,7 @@ TODO: Some files from word appear to write line extensions with bare equals:
         case "smarttagtype" /*case 'SmartTagType'*/:
         case "smarttags" /*case 'SmartTags'*/:
         case "excelworkbook" /*case 'ExcelWorkbook'*/:
-        case "workbookoptions" /*case 'WorkbookOptions'*/:
+        case "WorkbookListItems" /*case 'WorkbookListItems'*/:
         case "worksheetoptions" /*case 'WorksheetOptions'*/:
           if (Rn[1] === "/") {
             if ((tmp = state.pop())[0] !== Rn[3])
@@ -24492,8 +24492,8 @@ TODO: Some files from word appear to write line extensions with bare equals:
               }
               break;
 
-            /* WorkbookOptions */
-            case "workbookoptions" /*case 'WorkbookOptions'*/:
+            /* WorkbookListItems */
+            case "WorkbookListItems" /*case 'WorkbookListItems'*/:
               switch (Rn[3]) {
                 case "owcversion" /*case 'OWCVersion'*/:
                   break;

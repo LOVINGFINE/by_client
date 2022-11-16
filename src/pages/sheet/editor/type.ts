@@ -1,20 +1,8 @@
 import { Selection, ColumnConfig, RowConfig } from "./Workbook/Table";
 import { Cell } from "./Workbook/type";
-export interface ExcelClipboard {
-  selection: Selection;
-  data: Cell[][];
-}
-
-export interface ExcelDataSource {
-  [k: string]: Cell;
-}
-
-export interface DataSourcePayload {
-  [k: string]: Partial<Cell>;
-}
 
 export interface Workbook {
-  data: ExcelDataSource;
+  data: WorkbookData;
   name: string;
   id: string;
   columns: ColumnConfig;
@@ -23,35 +11,15 @@ export interface Workbook {
   updatedTime: string;
 }
 
-/** @api */
-export interface Sheet {
-  id: string;
-  name: string;
-  createdTime: string;
-  updatedTime: string;
-  owner: string;
-  share: string[];
-}
-export interface WorkbookOption {
-  id: string;
-  name: string;
-  createdTime: string;
-  updatedTime: string;
+export interface WorkbookClipboard {
+  selection: Selection;
+  data: Cell[][];
 }
 
-export interface SheetListItem {
-  id: string;
-  name: string;
-  createdTime: string;
-  updatedTime: string;
-  lastOpenTime: string;
-  owner: string;
-  share: string[];
+export interface WorkbookData {
+  [k: string]: Cell;
 }
 
-export type updateSizePayload =
-  | {
-      index: number;
-      width: number;
-    }
-  | { index: number; height: number };
+export interface DataPayload {
+  [k: string]: Partial<Cell>;
+}

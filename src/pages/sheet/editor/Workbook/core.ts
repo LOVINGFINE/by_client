@@ -1,5 +1,5 @@
 import { arrayToCsv } from "@/plugins/convert";
-import { ExcelClipboard, ExcelDataSource } from "../type";
+import { WorkbookClipboard, WorkbookData } from "../type";
 import { Cell, StyleOption } from "./type";
 import { INIT_CELL } from "../final";
 import { ColumnConfig, RowConfig, Selection } from "./type";
@@ -19,9 +19,9 @@ export function getCoordByKey(key: string) {
 }
 
 export function onCopyToClipboard(
-  data: ExcelDataSource,
+  data: WorkbookData,
   selection: Selection
-): ExcelClipboard {
+): WorkbookClipboard {
   const { column, row } = selection;
   const target: Cell[][] = [];
   // 转化为二维数组
@@ -55,12 +55,12 @@ export function onCopyToClipboard(
 }
 
 export function onChangeStyle(
-  data: ExcelDataSource,
+  data: WorkbookData,
   selection: Selection,
   update: Partial<StyleOption>
 ) {
   const { column, row } = selection;
-  const _data: ExcelDataSource = {};
+  const _data: WorkbookData = {};
   // 转化为二维数组
   for (let y = row.start; y <= row.end; y++) {
     for (let x = column.start; x <= column.end; x++) {
@@ -89,9 +89,9 @@ export function onChangeStyle(
 /** 粘贴 */
 export function onPasteByClipboard(
   selection: Selection,
-  clipboard: ExcelClipboard
-): ExcelDataSource {
-  const target: ExcelDataSource = {};
+  clipboard: WorkbookClipboard
+): WorkbookData {
+  const target: WorkbookData = {};
   if (clipboard) {
     // 粘贴
     const { column, row } = selection;
@@ -117,12 +117,12 @@ export function onPasteByClipboard(
 
 /** 清除数据 */
 export function getClearBySelection(
-  data: ExcelDataSource,
+  data: WorkbookData,
   selection: Selection,
   only = true
 ) {
   const { column, row } = selection;
-  const target: ExcelDataSource = {};
+  const target: WorkbookData = {};
   for (let y = row.start; y <= row.end; y++) {
     for (let x = column.start; x <= column.end; x++) {
       const key = getKeyByCoord(x, y);
@@ -141,9 +141,9 @@ export function getClearBySelection(
 /** 剪切粘贴 */
 export function onCutPasteByClipboard(
   selection: Selection,
-  clipboard: ExcelClipboard
-): ExcelDataSource {
-  const target: ExcelDataSource = {};
+  clipboard: WorkbookClipboard
+): WorkbookData {
+  const target: WorkbookData = {};
   if (clipboard) {
     // 粘贴
     const { column, row } = selection;
@@ -169,12 +169,12 @@ export function onCutPasteByClipboard(
 
 /** 删除列 */
 export function onDeleteColumn(
-  data: ExcelDataSource,
+  data: WorkbookData,
   columns: ColumnConfig,
   selection: Selection
 ) {
   const { column } = selection;
-  const _data: ExcelDataSource = {};
+  const _data: WorkbookData = {};
   const _columns: ColumnConfig = {};
   const columnLength = column.end - column.start + 1;
 
@@ -206,12 +206,12 @@ export function onDeleteColumn(
 
 /** 删除行 */
 export function onDeleteRow(
-  data: ExcelDataSource,
+  data: WorkbookData,
   rows: RowConfig,
   selection: Selection
 ) {
   const { row } = selection;
-  const _data: ExcelDataSource = {};
+  const _data: WorkbookData = {};
   const _rows: RowConfig = {};
   const rowLength = row.end - row.start + 1;
 
@@ -243,7 +243,7 @@ export function onDeleteRow(
 
 /** 添加列 */
 export function onInsertColumn(
-  data: ExcelDataSource,
+  data: WorkbookData,
   columns: ColumnConfig,
   selection: Selection,
   opts: {
@@ -257,7 +257,7 @@ export function onInsertColumn(
   if (position === "after") {
     start = column.end;
   }
-  const _data: ExcelDataSource = {};
+  const _data: WorkbookData = {};
   const _columns: ColumnConfig = {};
   // 添加列
   for (const key in data) {
@@ -285,7 +285,7 @@ export function onInsertColumn(
 
 /** 添加行 */
 export function onInsertRow(
-  data: ExcelDataSource,
+  data: WorkbookData,
   rows: RowConfig,
   selection: Selection,
   opts: {
@@ -299,7 +299,7 @@ export function onInsertRow(
   if (position === "after") {
     start = row.end;
   }
-  const _data: ExcelDataSource = {};
+  const _data: WorkbookData = {};
   const _rows: RowConfig = {};
   for (const key in data) {
     const { x, y } = getCoordByKey(key);
@@ -358,7 +358,7 @@ export function onInsertRow(
 // }
 
 // /** 更新单元格 */
-// export function onUpdateCell(data: ExcelDataSource, payload: unknown) {
+// export function onUpdateCell(data: WorkbookData, payload: unknown) {
 //   let updates: UpdateCell[] = [];
 //   if (Array.isArray(payload)) {
 //     updates = payload as UpdateCell[];

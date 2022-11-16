@@ -3,11 +3,9 @@
  * sheet list
  */
 import { FC } from "react";
-import { ListMode } from "../type";
 import styles from "../style.less";
-import { SheetListItem } from "@/pages/sheet/editor";
+import { SheetListItem,ListMode } from "@/pages/sheet/type";
 import SheetMoreAction from "./More";
-import dayjs from "dayjs";
 
 import { useNavigate } from "react-router";
 import { Icon } from "@/packages/design";
@@ -18,14 +16,11 @@ const List: FC<ListProps> = ({
   onRemove,
   listMode,
   getOwner,
+  getTime,
 }) => {
   const navigate = useNavigate();
 
   /** @State */
-
-  const getUpdateTime = (item: SheetListItem) => {
-    return dayjs(item.updatedTime).format("YYYY年M月D日 HH:mm");
-  };
 
   /**
    * @Methods
@@ -46,9 +41,11 @@ const List: FC<ListProps> = ({
       }
     }
   }
+
   function onEdit(item: SheetListItem) {
     navigate(`/sheets/${item.id}`);
   }
+
   const sheetsList = (
     <ul className={styles["sheets-list"]}>
       {dataSource.map((item) => {
@@ -62,7 +59,7 @@ const List: FC<ListProps> = ({
             <span className={styles[`listItem-name`]}>{item.name}</span>
             <span className={styles[`listItem-isOwner`]}>{getOwner(item)}</span>
             <span className={styles[`listItem-updateTime`]}>
-              {getUpdateTime(item)}
+              {getTime(item)}
             </span>
             <span onClick={(e) => e.stopPropagation()}>
               <SheetMoreAction onAction={(k) => onItemAction(k, item)} />
@@ -89,7 +86,7 @@ const List: FC<ListProps> = ({
             </div>
             <div className={styles[`gridItem-row`]}>
               <span className={styles[`gridItem-updateTime`]}>
-                {getUpdateTime(item)}
+                {getTime(item)}
               </span>
               <span onClick={(e) => e.stopPropagation()}>
                 <SheetMoreAction onAction={(k) => onItemAction(k, item)} />
@@ -113,6 +110,7 @@ export interface ListProps {
   onRename(e: SheetListItem): void;
   onRemove(e: SheetListItem): void;
   getOwner(e: SheetListItem): string;
+  getTime(e: SheetListItem): string;
 }
 
 export enum ListAction {

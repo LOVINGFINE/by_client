@@ -5,19 +5,12 @@
 import { FC, useContext } from "react";
 import styles from "./style.less";
 import { globalContext } from "../index";
-import { Button, Icon } from "@/packages/design";
-import { useNavigate } from "react-router";
+import { Icon } from "@/packages/design";
+// import { useNavigate } from "react-router";
 
 const SheetHeader: FC = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const global = useContext(globalContext);
-
-  /**
-   * @Methods
-   */
-  function onBack() {
-    navigate(-1);
-  }
   /** render */
   return (
     <div className={styles["header"]}>

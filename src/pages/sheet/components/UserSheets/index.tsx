@@ -6,12 +6,16 @@ import { FC, useEffect, useRef, useState, useContext } from "react";
 import styles from "./style.less";
 import { userContext } from "@/plugins/user";
 import { Spanging } from "@/packages/design";
+import {
+  SheetListItem,
+  ListFilter,
+  ListMode,
+  ListSort,
+} from "@/pages/sheet/type";
 import UserSheetsToolbar from "./components/Toolbar";
 import SheetList from "./components/List";
-import { SheetListItem } from "../../editor";
 import { deleteUserSheet, getUserSheets } from "../../apis";
 import RenameModal, { RenameModalRef } from "./components/Rename";
-import { ListFilter, ListMode, ListSort } from "./type";
 import dayjs from "dayjs";
 import UserSheetsEmpty from "./components/Empty";
 
@@ -36,7 +40,7 @@ const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
         return dayjs(f.lastOpenTime).isAfter(b.lastOpenTime) ? -1 : 1;
       });
     }
-    if (listSort === ListSort.openDate) {
+    if (listSort === ListSort.editDate) {
       list.sort((f, b) => {
         return dayjs(f.updatedTime).isAfter(b.updatedTime) ? -1 : 1;
       });
@@ -71,6 +75,17 @@ const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
     }
     return "其他人分享";
   };
+
+  const getTime = (item: SheetListItem) => {
+    if (listSort === ListSort.openDate) {
+      return dayjs(item.lastOpenTime).format("YYYY年M月D日 HH:mm");
+    }
+    if (listSort === ListSort.editDate) {
+      return dayjs(item.updatedTime).format("YYYY年M月D日 HH:mm");
+    }
+    return "";
+  };
+
   function initSheets() {
     setLoading(true);
     getUserSheets(search)
@@ -119,9 +134,10 @@ const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
                 <UserSheetsEmpty />
               ) : (
                 <SheetList
-                  getOwner={getOwner}
                   onRemove={onSheetRemove}
                   onRename={onSheetRename}
+                  getTime={getTime}
+                  getOwner={getOwner}
                   dataSource={displayUserSheets}
                   listMode={listMode}
                 />

@@ -26,7 +26,7 @@ const ExcelPage: FC = () => {
       settings={<UserSheetSettings />}
       header={<PageHeader isTemplate={isTemplate} onSearch={setSearch} />}
     >
-      <SheetTemplate full={isTemplate} />
+      <SheetTemplate full={isTemplate} search={search} />
       <UserSheets hide={isTemplate} search={search} />
     </ApplicationLayout>
   );

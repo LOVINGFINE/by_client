@@ -36,11 +36,10 @@
       transform: translateX(0);
     }
     &-top {
-      height: 75px;
       width: 100%;
       display: flex;
       align-items: center;
-      padding: 0 20px;
+      padding: 20px 20px 0;
       gap: 20px;
       &-title {
         font-size: 26px;
@@ -49,7 +48,7 @@
     }
     &-driver {
       width: 100%;
-      margin: 6px auto;
+      margin: 20px auto;
       height: 1px;
       background-color: #eee;
     }
@@ -57,15 +56,15 @@
       flex: 1;
       min-height: 0;
       overflow-y: auto;
-      padding: 20px 0 20px;
     }
     &-footer {
       height: 65px;
     }
   }
 }
+
 .controlOption {
-  width: 235px;
+  width: calc(100% - 20px);
   height: 42px;
   display: flex;
   align-items: center;

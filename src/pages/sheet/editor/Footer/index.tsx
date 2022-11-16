@@ -4,9 +4,10 @@
  */
 import { FC, useEffect, useContext, useState } from "react";
 import styles from "./style.less";
-import { globalContext, WorkbookOption } from "../index";
+import { WorkbookListItem } from "@/pages/sheet/type";
 import { useClassNames } from "@/plugins/style";
 import { Icon } from "@/packages/design";
+import { globalContext } from "../index";
 import { getSheetWorkbooksById, insertSheetWorkbookById } from "../../apis";
 import { useSearchParams } from "react-router-dom";
 const cn = useClassNames(styles);
@@ -15,7 +16,7 @@ const PageFooter: FC = () => {
   const global = useContext(globalContext);
 
   /** @State */
-  const [workbooks, setWorkbooks] = useState<WorkbookOption[]>([]);
+  const [workbooks, setWorkbooks] = useState<WorkbookListItem[]>([]);
   /** @Effect */
   useEffect(() => {
     const workbookId = query.get("wid");

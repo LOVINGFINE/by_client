@@ -1,5 +1,19 @@
 import request from "@/config/request";
-import { Sheet, SheetListItem } from "../editor";
+import { Sheet, SheetListItem, SheetUserSettings } from "../type";
+
+export function getUserSheetSettings() {
+  return request<SheetUserSettings>({
+    method: "get",
+    url: `/sheet/user/settings`,
+  });
+}
+
+export function patchUserSheetSettings() {
+  return request<SheetUserSettings>({
+    method: "patch",
+    url: `/sheet/user/settings`,
+  });
+}
 
 export function getUserSheets(search: string) {
   return request<SheetListItem[]>({

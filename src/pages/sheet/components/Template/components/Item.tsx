@@ -12,6 +12,7 @@ const TemplateItem: FC<TemplateItemProps> = ({
   id,
   title = "空白表格",
   img = "",
+  description = "",
 }) => {
   const navigate = useNavigate();
 
@@ -37,7 +38,10 @@ const TemplateItem: FC<TemplateItemProps> = ({
           img && <img src={img} />
         )}
       </div>
-      <div className={styles["template-item-bottom"]}>{title}</div>
+      <div className={styles["template-item-bottom"]}>
+        <div className={styles["template-item-bottom-title"]}>{title}</div>
+        <div className={styles["template-item-bottom-desc"]}>{description}</div>
+      </div>
     </div>
   );
 };

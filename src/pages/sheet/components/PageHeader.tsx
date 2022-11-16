@@ -17,6 +17,8 @@ const PageHeader: FC<PageHeaderProps> = ({ onSearch, isTemplate }) => {
    * @Methods
    */
   function onBlur() {
+    console.log(1);
+
     onSearch(search);
   }
 

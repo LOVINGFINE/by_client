@@ -12,7 +12,7 @@ import ExcelTable, {
 import Toolbar from "./Toolbar";
 import { Cell } from "./type";
 import RefTool from "./RefTool";
-import { ExcelClipboard, ExcelDataSource } from "../type";
+import { WorkbookClipboard, WorkbookData } from "../type";
 import { init_selection } from "../final";
 import {
   getClearBySelection,
@@ -214,13 +214,13 @@ export interface ContextState {
   name: string;
   rows: RowConfig;
   columns: ColumnConfig;
-  data: ExcelDataSource;
-  clipboard: ExcelClipboard | null;
+  data: WorkbookData;
+  clipboard: WorkbookClipboard | null;
   selection: Selection;
   history: {
     current: number;
     items: {
-      data: ExcelDataSource;
+      data: WorkbookData;
     }[];
   };
   vcTableRef: VcTableCore | null;

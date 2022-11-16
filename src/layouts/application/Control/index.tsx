@@ -1,11 +1,12 @@
 /*
  * Created by zhangq on 2022/11/02
- * style
+ * ApplicationControl
  */
 import { FC, ReactElement, useState } from "react";
 import styles from "./style.less";
 import { Icon } from "@/packages/design";
-import ControlOption from "./ControlOption";
+import ControlOption from "./Option";
+import ControlDriver from "./Driver";
 import { CONTROL_LINKS, ControlLink } from "@/config/application";
 import { useNavigate } from "react-router";
 import { useClassNames } from "@/plugins/style";
@@ -14,7 +15,7 @@ const cn = useClassNames(styles);
 
 const ApplicationControl: FC<ApplicationControlProps> = ({
   title,
-  settings,
+  children,
 }) => {
   const navigate = useNavigate();
   /** @State */
@@ -53,7 +54,7 @@ const ApplicationControl: FC<ApplicationControlProps> = ({
           <Icon name={"doclogo"} size={38} />
           <span className={styles["control-drawer-top-title"]}>{title}</span>
         </div>
-        <div className={styles["control-drawer-driver"]} />
+        <ControlDriver />
         <div className={styles["control-drawer-body"]}>
           {CONTROL_LINKS.map((ele, i) => {
             return (
@@ -65,16 +66,18 @@ const ApplicationControl: FC<ApplicationControlProps> = ({
               />
             );
           })}
-          <div className={styles["control-drawer-driver"]} />
-          {settings}
+          <ControlDriver />
+          {children}
         </div>
         <div className={styles["control-drawer-footer"]}></div>
       </div>
     </div>
   );
 };
+
 interface ApplicationControlProps {
   title: string;
-  settings?: ReactElement | ReactElement[];
+  children?: ReactElement | ReactElement[];
 }
+
 export default ApplicationControl;

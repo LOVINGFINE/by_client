@@ -31,7 +31,9 @@ const ApplicationLayout: FC<ApplicationLayoutProps> = ({
             <Icon name="doclogo" size={38} />
           </div>
         )}
-        {control && <ApplicationControl title={title} settings={settings} />}
+        {control && (
+          <ApplicationControl title={title}>{settings}</ApplicationControl>
+        )}
         <div className={styles["layout-header-content"]}>{header}</div>
         <ApplicationUser />
       </div>
@@ -49,6 +51,8 @@ export interface ApplicationLayoutProps {
   control?: boolean;
   logo?: boolean;
 }
-export { default as ControlOption } from "./Control/ControlOption";
+
+export { default as ControlOption } from "./Control/Option";
+export { default as ControlDriver } from "./Control/Driver";
 
 export default ApplicationLayout;

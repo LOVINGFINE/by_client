@@ -8,7 +8,7 @@ import { getSheetById } from "../apis";
 import WorkbookEditor from "./Workbook";
 import SheetHeader from "./Header";
 import SheetFooter from "./Footer";
-import { Workbook, WorkbookOption } from "./type";
+import { Workbook, WorkbookListItem } from "./type";
 import ApplicationLayout from "@/layouts/application";
 
 export const initialState: ContextState = {
