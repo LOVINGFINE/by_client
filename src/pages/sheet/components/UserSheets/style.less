@@ -5,14 +5,18 @@
   flex-direction: column;
   align-items: center;
   transition: all 0.3s;
-  &-true {
+  &-full {
     opacity: 0;
     height: 0;
     overflow: hidden;
   }
-  &-false {
+  &-normal {
     overflow: auto;
     height: calc(100% - 245px);
+  }
+  &-hide {
+    overflow: auto;
+    height: 100%;
   }
   &-content {
     width: 100%;
@@ -203,4 +207,18 @@
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.insertSheet {
+  width: 45px;
+  height: 45px;
+  position: fixed;
+  right: 35px;
+  bottom: 45px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
 }

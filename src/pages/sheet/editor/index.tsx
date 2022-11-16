@@ -3,13 +3,13 @@
  * excel table
  */
 import { FC, useReducer, useEffect, createContext, Fragment } from "react";
-import { useSearchParams, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import ApplicationLayout from "@/layouts/application";
 import { getSheetById } from "../apis";
 import WorkbookEditor from "./Workbook";
 import SheetHeader from "./Header";
 import SheetFooter from "./Footer";
-import { Workbook, WorkbookListItem } from "./type";
-import ApplicationLayout from "@/layouts/application";
+import { Workbook } from "./type";
 
 export const initialState: ContextState = {
   id: "",
@@ -25,7 +25,6 @@ export const globalContext = createContext({} as ContextValue);
 
 const ExcelEditor: FC = () => {
   const params = useParams();
-  const [query] = useSearchParams();
   /** @State */
   const [state, dispatch] = useReducer(
     (s: ContextState, p: Partial<ContextState>): ContextState => ({

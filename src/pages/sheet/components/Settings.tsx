@@ -6,10 +6,11 @@ import { FC, useEffect } from "react";
 import styles from "./style.less";
 import { useClassNames } from "@/plugins/style";
 import { ControlOption } from "@/layouts/application";
+import { SheetUserSettings } from "../type";
 
 const classNames = useClassNames(styles);
 
-const UserSheetSettings: FC<UserSheetSettingsProps> = ({}) => {
+const UserSheetSettings: FC<UserSheetSettingsProps> = ({ onSettings }) => {
   /** @State */
 
   /** @Effect */
@@ -20,11 +21,18 @@ const UserSheetSettings: FC<UserSheetSettingsProps> = ({}) => {
    */
   function onSettingCommon() {
     // 设置配置
+    onSettings({
+      hideTemplate: false,
+    });
   }
   /** render */
   return (
     <>
-      <ControlOption onAction={onSettingCommon} icon={"setting"} label={"设置"} />
+      <ControlOption
+        onAction={onSettingCommon}
+        icon={"setting"}
+        label={"设置"}
+      />
     </>
   );
 };
@@ -32,6 +40,8 @@ const UserSheetSettings: FC<UserSheetSettingsProps> = ({}) => {
 /**
  * @interface props
  */
-export interface UserSheetSettingsProps {}
+export interface UserSheetSettingsProps {
+  onSettings(p: Partial<SheetUserSettings>): void;
+}
 
 export default UserSheetSettings;

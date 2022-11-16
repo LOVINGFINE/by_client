@@ -3,7 +3,15 @@
  * style
  */
 import { FC, useEffect, useRef, useState, useContext } from "react";
+import dayjs from "dayjs";
 import styles from "./style.less";
+
+import UserSheetsToolbar from "./components/Toolbar";
+import SheetList from "./components/List";
+import RenameModal, { RenameModalRef } from "./components/Rename";
+import UserSheetsEmpty from "./components/Empty";
+import InsertSheet from "./components/InsertSheet";
+
 import { userContext } from "@/plugins/user";
 import { Spanging } from "@/packages/design";
 import {
@@ -11,23 +19,21 @@ import {
   ListFilter,
   ListMode,
   ListSort,
+  SheetUserSettings,
 } from "@/pages/sheet/type";
-import UserSheetsToolbar from "./components/Toolbar";
-import SheetList from "./components/List";
 import { deleteUserSheet, getUserSheets } from "../../apis";
-import RenameModal, { RenameModalRef } from "./components/Rename";
-import dayjs from "dayjs";
-import UserSheetsEmpty from "./components/Empty";
 
-const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
+const UserSheets: FC<UserSheetsProps> = ({
+  search,
+  display,
+  onSettings,
+  settings,
+}) => {
   const context = useContext(userContext);
-
+  const { mode, filter, sort } = settings;
   /** @State */
   const [loading, setLoading] = useState(true);
   const [userSheets, setUserSheets] = useState<SheetListItem[]>([]);
-  const [listMode, setListMode] = useState<ListMode>(ListMode.list);
-  const [listSort, setListSort] = useState<ListSort>(ListSort.openDate);
-  const [listFilter, setListFilter] = useState<ListFilter>(ListFilter.none);
 
   // 重命名
   const renameRef = useRef<RenameModalRef>(null);
@@ -35,24 +41,24 @@ const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
   const displayUserSheets = (() => {
     let list = [...userSheets];
     // 排序
-    if (listSort === ListSort.openDate) {
+    if (sort === ListSort.openDate) {
       list.sort((f, b) => {
         return dayjs(f.lastOpenTime).isAfter(b.lastOpenTime) ? -1 : 1;
       });
     }
-    if (listSort === ListSort.editDate) {
+    if (sort === ListSort.editDate) {
       list.sort((f, b) => {
         return dayjs(f.updatedTime).isAfter(b.updatedTime) ? -1 : 1;
       });
     }
     // 过滤
-    if (listFilter === ListFilter.createByMe) {
+    if (filter === ListFilter.createByMe) {
       list = list.filter((ele) => {
         return context.user.id === ele.owner;
       });
     }
 
-    if (listFilter === ListFilter.shareToMe) {
+    if (filter === ListFilter.shareToMe) {
       list = list.filter((ele) => {
         return (
           context.user.id !== ele.owner && ele.share.includes(context.user.id)
@@ -77,10 +83,10 @@ const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
   };
 
   const getTime = (item: SheetListItem) => {
-    if (listSort === ListSort.openDate) {
+    if (sort === ListSort.openDate) {
       return dayjs(item.lastOpenTime).format("YYYY年M月D日 HH:mm");
     }
-    if (listSort === ListSort.editDate) {
+    if (sort === ListSort.editDate) {
       return dayjs(item.updatedTime).format("YYYY年M月D日 HH:mm");
     }
     return "";
@@ -110,23 +116,41 @@ const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
   function onMode(e: ListMode) {
     setLoading(true);
     setTimeout(() => {
-      setListMode(e);
+      onSettings({
+        mode: e,
+      });
       setLoading(false);
     }, 200);
   }
+
+  function onSort(e: ListSort) {
+    onSettings({
+      sort: e,
+    });
+  }
+
+  function onFilter(e: ListFilter) {
+    onSettings({
+      filter: e,
+    });
+  }
+
   /** render */
   return (
-    <div className={`${styles["userSheets"]} ${styles[`userSheets-${hide}`]}`}>
+    <div
+      className={`${styles["userSheets"]} ${styles[`userSheets-${display}`]}`}
+    >
+      {display === "hide" && <InsertSheet />}
       <RenameModal ref={renameRef} onOk={initSheets} />
-      {!hide && (
+      {display !== "full" && (
         <>
           <UserSheetsToolbar
-            mode={listMode}
-            sort={listSort}
-            filter={listFilter}
-            onSort={setListSort}
+            mode={mode}
+            sort={sort}
+            filter={filter}
+            onSort={onSort}
             onMode={onMode}
-            onFilter={setListFilter}
+            onFilter={onFilter}
           />
           <div className={styles["userSheets-content"]}>
             <Spanging loading={loading} type="alternate" size="small">
@@ -139,7 +163,7 @@ const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
                   getTime={getTime}
                   getOwner={getOwner}
                   dataSource={displayUserSheets}
-                  listMode={listMode}
+                  mode={mode}
                 />
               )}
             </Spanging>
@@ -155,7 +179,9 @@ const UserSheets: FC<UserSheetsProps> = ({ search, hide }) => {
  */
 export interface UserSheetsProps {
   search: string;
-  hide: boolean;
+  display: "full" | "hide" | "normal";
+  settings: SheetUserSettings;
+  onSettings(p: Partial<SheetUserSettings>): void;
 }
 
 export default UserSheets;

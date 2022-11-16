@@ -14,7 +14,7 @@ const List: FC<ListProps> = ({
   dataSource,
   onRename,
   onRemove,
-  listMode,
+  mode,
   getOwner,
   getTime,
 }) => {
@@ -98,7 +98,7 @@ const List: FC<ListProps> = ({
     </ul>
   );
   /** render */
-  return listMode === ListMode.grid ? sheetGrid : sheetsList;
+  return mode === ListMode.grid ? sheetGrid : sheetsList;
 };
 
 /**
@@ -106,7 +106,7 @@ const List: FC<ListProps> = ({
  */
 export interface ListProps {
   dataSource: SheetListItem[];
-  listMode: ListMode;
+  mode: ListMode;
   onRename(e: SheetListItem): void;
   onRemove(e: SheetListItem): void;
   getOwner(e: SheetListItem): string;

@@ -37,7 +37,7 @@ const SheetMoreAction: FC<SheetMoreActionProps> = ({ onAction }) => {
 
   /** render */
   return (
-    <Dropdown overlay={overlay}>
+    <Dropdown overlay={overlay} placement='bottomLeft'>
       <Button round>
         <Icon name="ellipsis-v" />
       </Button>

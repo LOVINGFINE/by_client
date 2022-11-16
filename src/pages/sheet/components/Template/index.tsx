@@ -9,7 +9,7 @@ import TemplateHot from "./components/Hot";
 import { CategoryRecord, TemplateListItem } from "./type";
 import CategoryWithRecord from "./components/Category";
 
-const SheetTemplate: FC<SheetTemplateProps> = ({ full, search }) => {
+const SheetTemplate: FC<SheetTemplateProps> = ({ display, search, onHide }) => {
   /** @State */
   const [hotList, setHotList] = useState<TemplateListItem[]>([]);
   const [categories, setCategories] = useState<CategoryRecord[]>([]);
@@ -29,14 +29,22 @@ const SheetTemplate: FC<SheetTemplateProps> = ({ full, search }) => {
 
   /** render */
   return (
-    <div className={`${styles["template"]} ${styles[`template-${full}`]}`}>
-      <TemplateHot dataSource={hotList} full={full} />
-      {full && (
-        <div className={styles["template-categories"]}>
-          {categories.map((ele) => {
-            return <CategoryWithRecord key={ele.id} {...ele} />;
-          })}
-        </div>
+    <div className={`${styles["template"]} ${styles[`template-${display}`]}`}>
+      {display !== "hide" && (
+        <>
+          <TemplateHot
+            onHide={onHide}
+            dataSource={hotList}
+            full={display === "full"}
+          />
+          {display === "full" && (
+            <div className={styles["template-categories"]}>
+              {categories.map((ele) => {
+                return <CategoryWithRecord key={ele.id} {...ele} />;
+              })}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -47,7 +55,8 @@ const SheetTemplate: FC<SheetTemplateProps> = ({ full, search }) => {
  */
 export interface SheetTemplateProps {
   search: string;
-  full: boolean;
+  display: "full" | "hide" | "normal";
+  onHide(): void;
 }
 
 export default SheetTemplate;

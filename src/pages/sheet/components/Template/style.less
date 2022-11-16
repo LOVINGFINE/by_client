@@ -4,13 +4,18 @@
   flex-direction: column;
   align-items: center;
   transition: all 0.3s;
-  &-true {
+  &-full {
     height: 100%;
     overflow: auto;
-    overflow: hidden;
   }
-  &-false {
+  &-hide {
+    height: 0;
+    display: none;
+  }
+
+  &-normal {
     height: 245px;
+    overflow: hidden;
   }
   &-item {
     width: 175px;
@@ -54,10 +59,10 @@
 
 .hot {
   width: 1000px;
-  padding: 15px 0;
+  padding: 10px 0 14px;
   &-toolbar {
     width: 1000px;
-    height: 32px;
+    height: 38px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -75,8 +80,8 @@
       align-items: center;
       gap: 12px;
       &-btn {
-        height: 24px;
-        padding: 0 8px 0 12px;
+        height: 28px;
+        padding: 0 10px 0 15px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -84,9 +89,8 @@
         cursor: pointer;
         border-radius: 4px;
         gap: 4px;
-        font-size: 13px;
         &:hover {
-          background-color: #d9d9d9;
+          background-color: #ddd;
           color: #002329;
         }
       }

@@ -8,13 +8,6 @@ import {
   Workbook,
 } from "../editor";
 
-export function getSheetById(id: string) {
-  return request<Sheet>({
-    method: "get",
-    url: `/sheets/${id}`,
-  });
-}
-
 export function getSheetWorkbooksById(id: string) {
   return request<WorkbookListItem[]>({
     method: "get",

@@ -6,10 +6,11 @@ import { FC } from "react";
 import styles from "../style.less";
 import TemplateItem from "./Item";
 import { TemplateListItem } from "../type";
-import { Icon } from "@/packages/design";
+import { Button, Dropdown, Icon, Menu } from "@/packages/design";
 import { useNavigate } from "react-router";
+import { MenuItem } from "@/packages/design/Menu";
 
-const TemplateHot: FC<TemplateHotProps> = ({ dataSource, full }) => {
+const TemplateHot: FC<TemplateHotProps> = ({ dataSource, full, onHide }) => {
   const navigate = useNavigate();
 
   /** @methods */
@@ -17,6 +18,19 @@ const TemplateHot: FC<TemplateHotProps> = ({ dataSource, full }) => {
     navigate(`/sheets?st=1`);
   }
 
+  const overlay = (
+    <Menu
+      style={{
+        minWidth: 185,
+      }}
+    >
+      <MenuItem
+        icon={<Icon name="edit" />}
+        label={"隐藏模版库"}
+        onClick={onHide}
+      />
+    </Menu>
+  );
   /** render */
   return (
     <div className={styles["hot"]}>
@@ -24,16 +38,21 @@ const TemplateHot: FC<TemplateHotProps> = ({ dataSource, full }) => {
         <div className={styles["hot-toolbar-left"]}>
           {full ? "推荐模版" : "新建电子表格"}
         </div>
-        <div className={styles["hot-toolbar-right"]}>
-          {!full && (
+        {!full && (
+          <div className={styles["hot-toolbar-right"]}>
             <div
               onClick={onOpenAll}
               className={styles["hot-toolbar-right-btn"]}
             >
               模版库 <Icon name={`sort`} />
             </div>
-          )}
-        </div>
+            <Dropdown overlay={overlay} placement="bottomLeft">
+              <Button round>
+                <Icon name="ellipsis-v" />
+              </Button>
+            </Dropdown>
+          </div>
+        )}
       </div>
       <div className={styles["hot-record"]}>
         <TemplateItem />
@@ -51,6 +70,7 @@ const TemplateHot: FC<TemplateHotProps> = ({ dataSource, full }) => {
 export interface TemplateHotProps {
   dataSource: TemplateListItem[];
   full: boolean;
+  onHide(): void;
 }
 
 export default TemplateHot;

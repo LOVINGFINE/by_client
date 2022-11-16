@@ -1,6 +1,7 @@
-import { ActionOptions, ListFilter, ListMode, ListSort } from "./type";
+import { ActionOptions } from "./type";
+import { ListFilter, ListMode, ListSort } from "@/pages/sheet/type";
 
-const MODE_CONFIG: ActionOptions<ListMode> = {
+export const MODE_CONFIG: ActionOptions<ListMode> = {
   [ListMode.list]: {
     label: "列表",
     icon: "",

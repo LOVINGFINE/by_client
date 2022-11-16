@@ -1,19 +1,5 @@
 import request from "@/config/request";
-import { Sheet, SheetListItem, SheetUserSettings } from "../type";
-
-export function getUserSheetSettings() {
-  return request<SheetUserSettings>({
-    method: "get",
-    url: `/sheet/user/settings`,
-  });
-}
-
-export function patchUserSheetSettings() {
-  return request<SheetUserSettings>({
-    method: "patch",
-    url: `/sheet/user/settings`,
-  });
-}
+import { Sheet, SheetListItem } from "../type";
 
 export function getUserSheets(search: string) {
   return request<SheetListItem[]>({
@@ -45,6 +31,13 @@ export function updateUserSheetName(id: string, name: string) {
 export function deleteUserSheet(id: string) {
   return request<void>({
     method: "delete",
+    url: `/sheets/${id}`,
+  });
+}
+
+export function getSheetById(id: string) {
+  return request<Sheet>({
+    method: "get",
     url: `/sheets/${id}`,
   });
 }

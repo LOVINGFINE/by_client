@@ -11,7 +11,7 @@ import {
   forwardRef,
 } from "react";
 import styles from "../style.less";
-import { SheetListItem } from "@/pages/sheet/editor";
+import { SheetListItem } from "@/pages/sheet/type";
 import { Input, Modal } from "@/packages/design";
 import { InputRef } from "@/packages/design/Input";
 import { updateUserSheetName } from "@/pages/sheet/apis";
