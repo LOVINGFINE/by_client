@@ -2,11 +2,10 @@
  * Created by zhangq on 2022/10/19
  * RadioGroup
  */
-import { FC, ReactElement, useEffect } from "react";
-import  "./style.less";
+import { FC, ReactElement } from "react";
+import "./style.less";
 import { covClass } from "@/plugins/style";
 import Radio from ".";
-
 
 const RadioGroup: FC<RadioGroupProps> = ({
   options = [],
@@ -14,15 +13,6 @@ const RadioGroup: FC<RadioGroupProps> = ({
   direction = "horizontal",
   onChange,
 }) => {
-  /** @State */
-
-  /** @Effect */
-  useEffect(() => {}, []);
-
-  /**
-   * @Methods
-   */
-
   /** render */
   return (
     <div className={covClass(["radioGroup", `radioGroup-${direction}`])}>

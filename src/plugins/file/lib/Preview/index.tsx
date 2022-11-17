@@ -5,7 +5,7 @@
 import { useState } from "react";
 import { ReactElement, FC } from "react";
 import { FileInfo, FileType } from "../../type";
-import { file_types } from "../../final";
+// import { file_types } from "../../final";
 import { readFileInfo } from "../utils";
 import styles from "./style.less";
 import FileImage from "./modules/image";

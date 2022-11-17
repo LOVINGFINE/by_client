@@ -2,10 +2,10 @@
  * Created by zhangq on 2022/04/03
  * Popover 组件
  */
-import React, { ReactElement, FC, useRef, useEffect, useState } from "react";
+import React, { ReactElement, FC, useRef, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import "./style.less";
-import { getArrowStyles, setStyles } from "./utils";
+import { getArrowStyles, getOffset, setStyles } from "../Tooltip/utils";
 
 const Popover: FC<PopoverProps> = ({
   overlay,
@@ -14,7 +14,7 @@ const Popover: FC<PopoverProps> = ({
   trigger = "click",
 }: PopoverProps): ReactElement => {
   const inner = useRef<HTMLDivElement | null>();
-  const childrenRef = useRef();
+  const childrenRef = useRef<HTMLBaseElement>();
   const childrenElement = (() => {
     if (typeof children?.type !== "string") {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,12 +22,7 @@ const Popover: FC<PopoverProps> = ({
     }
     return children;
   })();
-  const [offset, setOffset] = useState({
-    width: 0,
-    height: 0,
-    left: 0,
-    top: 0,
-  });
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const props: Partial<any> & React.Attributes = (() => {
     if (trigger === "hover") {
@@ -42,30 +37,18 @@ const Popover: FC<PopoverProps> = ({
   })();
 
   useEffect(() => {
-    if (childrenRef.current) {
-      const {
-        offsetHeight = 0,
-        offsetWidth = 0,
-        offsetTop = 0,
-        offsetLeft = 0,
-      } = childrenRef.current;
-      setOffset({
-        width: offsetWidth,
-        height: offsetHeight,
-        left: offsetLeft,
-        top: offsetTop,
-      });
-    }
-  }, [childrenRef.current]);
+    return onClose;
+  }, []);
 
   /**
    * @method
    */
 
-  function onVisible(event: React.MouseEvent) {
-    event.preventDefault();
+  function onVisible(event?: React.MouseEvent) {
+    event?.preventDefault();
     if (!overlay) return;
     if (!inner.current) {
+      const offset = getOffset(childrenRef.current);
       const div = document.createElement("div");
       div.className = "popover";
       div.style.opacity = "0";
@@ -91,8 +74,8 @@ const Popover: FC<PopoverProps> = ({
     }
   }
 
-  function onClose(event: React.MouseEvent) {
-    event.preventDefault();
+  function onClose(event?: React.MouseEvent) {
+    event?.preventDefault();
     if (inner.current) {
       document.body.removeChild(inner.current);
       inner.current = null;
@@ -131,7 +114,7 @@ export interface PopoverProps {
     | "right"
     | "rightTop"
     | "rightBottom";
-    
+
   children?: ReactElement;
   overlay?: ReactElement;
   trigger?: "click" | "hover";

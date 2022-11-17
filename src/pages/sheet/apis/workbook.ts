@@ -1,5 +1,5 @@
 import request from "@/config/request";
-import { Sheet, WorkbookListItem } from "@/pages/sheet/type";
+import { WorkbookListItem } from "@/pages/sheet/type";
 import {
   ColumnConfig,
   RowConfig,

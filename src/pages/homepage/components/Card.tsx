@@ -4,9 +4,6 @@
  */
 import { FC, useEffect } from "react";
 import styles from "./style.less";
-import { useClassNames } from "@/plugins/style";
-
-const classNames = useClassNames(styles);
 
 const ApplicationCard: FC<ApplicationCardProps> = ({}) => {
   /** @State */

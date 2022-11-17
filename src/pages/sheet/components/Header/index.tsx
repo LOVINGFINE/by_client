@@ -1,13 +1,13 @@
 /*
  * Created by zhangq on 2022/11/06
- * PageHeader
+ * Header
  */
-import { FC, useEffect, useState } from "react";
+import { FC, Fragment, useState } from "react";
 import { useNavigate } from "react-router";
 import styles from "./style.less";
 import { Button, Icon } from "@/packages/design";
 
-const PageHeader: FC<PageHeaderProps> = ({ onSearch, isTemplate }) => {
+const Header: FC<HeaderProps> = ({ onSearch, isTemplate }) => {
   const navigate = useNavigate();
 
   /** @State */
@@ -17,8 +17,6 @@ const PageHeader: FC<PageHeaderProps> = ({ onSearch, isTemplate }) => {
    * @Methods
    */
   function onBlur() {
-    console.log(1);
-
     onSearch(search);
   }
 
@@ -35,12 +33,12 @@ const PageHeader: FC<PageHeaderProps> = ({ onSearch, isTemplate }) => {
     <div className={styles["header"]}>
       <div className={styles["header-left"]}>
         {isTemplate && (
-          <>
+          <Fragment>
             <Button round size="large" onClick={onBackSheetIndex}>
               <Icon name="long-arrow-left" />
             </Button>
             <span>{"模版库"}</span>
-          </>
+          </Fragment>
         )}
       </div>
       <div className={styles["header-search"]}>
@@ -71,9 +69,9 @@ const PageHeader: FC<PageHeaderProps> = ({ onSearch, isTemplate }) => {
 /**
  * @interface props
  */
-export interface PageHeaderProps {
+export interface HeaderProps {
   onSearch(e: string): void;
   isTemplate: boolean;
 }
 
-export default PageHeader;
+export default Header;

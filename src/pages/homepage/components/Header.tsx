@@ -2,13 +2,12 @@
  * Created by zhangq on 2022/11/06
  * PageHeader
  */
-import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { FC } from "react";
+// import { useNavigate } from "react-router";
 import styles from "./style.less";
-import { Button, Icon } from "@/packages/design";
 
 const PageHeader: FC<PageHeaderProps> = ({}) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   /** render */
   return (

@@ -4,11 +4,12 @@
  */
 import { FC, useEffect, useState } from "react";
 import ApplicationLayout from "@/layouts/application";
-import PageHeader from "./components/PageHeader";
+import Header from "./components/Header";
+import Settings from "./components/Settings";
 import UserSheets from "./components/UserSheets";
-import SheetTemplate from "./components/Template";
+import Template from "./components/Template";
 import { useSearchParams } from "react-router-dom";
-import UserSheetSettings from "./components/Settings";
+
 import { getUserSheetSettings, updateUserSheetSettings } from "./apis";
 import { ListFilter, ListMode, ListSort, SheetUserSettings } from "./type";
 
@@ -62,17 +63,13 @@ const ExcelPage: FC = () => {
     <ApplicationLayout
       title={"表格"}
       control={display !== "full"}
-      settings={<UserSheetSettings onSettings={onUserSettings} />}
-      loading={loading}
-      header={
-        <PageHeader isTemplate={display === "full"} onSearch={setSearch} />
+      settings={
+        <Settings settings={userSettings} onSettings={onUserSettings} />
       }
+      loading={loading}
+      header={<Header isTemplate={display === "full"} onSearch={setSearch} />}
     >
-      <SheetTemplate
-        onHide={onHideTemplate}
-        display={display}
-        search={search}
-      />
+      <Template onHide={onHideTemplate} display={display} search={search} />
       <UserSheets
         display={display}
         search={search}

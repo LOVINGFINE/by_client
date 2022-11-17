@@ -9,7 +9,7 @@ import TemplateHot from "./components/Hot";
 import { CategoryRecord, TemplateListItem } from "./type";
 import CategoryWithRecord from "./components/Category";
 
-const SheetTemplate: FC<SheetTemplateProps> = ({ display, search, onHide }) => {
+const Template: FC<TemplateProps> = ({ display, search, onHide }) => {
   /** @State */
   const [hotList, setHotList] = useState<TemplateListItem[]>([]);
   const [categories, setCategories] = useState<CategoryRecord[]>([]);
@@ -22,10 +22,6 @@ const SheetTemplate: FC<SheetTemplateProps> = ({ display, search, onHide }) => {
       setCategories(categories);
     });
   }, [search]);
-
-  /**
-   * @Methods
-   */
 
   /** render */
   return (
@@ -53,10 +49,10 @@ const SheetTemplate: FC<SheetTemplateProps> = ({ display, search, onHide }) => {
 /**
  * @interface props
  */
-export interface SheetTemplateProps {
+export interface TemplateProps {
   search: string;
   display: "full" | "hide" | "normal";
   onHide(): void;
 }
 
-export default SheetTemplate;
+export default Template;

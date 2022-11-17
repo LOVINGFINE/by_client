@@ -2,23 +2,16 @@
  * Created by zhangq on 2021/11/26
  * modal 组件
  */
-import React, {
-  ReactElement,
-  FC,
-  useEffect,
-  useRef,
-  CSSProperties,
-  Fragment,
-} from "react";
-import { createRoot } from "react-dom/client";
+import React, { ReactElement, FC, CSSProperties, Fragment } from "react";
 import "./style.less";
 import Button from "../Button";
 import ReactDOM from "react-dom";
+import Icon from "../Icon";
 
 const Modal: FC<ModalProps> = (props: ModalProps): ReactElement => {
   const {
     width = 450,
-    closeDestroy = false,
+    // closeDestroy = false,
     children,
     visible = false,
     style = {},
@@ -87,12 +80,14 @@ const Modal: FC<ModalProps> = (props: ModalProps): ReactElement => {
       >
         {!cancelProps.disabled && (
           <span className="modal-close" onClick={onCancel}>
-            x
+            <Icon name="close" />
           </span>
         )}
         <div className={`modal-top`}>{title}</div>
         <div className={`modal-body`}>{children}</div>
-        <div className={`modal-footer`}>{footerRender}</div>
+        {footer !== null && (
+          <div className={`modal-footer`}>{footerRender}</div>
+        )}
       </div>
     </Fragment>
   );
@@ -105,7 +100,7 @@ export interface ModalProps {
   visible?: boolean;
   title?: string | ReactElement;
   footer?: null | ReactElement[] | ReactElement;
-  closeDestroy?: boolean;
+  // closeDestroy?: boolean;
   style?: CSSProperties;
   width?: number;
   okProps?: {

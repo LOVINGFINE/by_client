@@ -5,7 +5,7 @@
 import { FC } from "react";
 import styles from "../style.less";
 
-const UserSheetsEmpty: FC<UserSheetsEmptyProps> = ({ onCreate }) => {
+const UserSheetsEmpty: FC<UserSheetsEmptyProps> = ({}) => {
   /** render */
   return (
     <div className={styles["userSheets-empty"]}>

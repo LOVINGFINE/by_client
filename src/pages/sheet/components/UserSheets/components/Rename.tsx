@@ -1,9 +1,8 @@
 /*
  * Created by zhangq on 2022/11/07
- * sheet list
+ * RenameModal
  */
 import {
-  FC,
   useEffect,
   useImperativeHandle,
   useState,

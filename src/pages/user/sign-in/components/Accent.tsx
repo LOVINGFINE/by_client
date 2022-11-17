@@ -2,7 +2,7 @@
  * Created by zhangq on 2022/11/05
  * AccentForm
  */
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { Input, message } from "@/packages/design";
 import styles from "../style.less";
 import SubmitForm from "./Submit";
