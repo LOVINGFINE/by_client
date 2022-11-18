@@ -1,19 +1,7 @@
 .cell {
   height: 100%;
   width: 100%;
-  display: flex;
-  align-items: center;
-  text-overflow: clip;
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-  &::after {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    z-index: 1;
-  }
+  padding: 0.5px;
   &-selected {
     &::before {
       display: none;
@@ -32,7 +20,7 @@
 .suffixTip {
   display: flex;
   align-items: center;
-  color: #999;
+  color: #8898a5;
   gap: 3px;
   font-size: 14px;
 }

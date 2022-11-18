@@ -20,7 +20,6 @@ const RefHelper: FC = () => {
     <div
       className={styles["ref"]}
       onMouseDown={(e) => e.stopPropagation()}
-      onClick={(e) => e.stopPropagation()}
     >
       <SelectionRef onSelection={onSelection} />
       <div className={styles["ref-line"]} />

@@ -7,7 +7,7 @@ import { Icon, Menu, Dropdown, Button } from "@/packages/design";
 import { MenuItem } from "@/packages/design/Menu";
 import { ListAction } from "./List";
 
-const SheetMoreAction: FC<SheetMoreActionProps> = ({ onAction }) => {
+const SheetMethods: FC<SheetMethodsProps> = ({ onAction }) => {
   /**
    * @Methods
    */
@@ -18,7 +18,7 @@ const SheetMoreAction: FC<SheetMoreActionProps> = ({ onAction }) => {
       }}
     >
       <MenuItem
-        icon={<Icon name="edit" />}
+        icon={<Icon name="rename" />}
         label={"修改标题"}
         onClick={() => onAction(ListAction.rename)}
       />
@@ -48,8 +48,8 @@ const SheetMoreAction: FC<SheetMoreActionProps> = ({ onAction }) => {
 /**
  * @interface props
  */
-export interface SheetMoreActionProps {
+export interface SheetMethodsProps {
   onAction(e: ListAction): void;
 }
 
-export default SheetMoreAction;
+export default SheetMethods;

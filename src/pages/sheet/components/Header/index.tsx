@@ -45,7 +45,7 @@ const Header: FC<HeaderProps> = ({ onSearch, isTemplate }) => {
         <Icon
           name="search"
           style={{
-            color: "#ddd",
+            color: "var(--d-desc)",
             position: "absolute",
             left: 12,
             fontSize: 15,

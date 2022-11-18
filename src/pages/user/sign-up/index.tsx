@@ -18,7 +18,9 @@ const SignUpPage: FC = () => {
    */
   function onSignUpOk(res: UserWithToken) {
     context.setToken(res.token);
-    navigate("/excel");
+    navigate("/", {
+      replace: true,
+    });
   }
   /** render */
   return (

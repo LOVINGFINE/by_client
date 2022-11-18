@@ -40,8 +40,8 @@ const SettingsModal = forwardRef<SettingsModalRef | null, SettingsModalProps>(
     return (
       <Modal
         visible={visible}
-        title={"设置"}
-        width={580}
+        title={"用户设置"}
+        width={620}
         cancelProps={{
           disabled: true,
         }}
@@ -55,7 +55,7 @@ const SettingsModal = forwardRef<SettingsModalRef | null, SettingsModalProps>(
             <Button
               type="primary"
               onClick={onSubmit}
-              style={{ paddingRight: 35, paddingLeft: 35 }}
+              style={{ paddingRight: 25, paddingLeft: 25 }}
             >
               确定
             </Button>

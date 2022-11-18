@@ -192,10 +192,8 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
     useEffect(() => {
       const remove = () => {
         window.removeEventListener("mousedown", deSelection);
-        window.removeEventListener("click", deSelection);
       };
       window.addEventListener("mousedown", deSelection);
-      window.addEventListener("click", deSelection);
       return remove;
     }, []);
 
@@ -229,7 +227,6 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
           "table-none": offset.width === 0,
         })}
         ref={tableRef}
-        onClick={(e) => e.stopPropagation()}
         onMouseDown={(e) => e.stopPropagation()}
         onMouseEnter={addListener}
         onMouseLeave={removeListener}

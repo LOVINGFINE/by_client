@@ -4,13 +4,11 @@
  */
 import React, {
   forwardRef,
-  useEffect,
-  useState,
   useRef,
   KeyboardEvent,
   CSSProperties,
-  FocusEvent,
   useImperativeHandle,
+  useState,
 } from "react";
 import styles from "./style.less";
 import { SimpleData } from "../Table";
@@ -19,38 +17,28 @@ const TextInput = forwardRef<TextInputCore | null | undefined, TextInputProps>(
   (props, ref) => {
     const { value, style = {}, onChange, onFocus, onBlur } = props;
     /** @State */
+    const [editable, setEditable] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
-    const [editing, setEditing] = useState(false);
-    const [input, setInput] = useState<SimpleData>("");
-    /** @Effect */
-    useEffect(() => {
-      if (!editing) {
-        setInput(value);
-      }
-    }, [value]);
-
     /**
      * @Methods
      */
-    function onValue() {
-      if (value !== input) {
-        // 修改
-        onChange(input);
-      }
-    }
 
-    function onTextFocus(e: FocusEvent<HTMLInputElement>) {
+    function onTextFocus(e: React.BaseSyntheticEvent) {
       onFocus && onFocus(e);
-      if (inputRef.current) {
-        inputRef.current.select();
-      }
-      setEditing(true);
+      setTimeout(() => {
+        const rang = window.getSelection();
+        rang?.selectAllChildren(e.target);
+        rang?.collapseToEnd();
+      });
     }
 
-    function onTextBlur(e: FocusEvent<HTMLInputElement>) {
+    function onTextBlur(e: React.BaseSyntheticEvent) {
       onBlur && onBlur(e);
-      setEditing(false);
-      onValue();
+      setEditable(false);
+      const input = e.target?.textContent || "";
+      if (input !== value) {
+        onChange && onChange(input);
+      }
     }
 
     function onKeyDown(e: KeyboardEvent | React.KeyboardEvent) {
@@ -58,14 +46,8 @@ const TextInput = forwardRef<TextInputCore | null | undefined, TextInputProps>(
       if (e.code === "Enter") {
         if (!shiftKey) {
           inputRef.current?.blur();
-        } else {
-          setInput(input + "\n");
         }
       }
-    }
-
-    function onTextInput(e: React.FormEvent<HTMLInputElement>) {
-      setInput(e.currentTarget.value);
     }
 
     /** @ref */
@@ -73,9 +55,12 @@ const TextInput = forwardRef<TextInputCore | null | undefined, TextInputProps>(
       ref,
       (): TextInputCore => ({
         focus() {
-          if (inputRef.current) {
-            inputRef.current.focus();
-          }
+          setEditable(true);
+          setTimeout(() => {
+            if (inputRef.current) {
+              inputRef.current.focus();
+            }
+          });
         },
         blur() {
           if (inputRef.current) {
@@ -88,16 +73,18 @@ const TextInput = forwardRef<TextInputCore | null | undefined, TextInputProps>(
 
     /** @render */
     return (
-      <input
+      <div
         ref={inputRef}
+        suppressContentEditableWarning
+        contentEditable={editable}
         style={style}
         className={styles["input"]}
-        value={`${input}`}
-        onInput={onTextInput}
         onBlur={onTextBlur}
         onFocus={onTextFocus}
         onKeyDown={onKeyDown}
-      />
+      >
+        {value}
+      </div>
     );
   }
 );
@@ -113,9 +100,9 @@ export interface TextInputCore {
 export interface TextInputProps {
   value: SimpleData;
   style?: CSSProperties;
-  onChange(e: SimpleData): void;
-  onFocus?(e: FocusEvent<HTMLInputElement>): void;
-  onBlur?(e: FocusEvent<HTMLInputElement>): void;
+  onChange?(e: SimpleData): void;
+  onFocus?(e: React.BaseSyntheticEvent): void;
+  onBlur?(e: React.BaseSyntheticEvent): void;
 }
 
 export default TextInput;

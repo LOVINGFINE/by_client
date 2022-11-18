@@ -7,7 +7,9 @@ import { Dropdown } from "@/packages/design";
 import { Action, ColorPicker } from "../Widgets";
 import { Icon } from "@/packages/design";
 import styles from "../style.less";
+import { useClassNames } from "@/plugins/style";
 
+const cn = useClassNames(styles);
 const BackgroundColor: FC<BackgroundColorProps> = ({ value, onChange }) => {
   /** render */
   return (
@@ -18,7 +20,10 @@ const BackgroundColor: FC<BackgroundColorProps> = ({ value, onChange }) => {
       <Action>
         <div className={styles["background"]}>
           <span
-            className={styles["background-value"]}
+            className={cn({
+              "background-value": true,
+              transparent: value === "transparent",
+            })}
             style={{
               background: value,
             }}

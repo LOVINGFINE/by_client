@@ -5,7 +5,7 @@
 import { FC, useReducer, useEffect, createContext, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import ApplicationLayout from "@/layouts/application";
-import { getSheetById } from "../apis";
+import { getSheetById, updateUserSheetName } from "../apis";
 import WorkbookEditor from "./Workbook";
 import SheetHeader from "./Header";
 import SheetFooter from "./Footer";
@@ -62,6 +62,13 @@ const ExcelEditor: FC = () => {
     });
   }
 
+  function onRename(name: string) {
+    dispatch({
+      name,
+    });
+    updateUserSheetName(state.id, name);
+  }
+
   /**
    * @effect
    */
@@ -78,6 +85,7 @@ const ExcelEditor: FC = () => {
         ...state,
         initState,
         changeWorkbook,
+        onRename,
       }}
     >
       <ApplicationLayout
@@ -108,6 +116,7 @@ export interface ContextState {
 export interface ContextValue extends ContextState {
   initState(): void;
   changeWorkbook(e: string): void;
+  onRename(n: string): void;
 }
 export * from "./type";
 export * from "./Workbook/type";

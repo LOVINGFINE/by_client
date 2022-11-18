@@ -4,8 +4,8 @@
  */
 import { FC } from "react";
 import styles from "../style.less";
-import { SheetListItem,ListMode } from "@/pages/sheet/type";
-import SheetMoreAction from "./More";
+import { SheetListItem, ListMode } from "@/pages/sheet/type";
+import SheetMethods from "./Methods";
 
 import { useNavigate } from "react-router";
 import { Icon } from "@/packages/design";
@@ -55,14 +55,14 @@ const List: FC<ListProps> = ({
             className={styles[`listItem`]}
             onClick={() => onEdit(item)}
           >
-            <Icon name="sheet" size={20} />
+            <Icon name="sheet" size={28} />
             <span className={styles[`listItem-name`]}>{item.name}</span>
             <span className={styles[`listItem-isOwner`]}>{getOwner(item)}</span>
             <span className={styles[`listItem-updateTime`]}>
               {getTime(item)}
             </span>
             <span onClick={(e) => e.stopPropagation()}>
-              <SheetMoreAction onAction={(k) => onItemAction(k, item)} />
+              <SheetMethods onAction={(k) => onItemAction(k, item)} />
             </span>
           </li>
         );
@@ -81,7 +81,7 @@ const List: FC<ListProps> = ({
           >
             <div className={styles[`gridItem-display`]}></div>
             <div className={styles[`gridItem-row`]}>
-              <Icon name="sheet" size={18} />
+              <Icon name="sheet" size={28} />
               <span className={styles[`data-gridItem-name`]}>{item.name}</span>
             </div>
             <div className={styles[`gridItem-row`]}>
@@ -89,7 +89,7 @@ const List: FC<ListProps> = ({
                 {getTime(item)}
               </span>
               <span onClick={(e) => e.stopPropagation()}>
-                <SheetMoreAction onAction={(k) => onItemAction(k, item)} />
+                <SheetMethods onAction={(k) => onItemAction(k, item)} />
               </span>
             </div>
           </li>

@@ -64,11 +64,7 @@ const Toolbar: FC = () => {
 
   /** render */
   return (
-    <div
-      className={styles["toolbar"]}
-      onMouseDown={(e) => e.stopPropagation()}
-      onClick={(e) => e.stopPropagation()}
-    >
+    <div className={styles["toolbar"]} onMouseDown={(e) => e.stopPropagation()}>
       <Action
         icon="mail-reply"
         disabled={!history_back}

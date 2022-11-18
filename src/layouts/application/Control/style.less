@@ -14,7 +14,7 @@
     justify-content: center;
     border-radius: 50%;
     cursor: pointer;
-    color: #00232970;
+    color: var(--d-desc);
     font-size: 18px;
     &:hover {
       background-color: #f7f7f7;
@@ -43,7 +43,7 @@
       gap: 20px;
       &-title {
         font-size: 26px;
-        color: #002329d4;
+        color: var(--d-title);
       }
     }
     &-driver {
@@ -69,12 +69,20 @@
   display: flex;
   align-items: center;
   padding: 0 20px 0 24px;
-  gap: 20px;
+  gap: 8px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
   border-radius: 0 21px 21px 0;
   margin-bottom: 15px;
-  color: #526680;
+  font-weight: 500;
+  color: var(--d-text);
+  &-icon {
+    height: 42px;
+    width: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   &:hover {
     background-color: #f6f6f6;
   }

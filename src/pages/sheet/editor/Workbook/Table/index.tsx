@@ -7,7 +7,7 @@ import styles from "./style.less";
 import VcTable from "./components";
 import { Selection, SimpleData, VcTableCore, CellMenuKey } from "../type";
 import { mouseEventContent } from "@/plugins/event";
-import ExcelCell, { ExcelCellContextMenu } from "../Cell";
+import Cell, { CellContextMenu } from "../Cell";
 import { editorContext } from "../index";
 
 import { getKeyByCoord } from "../core";
@@ -78,10 +78,10 @@ const ExcelTable: FC = () => {
       }
     };
     console.log(e);
-    
+
     mouseEventContent(
       e,
-      <ExcelCellContextMenu
+      <CellContextMenu
         selection={editContextValue.selection}
         onAction={onMenuAction}
       />
@@ -116,9 +116,7 @@ const ExcelTable: FC = () => {
         },
       });
     };
-    return (
-      <ExcelCell x={x} y={y} value={value} style={style} onChange={onChange} />
-    );
+    return <Cell x={x} y={y} value={value} style={style} onChange={onChange} />;
   }
   return (
     <div className={styles["excelTable"]}>

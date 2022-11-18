@@ -11,8 +11,8 @@ import { useClassNames } from "@/plugins/style";
 const cn = useClassNames(styles);
 const PasswordForm: FC<PasswordFormProps> = ({ onOk, onCancel, current }) => {
   /** @State */
-  const [password, setPassword] = useState<string>("12345678");
-  const [confirmation, setConfirmation] = useState<string>("12345678");
+  const [password, setPassword] = useState<string>("");
+  const [confirmation, setConfirmation] = useState<string>("");
 
   const disabled = (() => {
     return !password || password.length < 8 || password !== confirmation;

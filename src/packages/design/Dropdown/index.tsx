@@ -17,27 +17,11 @@ const Dropdown: FC<DropdownProps> = ({
 }: DropdownProps): ReactElement => {
   const inner = useRef<HTMLDivElement | null>();
   const childrenRef = useRef<HTMLElement>(null);
-  const childrenElement = (() => {
-    if (typeof children?.type !== "string") {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const ele = children as any;
-      return ele?.type(ele.props);
-    }
-    return children;
-  })();
   const [open, setOpen] = useState<boolean>(false);
 
-  const props: Partial<unknown> & React.Attributes = (() => {
-    if (trigger === "hover") {
-      return {
-        onMouseEnter: onChangeVisible,
-        onMouseLeave: onChangeVisible,
-      };
-    }
-    return {
-      onMouseDown: onChangeVisible,
-    };
-  })();
+  useEffect(() => {
+    return onClose;
+  }, []);
 
   useEffect(() => {
     if (visible !== undefined) {
@@ -54,14 +38,42 @@ const Dropdown: FC<DropdownProps> = ({
       }
     }
   }, [open]);
+
   /**
    * @method
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function getProps(ele: any) {
+    if (trigger === "hover") {
+      return {
+        onMouseEnter: (...s: unknown[]) => {
+          if (ele.props?.onMouseEnter) {
+            ele.props?.onMouseEnter(s);
+          }
+          onChangeVisible();
+        },
+        onMouseLeave: (...s: unknown[]) => {
+          if (ele.props?.onMouseLeave) {
+            ele.props?.onMouseLeave(s);
+          }
+          onChangeVisible();
+        },
+      };
+    }
+    return {
+      onClick: (...s: unknown[]) => {
+        if (ele.props?.onClick) {
+          ele.props?.onClick(s);
+        }
+        onChangeVisible();
+      },
+    };
+  }
+
   function onOpen() {
     const div = document.createElement("div");
     div.className = "dropdown";
     div.style.opacity = "0";
-    div.onclick = (e) => e.stopPropagation();
     const root = createRoot(div);
     const content = <div className="dropdown-overlay">{overlay}</div>;
     root.render(content);
@@ -73,6 +85,7 @@ const Dropdown: FC<DropdownProps> = ({
     setTimeout(() => {
       if (trigger === "click") {
         window.addEventListener("mousedown", onChangeVisible, { once: true });
+        window.addEventListener("click", onChangeVisible, { once: true });
       }
     });
   }
@@ -84,6 +97,7 @@ const Dropdown: FC<DropdownProps> = ({
         if (inner.current) {
           document.body.removeChild(inner.current);
           inner.current = null;
+          setOpen(false);
         }
       }, 250);
     }
@@ -98,9 +112,23 @@ const Dropdown: FC<DropdownProps> = ({
   }
 
   /** render */
-  return React.cloneElement(childrenElement || <></>, {
+  if (!children) return <></>;
+  if (typeof children?.type !== "string") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ele = children as any;
+    return React.cloneElement(
+      ele?.type({
+        ...(ele?.props || {}),
+        ...getProps(ele),
+      }),
+      {
+        ref: childrenRef,
+      }
+    );
+  }
+  return React.cloneElement(children, {
     ref: childrenRef,
-    ...props,
+    ...getProps(children),
   });
 };
 

@@ -13,7 +13,7 @@ const FontSize: FC<FontSizeProps> = ({ value, onChange }) => {
     <Action>
       <span className={styles["font-size-input"]}>{value}</span>
       <Dropdown
-        placement="bottomRight"
+        placement="bottom"
         overlay={<SizePicker value={value} onChange={onChange} />}
       >
         <span className={styles["font-size-picker"]}>

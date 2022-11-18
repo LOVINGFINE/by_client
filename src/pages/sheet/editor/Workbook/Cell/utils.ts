@@ -22,12 +22,22 @@ export function getCellStyle(cellStyle: StyleOption): CSSProperties {
       return "center";
     }
   };
+
+  const textAlign = ((l) => {
+    if (horizontal === Horizontal.right) {
+      return "right";
+    }
+    if (horizontal === Horizontal.center) {
+      return "center";
+    }
+    return "left";
+  })();
   return {
     fontSize,
     color,
     background,
-    alignItems: align(horizontal),
-    justifyContent: align(vertical),
+    textAlign,
+    alignItems: align(vertical),
     fontWeight: bold ? "bold" : "normal",
     fontStyle: italic ? "italic" : "normal",
     textDecoration: `${underline ? "underline" : ""} ${

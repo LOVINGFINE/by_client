@@ -33,7 +33,7 @@ const TemplateItem: FC<TemplateItemProps> = ({
         onClick={onAddSheetByTemplate}
       >
         {!id ? (
-          <Icon name={"plus"} style={{ color: "#ddd" }} size={35} />
+          <Icon name={"plus"} style={{ color: "var(--d-desc)" }} size={38} />
         ) : (
           img && <img src={img} />
         )}

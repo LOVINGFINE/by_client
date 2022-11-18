@@ -27,6 +27,7 @@ const Settings: FC<SettingsProps> = ({ onSettings, settings }) => {
       <ControlOption
         onAction={onSettingCommon}
         icon={"setting"}
+        size={20}
         label={"设置"}
       />
     </Fragment>
