@@ -10,7 +10,7 @@ import {
   forwardRef,
 } from "react";
 import styles from "../style.less";
-import { SheetListItem } from "@/pages/sheet/type";
+import { Sheet } from "@/pages/sheet/type";
 import { Input, Modal } from "@/packages/design";
 import { InputRef } from "@/packages/design/Input";
 import { updateUserSheetName } from "@/pages/sheet/apis";
@@ -21,7 +21,7 @@ const RenameModal = forwardRef<RenameModalRef | null, RenameModalProps>(
     /** @State */
     const inputRef = useRef<InputRef>(null);
     const [visible, setVisible] = useState(false);
-    const [dataSource, setDataSource] = useState<null | SheetListItem>(null);
+    const [dataSource, setDataSource] = useState<null | Sheet>(null);
     const [loading, setLoading] = useState(false);
     const [rename, setRename] = useState("");
 
@@ -63,7 +63,7 @@ const RenameModal = forwardRef<RenameModalRef | null, RenameModalProps>(
     useImperativeHandle(
       ref,
       (): RenameModalRef => ({
-        focus: (e: SheetListItem) => {
+        focus: (e: Sheet) => {
           setDataSource(e);
           setVisible(true);
         },
@@ -93,14 +93,14 @@ const RenameModal = forwardRef<RenameModalRef | null, RenameModalProps>(
 );
 
 export interface RenameModalRef {
-  focus(e: SheetListItem): void;
+  focus(e: Sheet): void;
 }
 
 /**
  * @interface props
  */
 export interface RenameModalProps {
-  onOk(e: SheetListItem): void;
+  onOk(e: Sheet): void;
 }
 
 export default RenameModal;

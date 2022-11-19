@@ -1,0 +1,47 @@
+.userAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #13c2c2;
+  font-weight: 500;
+  background-color: #f1f1f1;
+  &-default {
+    width: 42px;
+    height: 42px;
+    font-size: 16px;
+  }
+  &-small {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+  &-small {
+    width: 55px;
+    height: 55px;
+    font-size: 18px;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.userInfo {
+  width: 240px;
+  &-message {
+    width: 100%;
+    padding: 20px 0 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &-nickname {
+      font-size: 15px;
+      margin: 6px 0 15px;
+    }
+    &-email {
+      font-size: 13px;
+      color: var(--d-desc);
+    }
+  }
+}

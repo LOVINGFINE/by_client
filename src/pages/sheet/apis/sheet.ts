@@ -1,8 +1,8 @@
 import request from "@/config/request";
-import { Sheet, SheetListItem } from "../type";
+import { Sheet } from "../type";
 
 export function getUserSheets(search: string) {
-  return request<SheetListItem[]>({
+  return request<Sheet[]>({
     method: "get",
     url: `/sheets?search=${search}`,
   });
@@ -19,7 +19,7 @@ export function insertUserSheet(name: string) {
 }
 
 export function updateUserSheetName(id: string, name: string) {
-  return request<SheetListItem>({
+  return request<Sheet>({
     method: "patch",
     url: `/sheets/${id}`,
     data: {

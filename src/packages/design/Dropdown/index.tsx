@@ -2,10 +2,18 @@
  * Created by zhangq on 2022/04/03
  * Dropdown 组件
  */
-import React, { ReactElement, FC, useRef, useEffect, useState } from "react";
+import React, {
+  ReactElement,
+  FC,
+  useRef,
+  useEffect,
+  useState,
+  Fragment,
+} from "react";
+import ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
 import "./style.less";
-import { setStyles } from "./utils";
+import { getStyles } from "./utils";
 
 const Dropdown: FC<DropdownProps> = ({
   visible,
@@ -15,9 +23,12 @@ const Dropdown: FC<DropdownProps> = ({
   trigger = "click",
   onVisible,
 }: DropdownProps): ReactElement => {
-  const inner = useRef<HTMLDivElement | null>();
   const childrenRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState<boolean>(false);
+  const [size, setSize] = useState({
+    overlayWidth: 0,
+    overlayHeight: 0,
+  });
 
   useEffect(() => {
     return onClose;
@@ -30,15 +41,25 @@ const Dropdown: FC<DropdownProps> = ({
   }, [visible]);
 
   useEffect(() => {
-    if (open) {
-      onOpen();
-    } else {
-      if (inner.current) {
-        onClose();
-      }
+    if (overlay) {
+      const div = document.createElement("div");
+      div.className = "dropdown";
+      div.style.opacity = "0";
+      const root = createRoot(div);
+      const content = <div className="dropdown-overlay">{overlay}</div>;
+      root.render(content);
+      setTimeout(() => {
+        const overlayWidth = div?.offsetWidth;
+        const overlayHeight = div?.offsetHeight;
+        setSize({
+          overlayWidth,
+          overlayHeight,
+        });
+        document.body.removeChild(div);
+      });
+      document.body.appendChild(div);
     }
-  }, [open]);
-
+  }, [overlay]);
   /**
    * @method
    */
@@ -70,66 +91,54 @@ const Dropdown: FC<DropdownProps> = ({
     };
   }
 
-  function onOpen() {
-    const div = document.createElement("div");
-    div.className = "dropdown";
-    div.style.opacity = "0";
-    const root = createRoot(div);
-    const content = <div className="dropdown-overlay">{overlay}</div>;
-    root.render(content);
-    setTimeout(() => {
-      setStyles(div, childrenRef.current, placement);
-    });
-    inner.current = div;
-    document.body.appendChild(div);
-    setTimeout(() => {
-      if (trigger === "click") {
-        window.addEventListener("mousedown", onChangeVisible, { once: true });
-        window.addEventListener("click", onChangeVisible, { once: true });
-      }
-    });
-  }
-
   function onClose() {
-    if (inner.current) {
-      inner.current.style.opacity = "0";
-      setTimeout(() => {
-        if (inner.current) {
-          document.body.removeChild(inner.current);
-          inner.current = null;
-          setOpen(false);
-        }
-      }, 250);
-    }
+    setOpen(false);
   }
 
   function onChangeVisible() {
     if (visible !== undefined) {
       onVisible && onVisible(!visible);
     } else {
+      if (!open) {
+        setTimeout(() => {
+          window.addEventListener("mousedown", onClose, { once: true });
+          window.addEventListener("click", onClose, { once: true });
+        });
+      }
       setOpen(!open);
     }
   }
 
-  /** render */
-  if (!children) return <></>;
-  if (typeof children?.type !== "string") {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const ele = children as any;
-    return React.cloneElement(
-      ele?.type({
-        ...(ele?.props || {}),
-        ...getProps(ele),
-      }),
-      {
+  const element = (() => {
+    if (!children) return <></>;
+    if (typeof children?.type !== "string") {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const ele = children as any;
+      return React.cloneElement(ele?.type(ele?.props), {
         ref: childrenRef,
-      }
+        ...getProps(ele),
+      });
+    }
+    return React.cloneElement(children, {
+      ref: childrenRef,
+      ...getProps(children),
+    });
+  })();
+
+  const render = () => {
+    const styles = getStyles(childrenRef.current, size, placement);
+    return (
+      <div className="dropdown" style={styles}>
+        <div className="dropdown-overlay">{overlay}</div>
+      </div>
     );
-  }
-  return React.cloneElement(children, {
-    ref: childrenRef,
-    ...getProps(children),
-  });
+  };
+  return (
+    <Fragment>
+      {ReactDOM.createPortal(open && render(), document.body)}
+      {element}
+    </Fragment>
+  );
 };
 
 export interface DropdownProps {

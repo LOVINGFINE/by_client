@@ -15,16 +15,25 @@ const routes: RouteProp[] = [
     view: "pages/user/sign-up",
     title: "用户 · 注册",
   },
-
+  {
+    path: "/user/settings",
+    view: "pages/user/settings",
+    title: "用户 · 管理",
+  },
   {
     path: "/sheets",
     view: "pages/sheet",
     title: "表格",
   },
   {
-    path: "/sheets/:sheetId",
-    view: "pages/sheet/editor",
+    path: "/sheets/common/:sheetId",
+    view: "pages/sheet/common-editor",
     title: "表格 · 编辑",
+  },
+  {
+    path: "/sheets/meta/:sheetId",
+    view: "pages/sheet/meta-editor",
+    title: "meta · 表格 · 编辑",
   },
   {
     path: "*",

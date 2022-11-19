@@ -4,7 +4,7 @@
  */
 import { FC } from "react";
 import styles from "../style.less";
-import { SheetListItem, ListMode } from "@/pages/sheet/type";
+import { Sheet, ListMode } from "@/pages/sheet/type";
 import SheetMethods from "./Methods";
 
 import { useNavigate } from "react-router";
@@ -25,7 +25,7 @@ const List: FC<ListProps> = ({
   /**
    * @Methods
    */
-  function onItemAction(action: ListAction, item: SheetListItem) {
+  function onItemAction(action: ListAction, item: Sheet) {
     switch (action) {
       case ListAction.openBlank: {
         window.open(`/sheets/${item.id}`, "_blank");
@@ -42,7 +42,7 @@ const List: FC<ListProps> = ({
     }
   }
 
-  function onEdit(item: SheetListItem) {
+  function onEdit(item: Sheet) {
     navigate(`/sheets/${item.id}`);
   }
 
@@ -105,12 +105,12 @@ const List: FC<ListProps> = ({
  * @interface props
  */
 export interface ListProps {
-  dataSource: SheetListItem[];
+  dataSource: Sheet[];
   mode: ListMode;
-  onRename(e: SheetListItem): void;
-  onRemove(e: SheetListItem): void;
-  getOwner(e: SheetListItem): string;
-  getTime(e: SheetListItem): string;
+  onRename(e: Sheet): void;
+  onRemove(e: Sheet): void;
+  getOwner(e: Sheet): string;
+  getTime(e: Sheet): string;
 }
 
 export enum ListAction {

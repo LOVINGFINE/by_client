@@ -13,7 +13,7 @@ import { useSearchParams } from "react-router-dom";
 import { getUserSheetSettings, updateUserSheetSettings } from "./apis";
 import { ListFilter, ListMode, ListSort, SheetUserSettings } from "./type";
 
-const ExcelPage: FC = () => {
+const UserSheetPage: FC = () => {
   const [query] = useSearchParams();
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -80,4 +80,4 @@ const ExcelPage: FC = () => {
   );
 };
 
-export default ExcelPage;
+export default UserSheetPage;

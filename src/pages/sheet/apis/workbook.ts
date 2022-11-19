@@ -6,19 +6,19 @@ import {
   DataPayload,
   WorkbookData,
   Workbook,
-} from "../editor";
+} from "../common-editor";
 
 export function getSheetWorkbooksById(id: string) {
   return request<WorkbookListItem[]>({
     method: "get",
-    url: `/sheets/${id}/workbooks`,
+    url: `/sheets/${id}/common`,
   });
 }
 
 export function getSheetWorkbookById(sheetId: string, workbookId: string) {
   return request<Workbook>({
     method: "get",
-    url: `/sheets/${sheetId}/workbooks/${workbookId}`,
+    url: `/sheets/${sheetId}/common/${workbookId}`,
   });
 }
 
@@ -36,7 +36,7 @@ export function updateWorkbookColumn(
 ) {
   return request<ColumnConfig>({
     method: "patch",
-    url: `/sheets/${sheetId}/workbooks/${workbookId}/command/column`,
+    url: `/sheets/${sheetId}/common/${workbookId}/column`,
     data,
   });
 }
@@ -48,7 +48,7 @@ export function updateWorkbookRow(
 ) {
   return request<RowConfig>({
     method: "patch",
-    url: `/sheets/${sheetId}/workbooks/${workbookId}/command/row`,
+    url: `/sheets/${sheetId}/common/${workbookId}/row`,
     data,
   });
 }
@@ -60,7 +60,7 @@ export function updateWorkbookData(
 ) {
   return request<WorkbookData>({
     method: "patch",
-    url: `/sheets/${sheetId}/workbooks/${workbookId}/command/data`,
+    url: `/sheets/${sheetId}/common/${workbookId}/data`,
     data,
   });
 }

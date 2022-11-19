@@ -10,4 +10,9 @@ export const CONTROL_LINKS: ControlLink[] = [
     path: "/sheets",
     icon: "sheet",
   },
+  {
+    label: "meta · 表格",
+    path: "/meta-sheets",
+    icon: "meta-sheet",
+  },
 ];

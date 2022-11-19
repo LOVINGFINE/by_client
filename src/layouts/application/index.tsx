@@ -5,7 +5,8 @@
 import { FC, ReactElement } from "react";
 import styles from "./style.less";
 import ApplicationControl from "./Control";
-import ApplicationUser from "./User";
+import { Dropdown } from "@/packages/design";
+import { UserInfo, UserAvatar } from "@/pages/user/components";
 import { Icon, Spanging } from "@/packages/design";
 import { useNavigate } from "react-router";
 
@@ -35,7 +36,11 @@ const ApplicationLayout: FC<ApplicationLayoutProps> = ({
           <ApplicationControl title={title}>{settings}</ApplicationControl>
         )}
         <div className={styles["layout-header-content"]}>{header}</div>
-        <ApplicationUser />
+        <div className={styles["layout-header-user"]}>
+          <Dropdown overlay={<UserInfo />} placement={"bottomLeft"}>
+            <UserAvatar />
+          </Dropdown>
+        </div>
       </div>
       <Spanging loading={loading}>{children}</Spanging>
     </div>

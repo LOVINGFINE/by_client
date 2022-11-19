@@ -15,7 +15,7 @@ import InsertSheet from "./components/InsertSheet";
 import { userContext } from "@/plugins/user";
 import { Spanging } from "@/packages/design";
 import {
-  SheetListItem,
+  Sheet,
   ListFilter,
   ListMode,
   ListSort,
@@ -33,7 +33,7 @@ const UserSheets: FC<UserSheetsProps> = ({
   const { mode, filter, sort } = settings;
   /** @State */
   const [loading, setLoading] = useState(true);
-  const [userSheets, setUserSheets] = useState<SheetListItem[]>([]);
+  const [userSheets, setUserSheets] = useState<Sheet[]>([]);
 
   // 重命名
   const renameRef = useRef<RenameModalRef>(null);
@@ -75,14 +75,14 @@ const UserSheets: FC<UserSheetsProps> = ({
   }, [search]);
 
   /** @Method */
-  const getOwner = (item: SheetListItem) => {
+  const getOwner = (item: Sheet) => {
     if (context.user.id === item.owner) {
       return "我";
     }
     return "其他人分享";
   };
 
-  const getTime = (item: SheetListItem) => {
+  const getTime = (item: Sheet) => {
     if (sort === ListSort.openDate) {
       return dayjs(item.lastOpenTime).format("YYYY年M月D日 HH:mm");
     }
@@ -103,11 +103,11 @@ const UserSheets: FC<UserSheetsProps> = ({
       });
   }
 
-  function onSheetRename(e: SheetListItem) {
+  function onSheetRename(e: Sheet) {
     renameRef.current?.focus(e);
   }
 
-  function onSheetRemove(item: SheetListItem) {
+  function onSheetRemove(item: Sheet) {
     deleteUserSheet(item.id).then(() => {
       initSheets();
     });

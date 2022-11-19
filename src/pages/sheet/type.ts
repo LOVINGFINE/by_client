@@ -18,6 +18,11 @@ export enum ListFilter {
   shareToMe = "shareToMe",
 }
 
+export enum SheetType {
+  common = "common",
+  meta = "meta",
+}
+
 export interface SheetUserSettings {
   hideTemplate: boolean;
   mode: ListMode;
@@ -30,8 +35,10 @@ export interface Sheet {
   name: string;
   createdTime: string;
   updatedTime: string;
+  lastOpenTime: string;
   owner: string;
   share: string[];
+  type: SheetType;
 }
 
 export interface WorkbookListItem {
@@ -39,16 +46,6 @@ export interface WorkbookListItem {
   name: string;
   createdTime: string;
   updatedTime: string;
-}
-
-export interface SheetListItem {
-  id: string;
-  name: string;
-  createdTime: string;
-  updatedTime: string;
-  lastOpenTime: string;
-  owner: string;
-  share: string[];
 }
 
 export type updateSizePayload =
