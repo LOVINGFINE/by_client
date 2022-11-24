@@ -13,14 +13,14 @@ import {
   useImperativeHandle,
 } from "react";
 import styles from "../style.less";
-import { SimpleData } from "../type";
+import { SimpleValue } from "../type";
 const TextInput = forwardRef<TextInputCore | null | undefined, TextInputProps>(
   (props, ref) => {
     const { value, style = {}, onChange, onFocus, onBlur } = props;
     /** @State */
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const [editing, setEditing] = useState(false);
-    const [input, setInput] = useState<SimpleData>("");
+    const [input, setInput] = useState<SimpleValue>("");
     /** @Effect */
     useEffect(() => {
       if (!editing) {
@@ -107,9 +107,9 @@ export interface TextInputCore {
 }
 
 export interface TextInputProps {
-  value: SimpleData;
+  value: SimpleValue;
   style?: CSSProperties;
-  onChange(e: SimpleData): void;
+  onChange(e: SimpleValue): void;
   onFocus?(e: FocusEvent<HTMLTextAreaElement>): void;
   onBlur?(e: FocusEvent<HTMLTextAreaElement>): void;
 }

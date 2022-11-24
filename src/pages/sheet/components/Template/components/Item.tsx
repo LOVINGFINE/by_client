@@ -16,14 +16,7 @@ const TemplateItem: FC<TemplateItemProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  function onAddSheetByTemplate() {
-    if (id) {
-    } else {
-      insertUserSheet("未命名标题").then((res) => {
-        navigate(`/sheets/${res.id}`);
-      });
-    }
-  }
+  function onAddSheetByTemplate() {}
 
   /** @render */
   return (
@@ -50,8 +43,8 @@ const TemplateItem: FC<TemplateItemProps> = ({
  * @interface props
  */
 export interface TemplateItemProps {
-  id?: string;
-  title?: string;
+  id: string;
+  title: string;
   description?: string;
   img?: string;
 }

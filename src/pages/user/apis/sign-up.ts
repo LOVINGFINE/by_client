@@ -3,7 +3,7 @@ import { UserWithToken, EmailPayload, SignType } from "../type";
 export function userSignUpByEmail(data: EmailPayload) {
   return request<UserWithToken>({
     method: "post",
-    url: `/register`,
+    url: `/sign-up`,
     data: {
       ...data,
       type: SignType.email,

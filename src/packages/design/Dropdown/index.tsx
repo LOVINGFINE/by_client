@@ -128,7 +128,11 @@ const Dropdown: FC<DropdownProps> = ({
   const render = () => {
     const styles = getStyles(childrenRef.current, size, placement);
     return (
-      <div className="dropdown" style={styles}>
+      <div
+        className="dropdown"
+        onMouseDown={(e) => e.stopPropagation()}
+        style={styles}
+      >
         <div className="dropdown-overlay">{overlay}</div>
       </div>
     );

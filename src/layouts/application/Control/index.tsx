@@ -62,6 +62,7 @@ const ApplicationControl: FC<ApplicationControlProps> = ({
                 key={i}
                 icon={ele.icon}
                 label={ele.label}
+                size={24}
                 onAction={() => onControlAction(ele)}
               />
             );

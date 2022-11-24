@@ -5,10 +5,12 @@
 import { FC } from "react";
 import styles from "../style.less";
 import TemplateItem from "./Item";
+import TemplateEmpty from "./Empty";
 import { TemplateListItem } from "../type";
 import { Button, Dropdown, Icon, Menu } from "@/packages/design";
 import { useNavigate } from "react-router";
 import { MenuItem } from "@/packages/design/Menu";
+import { SheetType } from "@/pages/sheet/type";
 
 const TemplateHot: FC<TemplateHotProps> = ({ dataSource, full, onHide }) => {
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const TemplateHot: FC<TemplateHotProps> = ({ dataSource, full, onHide }) => {
       }}
     >
       <MenuItem
-        icon={<Icon name="edit" />}
+        icon={<Icon name="eye-slash" />}
         label={"隐藏模版库"}
         onClick={onHide}
       />
@@ -55,7 +57,8 @@ const TemplateHot: FC<TemplateHotProps> = ({ dataSource, full, onHide }) => {
         )}
       </div>
       <div className={styles["hot-record"]}>
-        <TemplateItem />
+        <TemplateEmpty type={SheetType.common} />
+        <TemplateEmpty type={SheetType.meta} />
         {dataSource.map((item) => {
           return <TemplateItem id={item.id} title={item.title} key={item.id} />;
         })}

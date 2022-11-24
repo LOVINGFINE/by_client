@@ -26,14 +26,9 @@ const routes: RouteProp[] = [
     title: "表格",
   },
   {
-    path: "/sheets/common/:sheetId",
-    view: "pages/sheet/common-editor",
+    path: "/sheets/:sheetId",
+    view: "pages/sheet/editor",
     title: "表格 · 编辑",
-  },
-  {
-    path: "/sheets/meta/:sheetId",
-    view: "pages/sheet/meta-editor",
-    title: "meta · 表格 · 编辑",
   },
   {
     path: "*",

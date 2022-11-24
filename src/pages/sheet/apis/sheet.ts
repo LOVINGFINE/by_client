@@ -1,19 +1,23 @@
 import request from "@/config/request";
-import { Sheet } from "../type";
+import { Sheet, SheetType } from "../type";
 
 export function getUserSheets(search: string) {
   return request<Sheet[]>({
     method: "get",
-    url: `/sheets?search=${search}`,
+    url: `/sheets`,
+    params: {
+      search,
+    },
   });
 }
 
-export function insertUserSheet(name: string) {
+export function insertUserSheet(name: string, type: SheetType) {
   return request<Sheet>({
     method: "post",
     url: `/sheets`,
     data: {
       name,
+      type,
     },
   });
 }

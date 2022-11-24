@@ -16,14 +16,14 @@ export interface SelectionRef {
   style: CSSProperties;
   render?: ReactElement | ReactElement[];
 }
-export type SimpleData = string | number | boolean;
+export type SimpleValue = string | number | boolean;
 
-export type DataSource = SimpleData[][];
+export type DataSource = SimpleValue[][];
 
 export interface Cell {
   width: number;
   height: number;
-  value: SimpleData;
+  value: SimpleValue;
 }
 
 export interface VcCell extends Cell {

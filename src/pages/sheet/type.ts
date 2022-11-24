@@ -40,17 +40,3 @@ export interface Sheet {
   share: string[];
   type: SheetType;
 }
-
-export interface WorkbookListItem {
-  id: string;
-  name: string;
-  createdTime: string;
-  updatedTime: string;
-}
-
-export type updateSizePayload =
-  | {
-      index: number;
-      width: number;
-    }
-  | { index: number; height: number };
