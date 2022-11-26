@@ -6,7 +6,7 @@ import { FC } from "react";
 import styles from "../style.less";
 import { useClassNames } from "@/plugins/style";
 import { Selection } from "@/pages/sheet/editor/type";
-import { MetaColumn, WorkbookEntry } from "../../type";
+import { MetaColumn, MetaEntry } from "../../type";
 import { getRefStyle } from "../utils/core";
 
 const classNames = useClassNames(styles);
@@ -89,7 +89,7 @@ const RefSelection: FC<RefSelectionProps> = ({
 export interface RefSelectionProps {
   border: boolean;
   columns: MetaColumn[];
-  entries: WorkbookEntry[];
+  entries: MetaEntry[];
   selection: Selection;
   rowIndexWidth: number;
 }

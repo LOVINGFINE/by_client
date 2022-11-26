@@ -1,37 +1,42 @@
 import { FC, useContext } from "react";
 import styles from "./style.less";
-import { Action, Driver } from "./Widgets";
 import { editorContext } from "../index";
+import ShowRowCount from "./components/ShowRowCount";
+import { Action } from "./Widgets";
+import { Icon } from "@/packages/design";
 
 const Toolbar: FC = () => {
   const editContextValue = useContext(editorContext);
   /** @State */
-
-  const history_back = editContextValue.history.current > 0;
-  const history_forward =
-    editContextValue.history.current > -1 &&
-    editContextValue.history.items.length - 1 >
-      editContextValue.history.current;
   /**
    * @Methods
    */
-  function onHistoryBack() {}
-  function onHistoryForward() {}
+  function showRowChange(bol: boolean) {
+    editContextValue.onShowRow(bol);
+  }
 
+  function onAdd() {
+    editContextValue.onAddEntry([{}]);
+  }
+  function onDelete() {
+    // 删除 工作表
+    editContextValue.onDelete();
+  }
   /** render */
   return (
     <div className={styles["toolbar"]} onMouseDown={(e) => e.stopPropagation()}>
-      <Action
-        icon="mail-reply"
-        disabled={!history_back}
-        onClick={onHistoryBack}
-      />
-      <Action
-        icon="forward-share"
-        disabled={!history_forward}
-        onClick={onHistoryForward}
-      />
-      <Driver />
+      <div className={styles["toolbar-left"]}>
+        <Action onClick={onAdd} icon="plus-circle" />
+      </div>
+      <div className={styles["toolbar-right"]}>
+        <ShowRowCount
+          value={editContextValue.showRowCount}
+          onChange={showRowChange}
+        />
+        {editContextValue.workbooks.length > 1 && (
+          <Action onClick={onDelete} icon="trash" />
+        )}
+      </div>
     </div>
   );
 };

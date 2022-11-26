@@ -1,8 +1,8 @@
-import { MetaColumn, VcColumn, VcEntry, WorkbookEntry } from "../../type";
+import { MetaColumn, VcColumn, VcEntry, MetaEntry } from "../../type";
 import { Selection } from "@/pages/sheet/editor/type";
 import { DEFAULT_COLUMN_WIDTH, DEFAULT_ROW_HEIGHT } from "../../final";
 
-export function getBodyStyle(columns: MetaColumn[], entries: WorkbookEntry[]) {
+export function getBodyStyle(columns: MetaColumn[], entries: MetaEntry[]) {
   const style = {
     width: 0,
     height: 0,
@@ -50,7 +50,7 @@ export function filterColumns(
 }
 
 export function filterEntries(
-  entries: WorkbookEntry[],
+  entries: MetaEntry[],
   options: {
     scrollTop: number;
     offsetHeight: number;
@@ -194,7 +194,7 @@ export function getRowMoveSelection(
 
 export function getRefStyle(
   columns: MetaColumn[],
-  entries: WorkbookEntry[],
+  entries: MetaEntry[],
   selection: Selection,
   rowIndexWidth: number
 ) {

@@ -8,8 +8,9 @@ import { getSheetTemplates } from "@/pages/sheet/apis";
 import TemplateHot from "./components/Hot";
 import { CategoryRecord, TemplateListItem } from "./type";
 import CategoryWithRecord from "./components/Category";
+import { SheetUserSettings } from "../../type";
 
-const Template: FC<TemplateProps> = ({ display, search, onHide }) => {
+const Template: FC<TemplateProps> = ({ display, search, onHide, settings }) => {
   /** @State */
   const [hotList, setHotList] = useState<TemplateListItem[]>([]);
   const [categories, setCategories] = useState<CategoryRecord[]>([]);
@@ -29,6 +30,7 @@ const Template: FC<TemplateProps> = ({ display, search, onHide }) => {
       {display !== "hide" && (
         <>
           <TemplateHot
+            defaultTitle={settings.defaultTitle}
             onHide={onHide}
             dataSource={hotList}
             full={display === "full"}
@@ -50,6 +52,7 @@ const Template: FC<TemplateProps> = ({ display, search, onHide }) => {
  * @interface props
  */
 export interface TemplateProps {
+  settings: SheetUserSettings;
   search: string;
   display: "full" | "hide" | "normal";
   onHide(): void;

@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { OffsetProp } from "./index";
 
 export function getOffset(current?: HTMLBaseElement | null) {
@@ -20,91 +21,89 @@ export function getOffset(current?: HTMLBaseElement | null) {
   };
 }
 
-export function setStyles(
+export function getStyles(
   element: HTMLDivElement,
   offset: OffsetProp,
   placement: string
-) {
+): CSSProperties {
   const overlayWidth = element?.offsetWidth;
   const overlayHeight = element?.offsetHeight;
   const centerH = offset.left + offset.width / 2;
   const centerV = offset.top + offset.height / 2;
   switch (placement) {
-    case "top": {
-      element.style.left = `${centerH - overlayWidth / 2}px`;
-      element.style.bottom = `${offset.top + offset.height}px`;
-      element.style.paddingBottom = `6px`;
-      break;
-    }
-    case "topLeft": {
-      element.style.left = `${offset.left + offset.width - overlayWidth}px`;
-      element.style.bottom = `${offset.top + offset.height}px`;
-      element.style.paddingBottom = `6px`;
-      break;
-    }
-    case "topRight": {
-      element.style.left = `${offset.left}px`;
-      element.style.bottom = `${offset.top + offset.height}px`;
-      element.style.paddingBottom = `6px`;
-      break;
-    }
-    case "bottomLeft": {
-      element.style.left = `${offset.left + offset.width - overlayWidth}px`;
-      element.style.top = `${offset.top + offset.height}px`;
-      element.style.paddingTop = `6px`;
-      break;
-    }
-    case "bottomRight": {
-      element.style.left = `${offset.left}px`;
-      element.style.top = `${offset.top + offset.height}px`;
-      element.style.paddingTop = `6px`;
-      break;
-    }
-    case "left": {
-      element.style.left = `${offset.left - overlayWidth}px`;
-      element.style.top = `${centerV - overlayHeight / 2}px`;
-      element.style.paddingRight = `6px`;
-      break;
-    }
-    case "leftTop": {
-      element.style.left = `${offset.left - overlayWidth}px`;
-      element.style.top = `${offset.top - overlayHeight + offset.height}px`;
-      element.style.paddingRight = `6px`;
-      break;
-    }
-    case "leftBottom": {
-      element.style.left = `${offset.left - overlayWidth}px`;
-      element.style.top = `${offset.top}px`;
-      element.style.paddingRight = `6px`;
-      break;
-    }
-    case "right": {
-      element.style.left = `${offset.left + offset.width}px`;
-      element.style.top = `${centerV - overlayHeight / 2}px`;
-      element.style.paddingLeft = `6px`;
-      break;
-    }
-    case "rightTop": {
-      element.style.left = `${offset.left + offset.width}px`;
-      element.style.top = `${offset.top - overlayHeight + offset.height}px`;
-      element.style.paddingLeft = `6px`;
-      break;
-    }
-    case "rightBottom": {
-      element.style.left = `${offset.left + offset.width}px`;
-      element.style.top = `${offset.top}px`;
-      element.style.paddingLeft = `6px`;
-      break;
-    }
-    default: {
-      element.style.left = `${centerH - overlayWidth / 2}px`;
-      element.style.top = `${offset.top + offset.height}px`;
-      element.style.paddingTop = `6px`;
-      break;
-    }
+    case "top":
+      return {
+        left: centerH - overlayWidth / 2,
+        bottom: offset.top + offset.height,
+        paddingBottom: 6,
+      };
+    case "topLeft":
+      return {
+        left: offset.left + offset.width - overlayWidth,
+        bottom: offset.top + offset.height,
+        paddingBottom: 6,
+      };
+    case "topRight":
+      return {
+        left: offset.left,
+        bottom: offset.top + offset.height,
+        paddingBottom: 6,
+      };
+    case "bottomLeft":
+      return {
+        left: offset.left + offset.width - overlayWidth,
+        top: offset.top + offset.height,
+        paddingTop: 6,
+      };
+    case "bottomRight":
+      return {
+        left: offset.left,
+        top: offset.top + offset.height,
+        paddingTop: 6,
+      };
+    case "left":
+      return {
+        left: offset.left - overlayWidth,
+        top: centerV - overlayHeight / 2,
+        paddingRight: 6,
+      };
+    case "leftTop":
+      return {
+        left: offset.left - overlayWidth,
+        top: offset.top - overlayHeight + offset.height,
+        paddingRight: 6,
+      };
+    case "leftBottom":
+      return {
+        left: offset.left - overlayWidth,
+        top: offset.top,
+        paddingRight: 6,
+      };
+    case "right":
+      return {
+        left: offset.left + offset.width,
+        top: centerV - overlayHeight / 2,
+        paddingLeft: 6,
+      };
+    case "rightTop":
+      return {
+        left: offset.left + offset.width,
+        top: offset.top - overlayHeight + offset.height,
+        paddingLeft: 6,
+      };
+    case "rightBottom":
+      return {
+        left: offset.left + offset.width,
+        top: offset.top,
+        paddingLeft: 6,
+      };
+    default:
+      return {
+        left: centerH - overlayWidth / 2,
+        top: offset.top + offset.height,
+        paddingTop: 6,
+      };
   }
-
-  element.style.opacity = "1";
 }
 
 export function getArrowStyles(placement: string, offset: OffsetProp) {

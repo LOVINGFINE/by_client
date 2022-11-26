@@ -5,7 +5,7 @@
 import { useImperativeHandle, useState, forwardRef } from "react";
 import styles from "./style.less";
 import { SheetUserSettings } from "@/pages/sheet/type";
-import { Button, Modal, Switch } from "@/packages/design";
+import { Button, Input, Modal, Switch } from "@/packages/design";
 import { FormItem } from "@/packages/design/Form";
 
 const SettingsModal = forwardRef<SettingsModalRef | null, SettingsModalProps>(
@@ -14,6 +14,7 @@ const SettingsModal = forwardRef<SettingsModalRef | null, SettingsModalProps>(
     /** @State */
     const [visible, setVisible] = useState(false);
     const [hideTemplate, setHideTemplate] = useState(false);
+    const [defaultTitle, setDefaultTitle] = useState("");
 
     /**
      * @Methods
@@ -21,6 +22,7 @@ const SettingsModal = forwardRef<SettingsModalRef | null, SettingsModalProps>(
     function onSubmit() {
       onOk({
         hideTemplate,
+        defaultTitle,
       });
       setVisible(false);
     }
@@ -31,6 +33,7 @@ const SettingsModal = forwardRef<SettingsModalRef | null, SettingsModalProps>(
       (): SettingsModalRef => ({
         mount: (e: SheetUserSettings) => {
           setHideTemplate(e.hideTemplate);
+          setDefaultTitle(e.defaultTitle);
           setVisible(true);
         },
       }),
@@ -50,6 +53,13 @@ const SettingsModal = forwardRef<SettingsModalRef | null, SettingsModalProps>(
         <div className={styles["form"]}>
           <FormItem label={"在首页隐藏模版库"}>
             <Switch checked={hideTemplate} onChange={setHideTemplate} />
+          </FormItem>
+          <FormItem label={"新建表格时默认标题"}>
+            <Input
+              value={defaultTitle}
+              change={setDefaultTitle}
+              placeholder={"未命名标题"}
+            />
           </FormItem>
           <div className={styles["form-bottom"]}>
             <Button

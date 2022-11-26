@@ -2,13 +2,13 @@
  * Created by zhangq on 2022/10/01
  * SheetHeader
  */
-import { FC, useContext, useEffect, useState, useRef, FormEvent } from "react";
+import { FC, useContext, useState, useRef } from "react";
 import styles from "./style.less";
 import { globalContext } from "../index";
 import { Icon } from "@/packages/design";
 import { useNavigate } from "react-router";
 import { SheetType } from "../../type";
-// import { useNavigate } from "react-router";
+import dayjs from "dayjs";
 
 const SheetHeader: FC = () => {
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ const SheetHeader: FC = () => {
   const [isRename, setIsRename] = useState(false);
 
   const icon = global.type === SheetType.meta ? "meta-sheet" : "sheet";
+  const updatedTime = dayjs(global.updatedTime).format("YYYY年M月D日 HH:mm");
   function onRename() {
     setIsRename(true);
     setTimeout(() => {
@@ -59,23 +60,26 @@ const SheetHeader: FC = () => {
       <div onClick={onBack} className={styles["header-logo"]}>
         <Icon name={icon} size={28} />
       </div>
-      <div className={styles["sheetName"]}>
-        <span
-          ref={inputRef}
-          suppressContentEditableWarning
-          className={styles["sheetName-name"]}
-          contentEditable={isRename}
-          onBlur={onBlur}
-          onFocus={onFocus}
-          onKeyDown={onKeyDown}
-        >
-          {global.name}
-        </span>
-        {!isRename && (
-          <span className={styles["sheetName-rename"]} onClick={onRename}>
-            <Icon name="rename" />
-          </span>
-        )}
+      <div className={styles["header-message"]}>
+        <div className={styles["sheetName"]}>
+          <div
+            ref={inputRef}
+            suppressContentEditableWarning
+            className={styles["sheetName-name"]}
+            contentEditable={isRename}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            onKeyDown={onKeyDown}
+          >
+            {global.name}
+          </div>
+          {!isRename && (
+            <div className={styles["sheetName-rename"]} onClick={onRename}>
+              <Icon name="rename" />
+            </div>
+          )}
+        </div>
+        <div className={styles["header-desc"]}> 最近更新于: {updatedTime}</div>
       </div>
     </div>
   );

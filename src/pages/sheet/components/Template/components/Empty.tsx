@@ -9,11 +9,11 @@ import { FC } from "react";
 import { useNavigate } from "react-router";
 import styles from "../style.less";
 
-const TemplateItem: FC<TemplateItemProps> = ({ type }) => {
+const TemplateItem: FC<TemplateItemProps> = ({ type, defaultTitle }) => {
   const navigate = useNavigate();
   const title = (() => {
     if (type === SheetType.common) {
-      return "空白电子表格";
+      return "空白普通表格";
     }
     return "空白meta表格";
   })();
@@ -26,7 +26,7 @@ const TemplateItem: FC<TemplateItemProps> = ({ type }) => {
   })();
 
   function onAddSheetByTemplate() {
-    insertUserSheet("未命名标题", type).then((res) => {
+    insertUserSheet(defaultTitle ?? "未命名标题", type).then((res) => {
       navigate(`/sheets/${res.id}`);
     });
   }
@@ -53,6 +53,7 @@ const TemplateItem: FC<TemplateItemProps> = ({ type }) => {
  */
 export interface TemplateItemProps {
   type: SheetType;
+  defaultTitle: string;
 }
 
 export default TemplateItem;

@@ -2,10 +2,18 @@
  * Created by zhangq on 2022/03/11
  * Tooltip
  */
-import React, { ReactElement, FC, useRef, useEffect } from "react";
-import { createRoot } from "react-dom/client";
+import React, {
+  ReactElement,
+  FC,
+  useRef,
+  useEffect,
+  CSSProperties,
+  useState,
+  Fragment,
+} from "react";
+import ReactDOM from "react-dom";
 import "./style.less";
-import { getOffset, getTooltipArrowStyles, setStyles } from "./utils";
+import { getOffset, getTooltipArrowStyles, getStyles } from "./utils";
 
 const Tooltip: FC<TooltipProps> = ({
   title = "",
@@ -13,74 +21,95 @@ const Tooltip: FC<TooltipProps> = ({
   children,
   delay = 0,
 }: TooltipProps): ReactElement => {
-  const inner = useRef<HTMLDivElement | null>();
-  const childrenRef = useRef<HTMLBaseElement>();
-  const childrenElement = (() => {
-    if (typeof children?.type !== "string") {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return (children as any)?.type((children as any).props);
-    }
-    return children;
-  })();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const props: Partial<any> & React.Attributes = (() => {
-    return {
-      onMouseEnter: onVisible,
-      onMouseLeave: onClose,
-    };
-  })();
+  const [renderStyles, setRenderStyles] = useState<{
+    content: CSSProperties;
+    inner: CSSProperties;
+    bar: CSSProperties;
+    arrow: CSSProperties;
+  }>({
+    content: {},
+    inner: {},
+    bar: {},
+    arrow: {},
+  });
+  const [open, setOpen] = useState(false);
+  const childrenRef = useRef<HTMLBaseElement>(null);
+  const renderRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    return () => setOpen(false);
+  }, []);
 
   useEffect(() => {
-    return onClose;
-  }, []);
+    if (renderRef.current) {
+      const offset = getOffset(childrenRef.current);
+      const contentStyle = getStyles(renderRef.current, offset, placement);
+      const styles = getTooltipArrowStyles(placement, offset);
+      setRenderStyles({
+        ...styles,
+        content: contentStyle,
+      });
+    }
+  }, [title, childrenRef.current, renderRef.current]);
 
   /**
    * @method
    */
-
-  function onVisible(event?: React.MouseEvent) {
-    event?.preventDefault();
-    setTimeout(() => {
-      if (!title) return;
-      if (!inner.current) {
-        const offset = getOffset(childrenRef.current);
-        const div = document.createElement("div");
-        div.className = "tooltip";
-        div.style.opacity = "0";
-        const arrowStyles = getTooltipArrowStyles(placement, offset);
-        const content = (
-          <div className="tooltip-inner" style={arrowStyles.inner}>
-            <div className="tooltip-inner-arrow" style={arrowStyles.bar}>
-              <span style={arrowStyles.arrow} />
-            </div>
-            <div className="tooltip-inner-content">{title}</div>
-          </div>
-        );
-        const root = createRoot(div);
-        root.render(content);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function getProps(ele: any) {
+    return {
+      onMouseEnter: (...s: unknown[]) => {
+        if (ele.props?.onMouseEnter) {
+          ele.props?.onMouseEnter(s);
+        }
         setTimeout(() => {
-          setStyles(div, offset, placement);
+          setOpen(true);
+        }, delay * 1000);
+      },
+      onMouseLeave: (...s: unknown[]) => {
+        if (ele.props?.onMouseLeave) {
+          ele.props?.onMouseLeave(s);
+        }
+        setTimeout(() => {
+          setOpen(false);
         });
-        inner.current = div;
-        document.body.appendChild(div);
-      }
-    }, delay * 1000);
+      },
+    };
   }
 
-  function onClose(event?: React.MouseEvent) {
-    event?.preventDefault();
-    if (inner.current) {
-      document.body.removeChild(inner.current);
-      inner.current = null;
-    } else {
+  const element = (() => {
+    if (!children) return <></>;
+    if (typeof children?.type !== "string") {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const ele = children as any;
+      return React.cloneElement(ele?.type(ele?.props), {
+        ref: childrenRef,
+        ...getProps(ele),
+      });
     }
-  }
+    return React.cloneElement(children, {
+      ref: childrenRef,
+      ...getProps(children),
+    });
+  })();
 
   /** render */
-  return React.cloneElement(childrenElement || <></>, {
-    ref: childrenRef,
-    ...props,
-  });
+  return (
+    <Fragment>
+      {open &&
+        ReactDOM.createPortal(
+          <div className="tooltip" style={renderStyles.content} ref={renderRef}>
+            <div className="tooltip-inner" style={renderStyles.inner}>
+              <div className="tooltip-inner-arrow" style={renderStyles.bar}>
+                <span style={renderStyles.arrow} />
+              </div>
+              <div className="tooltip-inner-content">{title}</div>
+            </div>
+          </div>,
+          document.body
+        )}
+      {element}
+    </Fragment>
+  );
 };
 
 /**

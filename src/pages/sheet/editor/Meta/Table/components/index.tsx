@@ -20,7 +20,13 @@ import TCorner from "./Corner";
 import TBody from "./Body";
 import RefSelection from "./RefSelection";
 import { Selection } from "@/pages/sheet/editor/type";
-import { MetaColumn, VcColumn, VcTableCore, WorkbookEntry } from "../../type";
+import {
+  MetaColumn,
+  VcColumn,
+  VcTableCore,
+  MetaEntry,
+  VcEntry,
+} from "../../type";
 import {
   filterColumns,
   filterEntries,
@@ -29,11 +35,8 @@ import {
   keydownSelected,
   keydownSelection,
 } from "../utils";
-import {
-  init_selection,
-  DEFAULT_INDEX_WIDTH,
-  DEFAULT_CODE_HEIGHT,
-} from "../../final";
+import { DEFAULT_INDEX_WIDTH, DEFAULT_CODE_HEIGHT } from "../../final";
+import { init_selection } from "../../../final";
 
 const classNames = useClassNames(styles);
 const keyboard = createKeyboardEvent();
@@ -49,12 +52,13 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
       onCutPaste,
       onSelection,
       onColumnSize,
-      onRowSize,
       columnRender,
       codeRender,
+      showRowCount,
     } = props;
 
     /** @State */
+    const rowIndexWidth = showRowCount ? DEFAULT_INDEX_WIDTH : 0;
     const tableRef = useRef<HTMLTableElement | null>(null);
     const [offset, setOffset] = useState({
       width: 0,
@@ -66,7 +70,6 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
     const _selection = useRef<Selection>(selection);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [scrollTop, setScrollTop] = useState(0);
-
     const [bodyStyle, setBodyStyle] = useState({
       width: 0,
       height: 0,
@@ -225,55 +228,50 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
         onMouseEnter={addListener}
         onMouseLeave={removeListener}
       >
-        {offset.width > 0 && (
-          <>
-            <TCorner width={DEFAULT_INDEX_WIDTH} height={DEFAULT_CODE_HEIGHT} />
-            <div className={styles["table-scroll"]} onScroll={onScroll}>
-              <Thead
-                columns={displayColumns}
-                width={bodyStyle.width}
-                left={DEFAULT_INDEX_WIDTH}
-                height={DEFAULT_CODE_HEIGHT}
-                offsetHeight={offset.height}
-                rowEndIndex={entries.length - 1}
-                selection={selection}
-                onColumnSize={onColumnSize}
-                onContextMenu={onThContextMenu}
-                onSelection={inSelection}
-                onSelectionStop={onSelectionStop}
-                code={codeRender}
-              >
-                {columnRender}
-              </Thead>
-              <TBody
-                width={bodyStyle.width}
-                height={bodyStyle.height}
-                entries={displayEntries}
-                columns={displayColumns}
-                columnEndIndex={columns.length - 1}
-                rowIndexWidth={DEFAULT_INDEX_WIDTH}
-                selection={selection}
-                onRowSize={onRowSize}
-                onSelection={inSelection}
-                onSelectionStop={onSelectionStop}
-                onContextMenu={onTdContextMenu}
-                refs={(canSelection) => {
-                  return (
-                    <RefSelection
-                      rowIndexWidth={DEFAULT_INDEX_WIDTH}
-                      border={!canSelection}
-                      columns={columns}
-                      entries={entries}
-                      selection={selection}
-                    />
-                  );
-                }}
-              >
-                {children}
-              </TBody>
-            </div>
-          </>
-        )}
+        <TCorner width={rowIndexWidth} height={DEFAULT_CODE_HEIGHT} />
+        <div className={styles["table-scroll"]} onScroll={onScroll}>
+          <Thead
+            columns={displayColumns}
+            width={bodyStyle.width}
+            left={rowIndexWidth}
+            height={DEFAULT_CODE_HEIGHT}
+            offsetHeight={offset.height}
+            rowEndIndex={entries.length - 1}
+            selection={selection}
+            onColumnSize={onColumnSize}
+            onContextMenu={onThContextMenu}
+            onSelection={inSelection}
+            onSelectionStop={onSelectionStop}
+            code={codeRender}
+          >
+            {columnRender}
+          </Thead>
+          <TBody
+            width={bodyStyle.width}
+            height={bodyStyle.height}
+            entries={displayEntries}
+            columns={displayColumns}
+            columnEndIndex={columns.length - 1}
+            rowIndexWidth={rowIndexWidth}
+            selection={selection}
+            onSelection={inSelection}
+            onSelectionStop={onSelectionStop}
+            onContextMenu={onTdContextMenu}
+            refs={(can) => {
+              return (
+                <RefSelection
+                  rowIndexWidth={rowIndexWidth}
+                  border={!can}
+                  columns={columns}
+                  entries={entries}
+                  selection={selection}
+                />
+              );
+            }}
+          >
+            {children}
+          </TBody>
+        </div>
       </div>
     );
   }
@@ -281,18 +279,18 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
 
 export interface VcTableProps {
   columns: MetaColumn[];
-  entries: WorkbookEntry[];
+  entries: MetaEntry[];
+  showRowCount: boolean;
   onCopy(): void;
   onPaste(): void;
   onCutPaste(): void;
   onSelection(e: Selection): void;
   onColumnSize(i: string, w: number): void;
-  onRowSize?(i: number, h: number): void;
   onThContextMenu?(e: MouseEvent, c: number): void;
   onTdContextMenu?(e: MouseEvent, c: number, r: number): void;
   columnRender(e: VcColumn): ReactElement | ReactElement[];
   codeRender(e: VcColumn): ReactElement | ReactElement[];
-  children(c: number, r: number): ReactElement;
+  children(c: VcColumn, r: VcEntry): ReactElement;
 }
 
 export default VcTable;

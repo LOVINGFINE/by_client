@@ -35,6 +35,7 @@ const PasswordForm: FC<PasswordFormProps> = ({ onOk, onCancel, current }) => {
         <div className={styles["form-item-label"]}>{"密码"}</div>
         <div className="form-item-body">
           <Input
+            password
             placeholder="请输入登录密码"
             value={password}
             change={setPassword}

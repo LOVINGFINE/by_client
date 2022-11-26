@@ -1,10 +1,10 @@
 import { arrayToCsv } from "@/plugins/convert";
-import { MetaColumn, WorkbookEntry, MetaClipboard } from "./type";
+import { MetaColumn, MetaEntry, MetaClipboard } from "./type";
 import { Selection } from "@/pages/sheet/editor/type";
 
 export function onCopyToClipboard(
   columns: MetaColumn[],
-  entries: WorkbookEntry[],
+  entries: MetaEntry[],
   selection: Selection
 ) {
   const { column, row } = selection;

@@ -3,7 +3,6 @@
  * excel table
  */
 import { FC, MouseEvent, useRef, useContext, useEffect } from "react";
-import styles from "./style.less";
 import { mouseEventContent } from "@/plugins/event";
 import { Selection, SimpleValue } from "@/pages/sheet/editor/type";
 import VcTable from "./components";
@@ -119,7 +118,7 @@ const EditableTable: FC = () => {
     return <Cell x={x} y={y} value={value} style={style} onChange={onChange} />;
   }
   return (
-    <div className={styles["excelTable"]}>
+    <div style={{ height: `calc(100% - 116px)` }}>
       <VcTable
         ref={vcTableRef}
         columns={editContextValue.columns}

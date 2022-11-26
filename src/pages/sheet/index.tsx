@@ -22,6 +22,7 @@ const UserSheetPage: FC = () => {
     filter: ListFilter.none,
     mode: ListMode.list,
     hideTemplate: false,
+    defaultTitle: "",
   });
 
   const display = (() => {
@@ -69,7 +70,7 @@ const UserSheetPage: FC = () => {
       loading={loading}
       header={<Header isTemplate={display === "full"} onSearch={setSearch} />}
     >
-      <Template onHide={onHideTemplate} display={display} search={search} />
+      <Template settings={userSettings} onHide={onHideTemplate} display={display} search={search} />
       <UserSheets
         display={display}
         search={search}

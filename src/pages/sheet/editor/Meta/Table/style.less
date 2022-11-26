@@ -1,15 +1,10 @@
-.excelTable {
-  width: 100%;
-  height: calc(100% - 28px);
-  background-color: #fff;
-}
-
 .table {
   height: 100%;
   width: 100%;
   position: relative;
   user-select: none;
   transition: all 0.3s;
+  background-color: #fff;
   &-none {
     opacity: 0;
   }
@@ -27,10 +22,22 @@
   top: 0;
   background-color: #fff;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  flex-direction: column;
   cursor: pointer;
   z-index: 99;
+  overflow: hidden;
+  > span {
+    height: 36px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--d-desc);
+    background-color: #f1f1f1;
+    border-top: 1px solid #ddd;
+    box-sizing: border-box;
+  }
 }
 
 .thead {
@@ -54,6 +61,8 @@
   font-size: 13px;
   height: 100%;
   z-index: 5;
+  overflow: hidden;
+  background-color: #fff;
   &-selection {
     background-color: #c6dad7;
   }
@@ -130,7 +139,6 @@
     align-items: center;
     font-size: 13px;
     color: #00232970;
-    background-color: #f6f6f6;
     position: relative;
     padding: 0 6px;
     &::before {
@@ -147,8 +155,9 @@
       border-right: 1px solid #ddd;
       transform-origin: 0 0;
       transform: scale(0.5);
-      z-index: 0;
+      z-index: -1;
       box-sizing: border-box;
+      background-color: #f6f6f6;
     }
     &-selection {
       background-color: #c6dad7;

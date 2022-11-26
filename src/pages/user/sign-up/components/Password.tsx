@@ -36,6 +36,7 @@ const PasswordForm: FC<PasswordFormProps> = ({ onOk, onCancel, current }) => {
         <div className={styles["form-item-label"]}>{"设置密码"}</div>
         <div className="form-item-body">
           <Input
+            password
             placeholder="请设置密码,密码不少于8位"
             value={password}
             change={setPassword}

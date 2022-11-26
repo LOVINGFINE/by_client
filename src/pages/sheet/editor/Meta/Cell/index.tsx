@@ -29,8 +29,6 @@ const Cell: FC<CellProps> = ({ value, onChange }) => {
  * @interface CellProps
  */
 export interface CellProps {
-  x: number;
-  y: number;
   value: SimpleValue;
   onChange?(e: SimpleValue): void;
 }

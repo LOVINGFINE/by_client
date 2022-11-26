@@ -2,7 +2,14 @@
  * Created by zhangq on 2022/08/09
  * excel table
  */
-import { FC, useReducer, useEffect, createContext, Fragment } from "react";
+import {
+  FC,
+  useReducer,
+  useEffect,
+  createContext,
+  Fragment,
+  useState,
+} from "react";
 import { useParams } from "react-router-dom";
 import ApplicationLayout from "@/layouts/application";
 import { getSheetById, updateUserSheetName } from "../apis";
@@ -18,17 +25,17 @@ export const initialState: ContextState = {
   createdTime: "",
   updatedTime: "",
   lastOpenTime: "",
-  loading: true,
   owner: "",
   share: [],
   type: SheetType.common,
 };
 
 export const globalContext = createContext({} as ContextValue);
-
+const { common, meta } = SheetType;
 const SheetEditor: FC = () => {
   const params = useParams();
   /** @State */
+  const [loading, setLoading] = useState(true);
   const [state, dispatch] = useReducer(
     (s: ContextState, p: Partial<ContextState>): ContextState => ({
       ...s,
@@ -42,20 +49,15 @@ const SheetEditor: FC = () => {
    */
   function initState(id?: string) {
     const sheetId = id ?? state.id;
-    dispatch({
-      loading: true,
-    });
+    setLoading(true);
     getSheetById(sheetId)
       .then((data) => {
         dispatch({
           ...data,
-          loading: false,
         });
       })
-      .catch(() => {
-        dispatch({
-          loading: false,
-        });
+      .finally(() => {
+        setLoading(false);
       });
   }
 
@@ -87,20 +89,16 @@ const SheetEditor: FC = () => {
       <ApplicationLayout
         title={"表格"}
         control={false}
-        loading={state.loading}
+        loading={loading}
         header={<SheetHeader />}
       >
-        <Fragment>
-          {state.type === SheetType.common ? <CommonEditor /> : <MetaEditor />}
-        </Fragment>
+        {state.type === common ? <CommonEditor /> : <MetaEditor />}
       </ApplicationLayout>
     </globalContext.Provider>
   );
 };
 
-export interface ContextState extends Sheet {
-  loading: boolean;
-}
+export interface ContextState extends Sheet {}
 
 export interface ContextValue extends ContextState {
   initState(): void;

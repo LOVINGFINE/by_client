@@ -15,11 +15,12 @@ const Input = forwardRef<InputRef | null, InputProps>((props, ref) => {
   const {
     value = "",
     size = "middle",
-    change,
-    onBlur,
     placeholder = "请输入",
     width = "100%",
     style = {},
+    password,
+    change,
+    onBlur,
     onEnter,
   } = props;
   const inputRef = useRef<HTMLInputElement>(null);
@@ -50,7 +51,7 @@ const Input = forwardRef<InputRef | null, InputProps>((props, ref) => {
   return (
     <input
       ref={inputRef}
-      type={"text"}
+      type={password ? "password" : "text"}
       className={`input input-${size}`}
       placeholder={placeholder}
       style={{
@@ -81,6 +82,7 @@ export interface InputProps {
   placeholder?: string;
   width?: number | string;
   style?: CSSProperties;
+  password?: boolean;
 }
 
 export default Input;

@@ -87,7 +87,7 @@ const List: FC<ListProps> = ({
           >
             <div className={styles[`gridItem-display`]}></div>
             <div className={styles[`gridItem-row`]}>
-              <Icon name={icon(item.type)} size={28} />
+              <Icon name={icon(item.type)} size={24} />
               <span className={styles[`data-gridItem-name`]}>{item.name}</span>
             </div>
             <div className={styles[`gridItem-row`]}>

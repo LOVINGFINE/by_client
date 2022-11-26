@@ -1,11 +1,23 @@
 .dropdown {
   position: fixed;
   z-index: 1000;
-  transition: all 0.25s;
+  animation: show-dropdown 0.2s;
   &-overlay {
     background-color: var(--d-bgc);
     box-shadow: 0 3px 10px -4px #0000001f, 0 10px 16px #00000014,
       0 9px 28px 10px #0000000d;
     border-radius: 4px;
+  }
+}
+
+@keyframes show-dropdown {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

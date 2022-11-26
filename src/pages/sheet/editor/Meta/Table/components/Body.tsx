@@ -25,7 +25,6 @@ const TBody: FC<TBodyProps> = ({
   selection,
   refs,
   children,
-  onRowSize,
   onContextMenu,
   onSelection,
   onSelectionStop,
@@ -61,7 +60,6 @@ const TBody: FC<TBodyProps> = ({
 
   function onCellMouseDown(e: MouseEvent, c: number, r: number) {
     if (e.button === 0) {
-      addSelectionListener();
       onSelection(initSelected(c, r));
     }
   }
@@ -84,24 +82,6 @@ const TBody: FC<TBodyProps> = ({
       onSelection(getRowMoveSelection(r, columnEndIndex, selection));
     }
   }
-
-  function getCell(column: VcColumn, row: VcEntry) {
-    return (
-      <TCell
-        selected={selected(column.index, row.index)}
-        left={column.x + rowIndexWidth}
-        width={column.width}
-        height={row.height}
-        onMouseDown={(e) => onCellMouseDown(e, column.index, row.index)}
-        onMouseEnter={() => onCellMouseEnter(column.index, row.index)}
-        onContextMenu={(e) => onContextMenu(e, column.index, row.index)}
-      >
-        {children(column.index, row.index)}
-      </TCell>
-    );
-  }
-  /** @Effect */
-
   /** render */
   return (
     <ul
@@ -120,14 +100,29 @@ const TBody: FC<TBodyProps> = ({
             selected={getSelectionRow(entry.index)}
             rowIndexWidth={rowIndexWidth}
             columnEndIndex={columns.length - 1}
-            canSelection={canSelection}
-            onRowSize={onRowSize}
             onRowMouseDown={(e) => onRowMouseDown(e, entry.index)}
             onRowMouseEnter={() => onRowMouseEnter(entry.index)}
           >
             {columns.map((column) => {
               return (
-                <Fragment key={column.index}>{getCell(column, entry)}</Fragment>
+                <TCell
+                  key={column.index}
+                  selected={selected(column.index, entry.index)}
+                  left={column.x + rowIndexWidth}
+                  width={column.width}
+                  height={entry.height}
+                  onMouseDown={(e) =>
+                    onCellMouseDown(e, column.index, entry.index)
+                  }
+                  onMouseEnter={() =>
+                    onCellMouseEnter(column.index, entry.index)
+                  }
+                  onContextMenu={(e) =>
+                    onContextMenu(e, column.index, entry.index)
+                  }
+                >
+                  {children(column, entry)}
+                </TCell>
               );
             })}
           </TRow>
@@ -149,8 +144,7 @@ export interface TBodyProps {
   columnEndIndex: number;
   selection: Selection;
   refs: (can: boolean) => ReactElement[] | ReactElement;
-  onRowSize?(i: number, h: number): void;
-  children(c: number, r: number): ReactElement;
+  children(c: VcColumn, r: VcEntry): ReactElement;
   onSelection(e: Selection): void;
   onSelectionStop(): void;
   onContextMenu(e: MouseEvent, c: number, r: number): void;

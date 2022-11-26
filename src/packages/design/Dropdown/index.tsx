@@ -2,6 +2,7 @@
  * Created by zhangq on 2022/04/03
  * Dropdown 组件
  */
+import { useVisible } from "@/plugins/event";
 import React, {
   ReactElement,
   FC,
@@ -9,9 +10,9 @@ import React, {
   useEffect,
   useState,
   Fragment,
+  CSSProperties,
 } from "react";
 import ReactDOM from "react-dom";
-import { createRoot } from "react-dom/client";
 import "./style.less";
 import { getStyles } from "./utils";
 
@@ -24,45 +25,58 @@ const Dropdown: FC<DropdownProps> = ({
   onVisible,
 }: DropdownProps): ReactElement => {
   const childrenRef = useRef<HTMLElement>(null);
-  const [open, setOpen] = useState<boolean>(false);
-  const [size, setSize] = useState({
-    overlayWidth: 0,
-    overlayHeight: 0,
+  const renderRef = useRef<HTMLDivElement>(null);
+
+  const visibleValue = useVisible({
+    value: visible,
+    cb: onVisible,
   });
+  const [renderStyles, setRenderStyles] = useState<CSSProperties>({});
 
   useEffect(() => {
     return onClose;
   }, []);
 
   useEffect(() => {
-    if (visible !== undefined) {
-      setOpen(visible);
-    }
-  }, [visible]);
-
-  useEffect(() => {
     if (overlay) {
-      const div = document.createElement("div");
-      div.className = "dropdown";
-      div.style.opacity = "0";
-      const root = createRoot(div);
-      const content = <div className="dropdown-overlay">{overlay}</div>;
-      root.render(content);
-      setTimeout(() => {
-        const overlayWidth = div?.offsetWidth;
-        const overlayHeight = div?.offsetHeight;
-        setSize({
-          overlayWidth,
-          overlayHeight,
-        });
-        document.body.removeChild(div);
-      });
-      document.body.appendChild(div);
+      if (renderRef.current) {
+        const overlayWidth = renderRef.current?.offsetWidth;
+        const overlayHeight = renderRef.current?.offsetHeight;
+        const styles = getStyles(
+          childrenRef.current,
+          {
+            overlayWidth,
+            overlayHeight,
+          },
+          placement
+        );
+        setRenderStyles(styles);
+      } else {
+        setRenderStyles({});
+      }
     }
-  }, [overlay]);
+  }, [overlay, childrenRef.current, renderRef.current]);
   /**
    * @method
    */
+
+  function onClose() {
+    visibleValue.setVisible(false);
+  }
+
+  function onChangeVisible() {
+    if (!visibleValue.value) {
+      setTimeout(() => {
+        window.addEventListener("mousedown", onClose, { once: true });
+      });
+    } else {
+      setTimeout(() => {
+        window.removeEventListener("mousedown", onClose);
+      });
+    }
+    visibleValue.setVisible(!visibleValue.value);
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function getProps(ele: any) {
     if (trigger === "hover") {
@@ -82,31 +96,13 @@ const Dropdown: FC<DropdownProps> = ({
       };
     }
     return {
-      onClick: (...s: unknown[]) => {
+      onMouseDown: (...s: unknown[]) => {
         if (ele.props?.onClick) {
-          ele.props?.onClick(s);
+          ele.props?.onMouseDown(s);
         }
         onChangeVisible();
       },
     };
-  }
-
-  function onClose() {
-    setOpen(false);
-  }
-
-  function onChangeVisible() {
-    if (visible !== undefined) {
-      onVisible && onVisible(!visible);
-    } else {
-      if (!open) {
-        setTimeout(() => {
-          window.addEventListener("mousedown", onClose, { once: true });
-          window.addEventListener("click", onClose, { once: true });
-        });
-      }
-      setOpen(!open);
-    }
   }
 
   const element = (() => {
@@ -125,21 +121,26 @@ const Dropdown: FC<DropdownProps> = ({
     });
   })();
 
-  const render = () => {
-    const styles = getStyles(childrenRef.current, size, placement);
-    return (
-      <div
-        className="dropdown"
-        onMouseDown={(e) => e.stopPropagation()}
-        style={styles}
-      >
-        <div className="dropdown-overlay">{overlay}</div>
-      </div>
-    );
-  };
   return (
     <Fragment>
-      {ReactDOM.createPortal(open && render(), document.body)}
+      {ReactDOM.createPortal(
+        visibleValue.value && (
+          <div
+            ref={renderRef}
+            className="dropdown"
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              setTimeout(() => {
+                onClose();
+              }, 200);
+            }}
+            style={renderStyles}
+          >
+            <div className="dropdown-overlay">{overlay}</div>
+          </div>
+        ),
+        document.body
+      )}
       {element}
     </Fragment>
   );

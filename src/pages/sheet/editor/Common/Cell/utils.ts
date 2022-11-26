@@ -23,7 +23,7 @@ export function getCellStyle(cellStyle: StyleOption): CSSProperties {
     }
   };
 
-  const textAlign = ((l) => {
+  const textAlign = (() => {
     if (horizontal === Horizontal.right) {
       return "right";
     }

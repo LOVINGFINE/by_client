@@ -34,7 +34,7 @@ const Action: FC<ActionProps> = ({
       })}
       onClick={onDivClick}
     >
-      {children ? children : <Icon size={15} name={icon} />}
+      {children ? children : <Icon size={20} name={icon} />}
     </div>
   );
 };

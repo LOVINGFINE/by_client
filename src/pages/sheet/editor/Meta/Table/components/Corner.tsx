@@ -14,7 +14,9 @@ const Corner: FC<CornerProps> = ({ width = 28, height = 28 }) => {
         height,
       }}
       className={styles["corner"]}
-    />
+    >
+      <span>序号</span>
+    </div>
   );
 };
 

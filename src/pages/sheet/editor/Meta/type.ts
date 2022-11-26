@@ -1,18 +1,71 @@
 import { SimpleValue, Selection } from "@/pages/sheet/editor/type";
 
-export interface MetaWorkbook {
+export interface MetaWorkbookListItem {
+  id: string;
+  name: string;
   code: string;
-  columns: MetaColumn[];
-  entries: WorkbookEntry[];
+}
+
+export interface MetaWorkbook extends MetaWorkbookListItem {
+  showRowCount: boolean;
+  createdTime: string;
+  updatedTime: string;
+}
+
+export enum MetaType {
+  Text = "Text",
+  Number = "Number",
+  Boolean = "Boolean",
+  Date = "Date",
+  QrCode = "QrCode",
+  Options = "Options",
+  File = "File",
+}
+
+export interface MetaConfig {
+  number: MetaNumber;
+  date: MetaDate;
+  options: MetaOptions;
+  qrCode: MetaQrCode;
+}
+
+export interface MetaNumber {
+  unit: string;
+  decimal: number;
+}
+
+export interface MetaDate {
+  format: string;
+}
+
+export interface MetaOptionsItem {
+  color: string;
+  value: string;
+}
+export interface MetaQrCode {
+  size: number;
+}
+
+export interface MetaOptions {
+  items: MetaOptionsItem[];
 }
 
 export interface MetaColumn {
   code: string;
   width: number;
   title: string;
+  type: MetaType;
+  meta: MetaConfig;
 }
 
-export interface WorkbookEntry {
+export interface ColumnPayload {
+  width: number;
+  title: string;
+  type: MetaType;
+  meta: Partial<MetaConfig>;
+}
+
+export interface MetaEntry {
   id: string;
   values: {
     [k: string]: SimpleValue;
@@ -31,7 +84,7 @@ export interface VcColumn extends MetaColumn {
   index: number;
 }
 
-export interface VcEntry extends WorkbookEntry {
+export interface VcEntry extends MetaEntry {
   height: number;
   y: number;
   index: number;
@@ -57,4 +110,10 @@ export interface EntryQuery {
   pageSize: number;
   form: number;
   to: number;
+}
+
+export interface EntryPayload {
+  [k: string]: {
+    [k: string]: SimpleValue;
+  };
 }

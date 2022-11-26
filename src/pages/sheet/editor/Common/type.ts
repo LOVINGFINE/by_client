@@ -1,16 +1,15 @@
-import { CSSProperties, ReactElement } from "react";
 import { Selection, SimpleValue } from "@/pages/sheet/editor/type";
 export interface WorkbookListItem {
   id: string;
   name: string;
-  createdTime: string;
-  updatedTime: string;
 }
 
-export interface Workbook extends WorkbookListItem {
+export interface CommonWorkbook extends WorkbookListItem {
   data: WorkbookData;
   columns: ColumnConfig;
   rows: RowConfig;
+  createdTime: string;
+  updatedTime: string;
 }
 
 export interface WorkbookClipboard {

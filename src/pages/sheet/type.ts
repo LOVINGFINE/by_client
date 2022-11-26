@@ -25,6 +25,7 @@ export enum SheetType {
 
 export interface SheetUserSettings {
   hideTemplate: boolean;
+  defaultTitle: string;
   mode: ListMode;
   sort: ListSort;
   filter: ListFilter;

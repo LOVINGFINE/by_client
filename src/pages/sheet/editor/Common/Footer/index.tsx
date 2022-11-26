@@ -8,7 +8,7 @@ import { globalContext } from "../../index";
 import { useClassNames } from "@/plugins/style";
 import { Icon } from "@/packages/design";
 import { editorContext } from "../index";
-import { insertSheetWorkbookById } from "@/pages/sheet/apis";
+import { insertCommonWorkbook } from "@/pages/sheet/apis";
 
 const cn = useClassNames(styles);
 const Footer: FC = () => {
@@ -19,10 +19,14 @@ const Footer: FC = () => {
    */
 
   function insertWorkbook() {
-    insertSheetWorkbookById(global.id).then((res) => {
+    insertCommonWorkbook(global.id).then((res) => {
       contextValue.initWorkbooks();
-      contextValue.changeWorkbook(res.id);
+      navToWorkbook(res.id);
     });
+  }
+
+  function navToWorkbook(id: string) {
+    contextValue.onWorkbook(id);
   }
 
   /** render */
@@ -32,7 +36,7 @@ const Footer: FC = () => {
         {contextValue.workbooks.map((ele) => {
           return (
             <li
-              onClick={() => contextValue.changeWorkbook(ele.id)}
+              onClick={() => navToWorkbook(ele.id)}
               className={cn({
                 item: true,
                 "item-selected": contextValue.id === ele.id,

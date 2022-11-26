@@ -1,5 +1,4 @@
 import { FC, MouseEvent } from "react";
-
 import Menu, {
   MenuItem,
   SubMenuItem,
@@ -31,8 +30,6 @@ const ContextMenu: FC<CellMenuProps> = (props) => {
       onAction(PASTE, paste);
     }
   }
-
-  function onMoreInsert() {}
 
   /** render */
   return (

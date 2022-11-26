@@ -19,7 +19,7 @@ import { Cell } from "./type";
 import RefTool from "./RefTool";
 import Footer from "./Footer";
 import { Selection } from "@/pages/sheet/editor/type";
-import { init_selection } from "./final";
+import { init_selection } from "../final";
 import {
   getClearBySelection,
   onCopyToClipboard,
@@ -35,15 +35,16 @@ import {
   WorkbookClipboard,
   WorkbookData,
   WorkbookListItem,
+  CommonWorkbook,
 } from "./type";
 import { VcTableCore } from "./Table/index";
 import { globalContext } from "../index";
 import {
-  getSheetWorkbookById,
-  getSheetWorkbooksById,
-  updateWorkbookColumn,
-  updateWorkbookData,
-  updateWorkbookRow,
+  getCommonWorkbookById,
+  getCommonWorkbooks,
+  updateCommonWorkbookColumn,
+  updateCommonWorkbookData,
+  updateCommonWorkbookRow,
 } from "../../apis";
 
 export const editorContext = createContext({} as ContextValue);
@@ -54,6 +55,8 @@ export const initialState: ContextState = {
   data: {},
   columns: {},
   rows: {},
+  createdTime: "",
+  updatedTime: "",
   clipboard: null,
   selection: init_selection,
   history: {
@@ -100,7 +103,7 @@ const PageEditor: FC = () => {
 
   function initState() {
     if (workbookId) {
-      getSheetWorkbookById(global.id, workbookId).then((res) => {
+      getCommonWorkbookById(global.id, workbookId).then((res) => {
         dispatch({
           data: res.data,
           columns: res.columns,
@@ -111,9 +114,10 @@ const PageEditor: FC = () => {
       });
     }
   }
+  getCommonWorkbookById;
 
   function initWorkbooks() {
-    getSheetWorkbooksById(global.id).then((res) => {
+    getCommonWorkbooks(global.id).then((res) => {
       setWorkbooks(res);
       if (!workbookId) {
         navigate(`/sheets/${global.id}?wid=${res[0].id}`, {
@@ -123,7 +127,7 @@ const PageEditor: FC = () => {
     });
   }
 
-  function changeWorkbook(id: string) {
+  function onWorkbook(id: string) {
     navigate(`${location.pathname}?wid=${id}`);
   }
 
@@ -134,7 +138,7 @@ const PageEditor: FC = () => {
   }
 
   function onChange(maps: { [k: string]: Partial<Cell> }) {
-    updateWorkbookData(global.id, workbookId, maps).then((data) => {
+    updateCommonWorkbookData(global.id, workbookId, maps).then((data) => {
       dispatch({
         data,
       });
@@ -142,9 +146,19 @@ const PageEditor: FC = () => {
   }
 
   function onColumns(payload: ColumnConfig) {
-    updateWorkbookColumn(global.id, workbookId, payload).then((columns) => {
+    updateCommonWorkbookColumn(global.id, workbookId, payload).then(
+      (columns) => {
+        dispatch({
+          columns,
+        });
+      }
+    );
+  }
+
+  function onRows(payload: RowConfig) {
+    updateCommonWorkbookRow(global.id, workbookId, payload).then((rows) => {
       dispatch({
-        columns,
+        rows,
       });
     });
   }
@@ -163,14 +177,6 @@ const PageEditor: FC = () => {
     const res = onDeleteColumn(state.data, state.columns, state.selection);
     onColumns(res.columns);
     onChange(res.data);
-  }
-
-  function onRows(payload: RowConfig) {
-    updateWorkbookRow(global.id, workbookId, payload).then((rows) => {
-      dispatch({
-        rows,
-      });
-    });
   }
 
   function onAddRows(opts: unknown) {
@@ -228,7 +234,7 @@ const PageEditor: FC = () => {
         workbooks,
         initState,
         initWorkbooks,
-        changeWorkbook,
+        onWorkbook,
         onSelection,
         onColumns,
         onAddColumns,
@@ -245,21 +251,14 @@ const PageEditor: FC = () => {
       }}
     >
       <Toolbar />
-      <div style={{ height: `calc(100% - 85px)` }}>
-        <RefTool />
-        <EditableTable />
-      </div>
+      <RefTool />
+      <EditableTable />
       <Footer />
     </editorContext.Provider>
   );
 };
 
-export interface ContextState {
-  id: string;
-  name: string;
-  rows: RowConfig;
-  columns: ColumnConfig;
-  data: WorkbookData;
+export interface ContextState extends CommonWorkbook {
   clipboard: WorkbookClipboard | null;
   selection: Selection;
   history: {
@@ -275,7 +274,7 @@ export interface ContextState {
 export interface ContextValue extends ContextState {
   initState(): void;
   initWorkbooks(): void;
-  changeWorkbook(i: string): void;
+  onWorkbook(i: string): void;
   onSelection(e: Selection): void;
   onColumns(columns: ColumnConfig): void;
   onAddColumns(opts: unknown): void;

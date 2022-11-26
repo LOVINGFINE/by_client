@@ -30,11 +30,8 @@ import {
   keydownSelected,
   keydownSelection,
 } from "../utils";
-import {
-  init_selection,
-  DEFAULT_INDEX_WIDTH,
-  DEFAULT_CODE_HEIGHT,
-} from "../../final";
+import { DEFAULT_INDEX_WIDTH, DEFAULT_CODE_HEIGHT } from "../../final";
+import { init_selection } from "../../../final";
 
 const classNames = useClassNames(styles);
 const keyboard = createKeyboardEvent();

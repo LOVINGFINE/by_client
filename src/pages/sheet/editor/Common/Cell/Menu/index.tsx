@@ -9,7 +9,6 @@ import { KeyboardType } from "@/plugins/event";
 import { Icon } from "@/packages/design";
 import { Selection } from "@/packages/table";
 import { getSelectionRef } from "../../RefTool/utils";
-
 import SuffixTip from "./suffix";
 import platform, { OsType } from "@/plugins/platform";
 import { CellMenuKey } from "../../type";
@@ -71,7 +70,7 @@ const ContextMenu: FC<CellMenuProps> = (props) => {
           onClick={() => onAction(CLEAR, true)}
         />
         <MenuItem
-          icon={<Icon name="long-arrow-up" />}
+          icon={<Icon name="times-circle" />}
           label={"全部清除"}
           onClick={() => onAction(CLEAR, false)}
         />

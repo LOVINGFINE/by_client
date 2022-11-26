@@ -1,6 +1,6 @@
 import { Selection } from "@/pages/sheet/editor/type";
 import { getCodeByIndex, getIndexByCode } from "@/plugins/convert";
-import { init_selection } from "../final";
+import { init_selection } from "../../final";
 
 export function getSelectionRef(selection: Selection) {
   const { column, row } = selection;

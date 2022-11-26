@@ -5,31 +5,31 @@ import {
   RowConfig,
   DataPayload,
   WorkbookData,
-  Workbook,
+  CommonWorkbook,
 } from "../editor/Common/type";
 
-export function getSheetWorkbooksById(id: string) {
+export function getCommonWorkbooks(id: string) {
   return request<WorkbookListItem[]>({
     method: "get",
     url: `/sheets/${id}/common`,
   });
 }
 
-export function getSheetWorkbookById(sheetId: string, workbookId: string) {
-  return request<Workbook>({
+export function getCommonWorkbookById(sheetId: string, workbookId: string) {
+  return request<CommonWorkbook>({
     method: "get",
     url: `/sheets/${sheetId}/common/${workbookId}`,
   });
 }
 
-export function insertSheetWorkbookById(sheetId: string) {
-  return request<Workbook>({
+export function insertCommonWorkbook(sheetId: string) {
+  return request<CommonWorkbook>({
     method: "post",
-    url: `/sheets/${sheetId}`,
+    url: `/sheets/${sheetId}/common`,
   });
 }
 
-export function updateWorkbookColumn(
+export function updateCommonWorkbookColumn(
   sheetId: string,
   workbookId: string,
   data: ColumnConfig
@@ -41,7 +41,7 @@ export function updateWorkbookColumn(
   });
 }
 
-export function updateWorkbookRow(
+export function updateCommonWorkbookRow(
   sheetId: string,
   workbookId: string,
   data: RowConfig
@@ -53,7 +53,7 @@ export function updateWorkbookRow(
   });
 }
 
-export function updateWorkbookData(
+export function updateCommonWorkbookData(
   sheetId: string,
   workbookId: string,
   data: DataPayload

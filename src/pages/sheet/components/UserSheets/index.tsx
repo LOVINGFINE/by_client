@@ -84,10 +84,10 @@ const UserSheets: FC<UserSheetsProps> = ({
 
   const getTime = (item: Sheet) => {
     if (sort === ListSort.openDate) {
-      return dayjs(item.lastOpenTime).format("YYYY年M月D日 HH:mm");
+      return dayjs(item.lastOpenTime).format("M月D日 HH:mm");
     }
     if (sort === ListSort.editDate) {
-      return dayjs(item.updatedTime).format("YYYY年M月D日 HH:mm");
+      return dayjs(item.updatedTime).format("M月D日 HH:mm");
     }
     return "";
   };

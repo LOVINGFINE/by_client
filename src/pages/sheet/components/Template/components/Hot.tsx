@@ -12,7 +12,12 @@ import { useNavigate } from "react-router";
 import { MenuItem } from "@/packages/design/Menu";
 import { SheetType } from "@/pages/sheet/type";
 
-const TemplateHot: FC<TemplateHotProps> = ({ dataSource, full, onHide }) => {
+const TemplateHot: FC<TemplateHotProps> = ({
+  dataSource,
+  defaultTitle,
+  full,
+  onHide,
+}) => {
   const navigate = useNavigate();
 
   /** @methods */
@@ -57,8 +62,8 @@ const TemplateHot: FC<TemplateHotProps> = ({ dataSource, full, onHide }) => {
         )}
       </div>
       <div className={styles["hot-record"]}>
-        <TemplateEmpty type={SheetType.common} />
-        <TemplateEmpty type={SheetType.meta} />
+        <TemplateEmpty defaultTitle={defaultTitle} type={SheetType.common} />
+        <TemplateEmpty defaultTitle={defaultTitle} type={SheetType.meta} />
         {dataSource.map((item) => {
           return <TemplateItem id={item.id} title={item.title} key={item.id} />;
         })}
@@ -74,6 +79,7 @@ export interface TemplateHotProps {
   dataSource: TemplateListItem[];
   full: boolean;
   onHide(): void;
+  defaultTitle: string;
 }
 
 export default TemplateHot;
