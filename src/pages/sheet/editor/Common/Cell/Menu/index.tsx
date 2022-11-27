@@ -7,12 +7,11 @@ import Menu, {
 } from "@/packages/design/Menu";
 import { KeyboardType } from "@/plugins/event";
 import { Icon } from "@/packages/design";
-import { Selection } from "@/packages/table";
+import { Selection } from "@/pages/sheet/editor/type";
 import { getSelectionRef } from "../../RefTool/utils";
 import SuffixTip from "./suffix";
 import platform, { OsType } from "@/plugins/platform";
 import { CellMenuKey } from "../../type";
-
 
 const {
   CLEAR,

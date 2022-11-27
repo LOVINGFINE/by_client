@@ -11,6 +11,13 @@ import styles from "../style.less";
 
 const TemplateItem: FC<TemplateItemProps> = ({ type, defaultTitle }) => {
   const navigate = useNavigate();
+  const icon = (() => {
+    if (type === SheetType.common) {
+      return "sheet";
+    }
+    return "meta-sheet";
+  })();
+
   const title = (() => {
     if (type === SheetType.common) {
       return "空白普通表格";
@@ -38,7 +45,7 @@ const TemplateItem: FC<TemplateItemProps> = ({ type, defaultTitle }) => {
         className={styles["template-item-card"]}
         onClick={onAddSheetByTemplate}
       >
-        <Icon name={"plus"} style={{ color: "var(--d-desc)" }} size={38} />
+        <Icon name={icon} size={65} />
       </div>
       <div className={styles["template-item-bottom"]}>
         <div className={styles["template-item-bottom-title"]}>{title}</div>

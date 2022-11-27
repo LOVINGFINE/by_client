@@ -61,6 +61,7 @@ const TBody: FC<TBodyProps> = ({
   function onCellMouseDown(e: MouseEvent, c: number, r: number) {
     if (e.button === 0) {
       onSelection(initSelected(c, r));
+      addSelectionListener();
     }
   }
 

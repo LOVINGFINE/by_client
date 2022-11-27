@@ -76,8 +76,6 @@ const EditableTable: FC = () => {
         }
       }
     };
-    console.log(e);
-
     mouseEventContent(
       e,
       <CellContextMenu

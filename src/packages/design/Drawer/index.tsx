@@ -7,8 +7,7 @@ import React, {
   FC,
   ReactNode,
   CSSProperties,
-  useRef,
-  useEffect,
+  Fragment,
 } from "react";
 import "./style.less";
 import Icon from "../Icon";
@@ -28,24 +27,7 @@ const Drawer: FC<DrawerProps> = (props: DrawerProps): ReactElement => {
     onClose = () => {},
   } = props;
 
-  const contentRef = useRef<HTMLDivElement | null>(null);
   const bodyStyle = getStyle(placement, style, width);
-
-  const content = (
-    <div className={`drawer`} style={{ zIndex }}>
-      {mask && visible && (
-        <div className={`drawer-mask`} onClick={onMaskClick} />
-      )}
-      <div className={`drawer-body`} style={bodyStyle}>
-        {close && (
-          <div className={`drawer-close`} onClick={onClose}>
-            <Icon name="close" />
-          </div>
-        )}
-        {children}
-      </div>
-    </div>
-  );
 
   function onMaskClick() {
     if (maskClose && onClose) {
@@ -53,30 +35,23 @@ const Drawer: FC<DrawerProps> = (props: DrawerProps): ReactElement => {
     }
   }
 
-  function handleVisible() {
-    if (!contentRef.current && visible) {
-      // 第一次打开
-      const div = document.createElement("div");
-      contentRef.current = div;
-      ReactDOM.render(content, div);
-      document.body.appendChild(div);
-    } else {
-      if (contentRef.current) {
-        if (!visible) {
-          contentRef.current.style.display = "none";
-        } else {
-          contentRef.current.style.display = "block";
-        }
-      }
-    }
-  }
-
-  useEffect(() => {
-    handleVisible();
-  }, [visible, contentRef.current]);
-
+  const render = (
+    <Fragment>
+      <div className={"drawer"} style={{ zIndex }}>
+        {mask && <div className={`drawer-mask`} onClick={onMaskClick} />}
+        <div className={`drawer-body`} style={bodyStyle}>
+          {close && (
+            <div className={`drawer-close`} onClick={onClose}>
+              <Icon name="close" />
+            </div>
+          )}
+          {children}
+        </div>
+      </div>
+    </Fragment>
+  );
   /** @render */
-  return <></>;
+  return ReactDOM.createPortal(visible && render, document.body);
 };
 
 function getStyle(

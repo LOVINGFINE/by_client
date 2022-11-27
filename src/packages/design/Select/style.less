@@ -51,6 +51,7 @@
     border-radius: 4px;
     transition: all 0.1s;
     max-height: 350px;
+    animation: show-select 0.2s;
   }
 
   &-items {
@@ -86,5 +87,17 @@
       color: var(--d-primary);
       background-color: var(--d-bgc-hover);
     }
+  }
+}
+
+@keyframes show-select {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

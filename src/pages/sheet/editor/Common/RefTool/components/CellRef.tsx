@@ -11,7 +11,7 @@ import {
   useContext,
 } from "react";
 import styles from "../style.less";
-import { SimpleValue } from "@/packages/table";
+import { SimpleValue } from "@/pages/sheet/editor/type";
 import { getCodeByIndex } from "@/plugins/convert";
 import { editorContext } from "../../index";
 import { getRefCellInputStyle } from "../../Cell/utils";

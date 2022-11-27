@@ -39,15 +39,15 @@ const RefSelection: FC<RefSelectionProps> = ({
                 style={{
                   left: style.left,
                   top: style.top,
-                  height: style.height + 1,
+                  height: style.height,
                 }}
               />
               <div
                 className={classNames(["border", "border-v"])}
                 style={{
-                  left: style.left + style.width,
+                  left: style.left + style.width - 1,
                   top: style.top,
-                  height: style.height + 1,
+                  height: style.height,
                 }}
               />
               <div
@@ -55,7 +55,7 @@ const RefSelection: FC<RefSelectionProps> = ({
                 style={{
                   left: style.left,
                   top: style.top,
-                  width: style.width + 1,
+                  width: style.width,
                 }}
               />
               <div
@@ -63,7 +63,7 @@ const RefSelection: FC<RefSelectionProps> = ({
                 style={{
                   left: style.left,
                   top: style.top + style.height,
-                  width: style.width + 1,
+                  width: style.width,
                 }}
               />
             </>

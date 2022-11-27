@@ -6,7 +6,7 @@ import { FC, useContext } from "react";
 import styles from "./style.less";
 import SelectionRef from "./components/SelectionRef";
 import CellRef from "./components/CellRef";
-import { Selection } from "@/packages/table";
+import { Selection } from "@/pages/sheet/editor/type";
 import { editorContext } from "../index";
 const RefHelper: FC = () => {
   const editContextValue = useContext(editorContext);

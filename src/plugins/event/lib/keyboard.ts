@@ -80,27 +80,27 @@ export function keyboardMacOs(event: KeyboardEvent | React.KeyboardEvent) {
     return copy;
   }
 
-  if (altKey) {
+  if (shiftKey) {
     if (keyCode === "arrowup") {
-      if (shiftKey) {
+      if (altKey) {
         return selection_top;
       }
       return selected_top;
     }
     if (keyCode === "arrowdown") {
-      if (shiftKey) {
+      if (altKey) {
         return selection_bottom;
       }
       return selected_bottom;
     }
     if (keyCode === "arrowleft") {
-      if (shiftKey) {
+      if (altKey) {
         return selection_left;
       }
       return selected_left;
     }
     if (keyCode === "arrowright") {
-      if (shiftKey) {
+      if (altKey) {
         return selection_right;
       }
       return selected_right;

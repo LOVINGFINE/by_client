@@ -32,10 +32,10 @@ const InsertSheet: FC = () => {
             className={styles["insertSheet-openTemplate-btn"]}
             onClick={navToTemplate}
           >
-            <Icon name="file" />
+            <Icon name="template" />
           </div>
         </Tooltip>
-        <Tooltip title={"新建空白meta表格"} delay={0.5} placement="left">
+        <Tooltip title={"新建meta表格"} delay={0.5} placement="left">
           <div
             className={styles["insertSheet-openTemplate-btn"]}
             onClick={() => insertEmptySheet(SheetType.meta)}
@@ -47,7 +47,7 @@ const InsertSheet: FC = () => {
       <div className={styles["insertSheet-plus"]}>
         <Icon name="plus" />
       </div>
-      <Tooltip title={"新建空白电子表格"} delay={0.5} placement="left">
+      <Tooltip title={"新建普通表格"} delay={0.5} placement="left">
         <div
           className={styles["insertSheet-empty"]}
           onClick={() => insertEmptySheet(SheetType.common)}

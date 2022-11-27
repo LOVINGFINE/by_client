@@ -2,18 +2,10 @@
  * Created by zhangq on 2022/03/11
  * Tooltip
  */
-import React, {
-  ReactElement,
-  FC,
-  useRef,
-  useEffect,
-  CSSProperties,
-  useState,
-  Fragment,
-} from "react";
-import ReactDOM from "react-dom";
+import React, { ReactElement, FC, useRef, useEffect } from "react";
+import { createRoot } from "react-dom/client";
 import "./style.less";
-import { getOffset, getTooltipArrowStyles, getStyles } from "./utils";
+import { getOffset, getTooltipArrowStyles, setStyles } from "./utils";
 
 const Tooltip: FC<TooltipProps> = ({
   title = "",
@@ -21,39 +13,57 @@ const Tooltip: FC<TooltipProps> = ({
   children,
   delay = 0,
 }: TooltipProps): ReactElement => {
-  const [renderStyles, setRenderStyles] = useState<{
-    content: CSSProperties;
-    inner: CSSProperties;
-    bar: CSSProperties;
-    arrow: CSSProperties;
-  }>({
-    content: {},
-    inner: {},
-    bar: {},
-    arrow: {},
-  });
-  const [open, setOpen] = useState(false);
   const childrenRef = useRef<HTMLBaseElement>(null);
-  const renderRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    return () => setOpen(false);
-  }, []);
+  const renderId = useRef<string | null>(null);
 
   useEffect(() => {
-    if (renderRef.current) {
-      const offset = getOffset(childrenRef.current);
-      const contentStyle = getStyles(renderRef.current, offset, placement);
-      const styles = getTooltipArrowStyles(placement, offset);
-      setRenderStyles({
-        ...styles,
-        content: contentStyle,
-      });
-    }
-  }, [title, childrenRef.current, renderRef.current]);
+    return onClose;
+  }, []);
 
   /**
    * @method
    */
+  function onOpen() {
+    if (!renderId.current && title) {
+      const id = `tooltip-${new Date().getTime()}`;
+      const div = document.createElement("div");
+      div.id = id;
+      div.className = "tooltip";
+      div.onmousedown = (e) => {
+        e.stopPropagation();
+        setTimeout(() => {
+          onClose();
+        }, 200);
+      };
+      const offset = getOffset(childrenRef.current);
+      const styles = getTooltipArrowStyles(placement, offset);
+      const root = createRoot(div);
+      root.render(
+        <div className="tooltip-inner" style={styles.inner}>
+          <div className="tooltip-inner-arrow" style={styles.bar}>
+            <span style={styles.arrow} />
+          </div>
+          <div className="tooltip-inner-content">{title}</div>
+        </div>
+      );
+      setTimeout(() => {
+        setStyles(offset, placement, div);
+      });
+      document.body.appendChild(div);
+      renderId.current = id;
+    }
+  }
+
+  function onClose() {
+    if (renderId.current) {
+      const is = document.getElementById(renderId.current);
+      if (is) {
+        document.body.removeChild(is);
+        renderId.current = null;
+      }
+    }
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function getProps(ele: any) {
     return {
@@ -62,7 +72,7 @@ const Tooltip: FC<TooltipProps> = ({
           ele.props?.onMouseEnter(s);
         }
         setTimeout(() => {
-          setOpen(true);
+          onOpen();
         }, delay * 1000);
       },
       onMouseLeave: (...s: unknown[]) => {
@@ -70,7 +80,7 @@ const Tooltip: FC<TooltipProps> = ({
           ele.props?.onMouseLeave(s);
         }
         setTimeout(() => {
-          setOpen(false);
+          onClose();
         });
       },
     };
@@ -93,23 +103,7 @@ const Tooltip: FC<TooltipProps> = ({
   })();
 
   /** render */
-  return (
-    <Fragment>
-      {open &&
-        ReactDOM.createPortal(
-          <div className="tooltip" style={renderStyles.content} ref={renderRef}>
-            <div className="tooltip-inner" style={renderStyles.inner}>
-              <div className="tooltip-inner-arrow" style={renderStyles.bar}>
-                <span style={renderStyles.arrow} />
-              </div>
-              <div className="tooltip-inner-content">{title}</div>
-            </div>
-          </div>,
-          document.body
-        )}
-      {element}
-    </Fragment>
-  );
+  return element;
 };
 
 /**

@@ -134,14 +134,14 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
     }
 
     function onMoveSelected(type: KeyboardType) {
-      const s = keydownSelected(type, selection);
+      const s = keydownSelected(type, _selection.current);
       if (s) {
         inSelection(s);
       }
     }
 
     function onMoveSelection(type: KeyboardType) {
-      const s = keydownSelection(type, selection);
+      const s = keydownSelection(type, _selection.current);
       if (s) {
         inSelection(s);
       }
@@ -224,8 +224,8 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
         })}
         ref={tableRef}
         onMouseDown={(e) => e.stopPropagation()}
-        onMouseEnter={addListener}
-        onMouseLeave={removeListener}
+        onMouseOver={addListener}
+        onMouseOut={removeListener}
       >
         {offset.width > 0 && (
           <>

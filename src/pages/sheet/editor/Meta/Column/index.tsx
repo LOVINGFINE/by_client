@@ -7,21 +7,19 @@ import styles from "./style.less";
 import { VcColumn } from "../type";
 import { Icon } from "@/packages/design";
 
-const ColumnRender: FC<ColumnRenderProps> = ({ column }) => {
-  /** @State */
-
-  /** @Effect */
-  useEffect(() => {}, []);
-
+const ColumnRender: FC<ColumnRenderProps> = ({ column, onSetting }) => {
   /**
    * @Methods
    */
-
+  function onEdit(e: React.MouseEvent) {
+    e.stopPropagation();
+    onSetting(column);
+  }
   /** render */
   return (
     <div className={styles["column"]}>
       <span className={styles["column-title"]}>{column.title}</span>
-      <span className={styles["column-edit"]}>
+      <span className={styles["column-edit"]} onMouseDown={onEdit}>
         <Icon name="equalizer" />
       </span>
     </div>
@@ -33,6 +31,7 @@ const ColumnRender: FC<ColumnRenderProps> = ({ column }) => {
  */
 export interface ColumnRenderProps {
   column: VcColumn;
+  onSetting(c: VcColumn): void;
 }
 
 export default ColumnRender;

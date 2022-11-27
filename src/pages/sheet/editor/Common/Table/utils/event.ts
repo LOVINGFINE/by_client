@@ -11,7 +11,10 @@ export function createKeyboardEvent() {
   };
   const on = (c: (e: KeyboardType, p?: unknown) => void) => {
     callback = c;
-    window.addEventListener("keydown", listener);
+    window.removeEventListener("keydown", listener);
+    setTimeout(() => {
+      window.addEventListener("keydown", listener);
+    });
   };
 
   const remove = () => {
@@ -29,33 +32,35 @@ export function keydownSelected(type: KeyboardType, selection: Selection) {
   const { column, row } = selection;
   const { selected_top, selected_bottom, selected_left, selected_right } =
     KeyboardType;
-  const on = (opts: { r: number; c: number }) => {
+  const on = (opts: { r?: number; c?: number }) => {
     const { r, c } = opts;
+    const c_c = c === undefined ? column.current : c;
+    const r_c = r === undefined ? row.current : r;
     return {
       column: {
-        current: c,
-        start: c,
-        end: c,
+        current: c_c,
+        start: c_c,
+        end: c_c,
       },
       row: {
-        current: r,
-        start: r,
-        end: r,
+        current: r_c,
+        start: r_c,
+        end: r_c,
       },
     };
   };
   if (column.current > -1 && row.current > -1) {
     if (type === selected_top && row.current > 0) {
-      return on({ r: row.current - 1, c: column.current });
+      return on({ r: row.current - 1 });
     }
     if (type === selected_bottom) {
-      return on({ r: row.current + 1, c: column.current });
+      return on({ r: row.current + 1 });
     }
     if (type === selected_left && column.current > 0) {
-      return on({ r: row.current, c: column.current - 1 });
+      return on({ c: column.current - 1 });
     }
     if (type === selected_right) {
-      return on({ r: row.current, c: column.current + 1 });
+      return on({ c: column.current + 1 });
     }
   }
 }
@@ -64,12 +69,20 @@ export function keydownSelection(type: KeyboardType, selection: Selection) {
   const { column, row } = selection;
   const { selection_top, selection_bottom, selection_left, selection_right } =
     KeyboardType;
-  const on = (opts: { r: number; c: number }) => {
+  const on = (opts: { r?: number; c?: number }) => {
     const { r, c } = opts;
-    const c_s = c >= column.current ? column.current : c;
-    const c_e = c >= column.current ? c : column.current;
-    const r_s = r >= row.current ? row.current : r;
-    const r_e = r >= row.current ? r : row.current;
+    let c_s = column.start;
+    let c_e = column.end;
+    let r_s = row.start;
+    let r_e = row.end;
+    if (c != undefined) {
+      c_s = c > column.current ? column.current : c;
+      c_e = c > column.current ? c : column.current;
+    }
+    if (r != undefined) {
+      r_s = r >= row.current ? row.current : r;
+      r_e = r >= row.current ? r : row.current;
+    }
     return {
       column: {
         current: column.current,
@@ -84,17 +97,17 @@ export function keydownSelection(type: KeyboardType, selection: Selection) {
     };
   };
   if (column.current > -1 && row.current > -1) {
-    if (type === selection_top && row.end > 0) {
-      return on({ r: row.end - 1, c: column.end });
+    if (type === selection_top && row.start > 0) {
+      return on({ r: row.start - 1 });
     }
     if (type === selection_bottom) {
-      return on({ r: row.end + 1, c: column.end });
+      return on({ r: row.end + 1 });
     }
-    if (type === selection_left && column.end > 0) {
-      return on({ r: row.end, c: column.end - 1 });
+    if (type === selection_left && column.start > 0) {
+      return on({ c: column.start - 1 });
     }
     if (type === selection_right) {
-      return on({ r: row.end, c: column.end + 1 });
+      return on({ c: column.end + 1 });
     }
   }
 }

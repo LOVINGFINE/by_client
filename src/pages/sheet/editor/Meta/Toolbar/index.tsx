@@ -26,7 +26,7 @@ const Toolbar: FC = () => {
   return (
     <div className={styles["toolbar"]} onMouseDown={(e) => e.stopPropagation()}>
       <div className={styles["toolbar-left"]}>
-        <Action onClick={onAdd} icon="plus-circle" />
+        <Action onClick={onAdd} icon="plus" />
       </div>
       <div className={styles["toolbar-right"]}>
         <ShowRowCount

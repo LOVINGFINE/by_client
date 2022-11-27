@@ -1,8 +1,8 @@
 .tooltip {
   position: fixed;
   z-index: 1000;
-  transition: all 0.1s;
-  animation: show-tooltip 0.01s;
+  transition: opacity 0.1s;
+  animation: show-tooltip 0.2s;
   &-inner {
     position: relative;
     &-arrow {
@@ -26,6 +26,7 @@
       max-width: 220px;
       line-height: 20px;
       border-radius: 2px;
+      white-space: nowrap;
     }
   }
 }

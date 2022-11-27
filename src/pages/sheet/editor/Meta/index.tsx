@@ -271,7 +271,7 @@ export interface ContextValue extends ContextState {
   onDelete(): void;
   onSelection(e: Selection): void;
   onShowRow(e: boolean): void;
-  onColumn(code: string, e: Partial<MetaColumn>): void;
+  onColumn(code: string, e: Partial<ColumnPayload>): void;
   onAddColumns(opts: Partial<MetaColumn>): void;
   onDeleteColumns(codes: string[]): void;
   onAddEntry(m: { [k: string]: SimpleValue }[]): void;

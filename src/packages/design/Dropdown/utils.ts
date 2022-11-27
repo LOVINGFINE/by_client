@@ -18,81 +18,56 @@ export function getOffset(current?: HTMLElement | null) {
   };
 }
 
-export function getStyles(
+export function setStyles(
   childrenRef: HTMLElement | null,
-  size: {
-    overlayWidth: number;
-    overlayHeight: number;
-  },
-  placement: string
+  placement: string,
+  element: HTMLDivElement
 ) {
   const { offsetHeight, offsetWidth, offsetTop, offsetLeft } =
     getOffset(childrenRef);
-  const { overlayWidth, overlayHeight } = size;
   const centerH = offsetLeft + offsetWidth / 2;
   const extra = 6;
   switch (placement) {
     case "top": {
-      // element.style.left = `${centerH - overlayWidth / 2}px`;
-      // element.style.top = `${offsetTop - overlayHeight - extra}px`;
-      // element.style.paddingBottom = `${extra}px`;
-      // break;
-      return {
-        left: centerH - overlayWidth / 2,
-        top: offsetTop - overlayHeight - extra,
-        paddingBottom: extra,
-      };
+      element.style.left = `${centerH}px`;
+      element.style.top = `${offsetTop - extra}px`;
+      element.style.transform = `translate(-50%,-100%)`;
+      element.style.paddingBottom = `${extra}px`;
+      break;
     }
     case "topLeft": {
-      // element.style.left = `${offsetLeft + offsetWidth - overlayWidth}px`;
-      // element.style.top = `${offsetTop - overlayHeight - extra}px`;
-      // element.style.paddingBottom = `${extra}px`;
-      return {
-        left: offsetLeft + offsetWidth - overlayWidth,
-        top: offsetTop - overlayHeight - extra,
-        paddingBottom: extra,
-      };
+      element.style.left = `${offsetLeft + offsetWidth}px`;
+      element.style.top = `${offsetTop - extra}px`;
+      element.style.transform = `translate(-100%,-100%)`;
+      element.style.paddingBottom = `${extra}px`;
+      break;
     }
     case "topRight": {
-      // element.style.left = `${offsetLeft}px`;
-      // element.style.top = `${offsetTop - overlayHeight - extra}px`;
-      // element.style.paddingBottom = `${extra}px`;
-      return {
-        left: offsetLeft,
-        top: offsetTop - overlayHeight - extra,
-        paddingBottom: extra,
-      };
+      element.style.left = `${offsetLeft}px`;
+      element.style.top = `${offsetTop - extra}px`;
+      element.style.transform = `translateY(-100%)`;
+      element.style.paddingBottom = `${extra}px`;
+      break;
     }
     case "bottomLeft": {
-      // element.style.left = `${offsetLeft + offsetWidth - overlayWidth}px`;
-      // element.style.top = `${offsetTop + offsetHeight + extra}px`;
-      // element.style.paddingTop = `${extra}px`;
-      return {
-        left: offsetLeft + offsetWidth - overlayWidth,
-        top: offsetTop + offsetHeight + extra,
-        paddingTop: extra,
-      };
+      element.style.left = `${offsetLeft + offsetWidth}px`;
+      element.style.transform = `translateX(-100%)`;
+      element.style.top = `${offsetTop + offsetHeight + extra}px`;
+      element.style.paddingTop = `${extra}px`;
+      break;
     }
     case "bottomRight": {
-      // element.style.left = `${offsetLeft}px`;
-      // element.style.top = `${offsetTop + offsetHeight + extra}px`;
-      // element.style.paddingTop = `${extra}px`;
-      return {
-        left: offsetLeft,
-        top: offsetTop + offsetHeight + extra,
-        paddingTop: extra,
-      };
+      element.style.left = `${offsetLeft}px`;
+      element.style.top = `${offsetTop + offsetHeight + extra}px`;
+      element.style.paddingTop = `${extra}px`;
+      break;
     }
     default: {
       // bottom
-      // element.style.left = `${centerH - overlayWidth / 2}px`;
-      // element.style.top = `${offsetTop + offsetHeight + extra}px`;
-      // element.style.paddingTop = `${extra}px`;
-      return {
-        left: centerH - overlayWidth / 2,
-        top: offsetTop + offsetHeight + extra,
-        paddingTop: extra,
-      };
+      element.style.left = `${centerH}px`;
+      element.style.transform = `translateX(-50%)`;
+      element.style.top = `${offsetTop + offsetHeight + extra}px`;
+      element.style.paddingTop = `${extra}px`;
     }
   }
 }

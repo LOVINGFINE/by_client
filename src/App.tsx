@@ -9,6 +9,7 @@ import { LocaleProvider } from "@/plugins/i18n";
 import { UserProvider } from "@/plugins/user";
 import routes, { ACCESS_TOKEN_NEGLECT } from "@/config/router";
 import i18n from "@/locales";
+import './styles/common.less'
 
 const App: FC = () => {
   /** render */

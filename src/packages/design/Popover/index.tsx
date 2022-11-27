@@ -2,19 +2,11 @@
  * Created by zhangq on 2022/04/03
  * Popover 组件
  */
-import React, {
-  ReactElement,
-  FC,
-  useRef,
-  useEffect,
-  useState,
-  CSSProperties,
-  Fragment,
-} from "react";
+import React, { ReactElement, FC, useRef, useEffect } from "react";
 import "./style.less";
-import { getArrowStyles, getOffset, getStyles } from "../Tooltip/utils";
-import ReactDOM from "react-dom";
+import { getArrowStyles, getOffset, setStyles } from "../Tooltip/utils";
 import { useVisible } from "@/plugins/event";
+import { createRoot } from "react-dom/client";
 
 const Popover: FC<PopoverProps> = ({
   overlay,
@@ -24,41 +16,46 @@ const Popover: FC<PopoverProps> = ({
   visible,
   onVisible,
 }: PopoverProps): ReactElement => {
-  const [renderStyles, setRenderStyles] = useState<{
-    content: CSSProperties;
-    inner: CSSProperties;
-    bar: CSSProperties;
-    arrow: CSSProperties;
-  }>({
-    content: {},
-    inner: {},
-    bar: {},
-    arrow: {},
-  });
   const visibleValue = useVisible({
     value: visible,
     cb: onVisible,
   });
-  const renderRef = useRef<HTMLDivElement>(null);
   const childrenRef = useRef<HTMLBaseElement>();
-
+  const renderId = useRef<string | null>(null);
   useEffect(() => {
     return onClose;
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (renderRef.current) {
-        const offset = getOffset(childrenRef.current);
-        const contentStyle = getStyles(renderRef.current, offset, placement);
-        const styles = getArrowStyles(placement, offset);
-        setRenderStyles({
-          ...styles,
-          content: contentStyle,
-        });
-      }
-    });
-  }, [overlay, childrenRef.current, renderRef.current]);
+    if (!renderId.current && overlay && visibleValue.value) {
+      const id = `popover-${new Date().getTime()}`;
+      const div = document.createElement("div");
+      div.id = id;
+      div.className = "popover";
+      div.onmousedown = (e) => {
+        e.stopPropagation();
+        setTimeout(() => {
+          onClose();
+        }, 200);
+      };
+      const offset = getOffset(childrenRef.current);
+      const styles = getArrowStyles(placement, offset);
+      const root = createRoot(div);
+      root.render(
+        <div className="popover-inner" style={styles.inner}>
+          <div className="popover-inner-arrow" style={styles.bar}>
+            <span style={styles.arrow} />
+          </div>
+          <div className="popover-inner-content">{overlay}</div>
+        </div>
+      );
+      setTimeout(() => {
+        setStyles(offset, placement, div);
+      });
+      document.body.appendChild(div);
+      renderId.current = id;
+    }
+  }, [overlay, childrenRef.current, visibleValue.value]);
 
   /**
    * @method
@@ -72,6 +69,13 @@ const Popover: FC<PopoverProps> = ({
   function onClose(event?: React.MouseEvent) {
     event?.preventDefault();
     visibleValue.setVisible(false);
+    if (renderId.current) {
+      const is = document.getElementById(renderId.current);
+      if (is) {
+        document.body.removeChild(is);
+        renderId.current = null;
+      }
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -118,25 +122,7 @@ const Popover: FC<PopoverProps> = ({
     });
   })();
   /** render */
-  return (
-    <Fragment>
-      {ReactDOM.createPortal(
-        visibleValue.value && (
-          <div className="tooltip" style={renderStyles.content} ref={renderRef}>
-            <div className="tooltip-inner" style={renderStyles.inner}>
-              <div className="tooltip-inner-arrow" style={renderStyles.bar}>
-                <span style={renderStyles.arrow} />
-              </div>
-              <div className="tooltip-inner-content">{overlay}</div>
-            </div>
-          </div>
-        ),
-        document.body,
-        `dropdown-${new Date().getTime()}`
-      )}
-      {element}
-    </Fragment>
-  );
+  return element;
 };
 
 /**
