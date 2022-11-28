@@ -12,6 +12,7 @@ export function getCellStyle(cellStyle: StyleOption): CSSProperties {
     strike,
     underline,
     vertical,
+    lineHeight,
   } = cellStyle;
 
   const align = (e?: Vertical | Horizontal) => {
@@ -23,20 +24,12 @@ export function getCellStyle(cellStyle: StyleOption): CSSProperties {
     }
   };
 
-  const textAlign = (() => {
-    if (horizontal === Horizontal.right) {
-      return "right";
-    }
-    if (horizontal === Horizontal.center) {
-      return "center";
-    }
-    return "left";
-  })();
   return {
     fontSize,
     color,
     background,
-    textAlign,
+    lineHeight,
+    justifyContent: align(horizontal),
     alignItems: align(vertical),
     fontWeight: bold ? "bold" : "normal",
     fontStyle: italic ? "italic" : "normal",

@@ -1,12 +1,5 @@
-import { FC, MouseEvent } from "react";
-
-import Menu, {
-  MenuItem,
-  SubMenuItem,
-  MenuDriver,
-} from "@/packages/design/Menu";
-import { KeyboardType } from "@/plugins/event";
-import { Icon } from "@/packages/design";
+import { FC, Fragment, MouseEvent } from "react";
+import { Icon, Menu } from "@/packages/design";
 import { Selection } from "@/pages/sheet/editor/type";
 import { getSelectionRef } from "../../RefTool/utils";
 import SuffixTip from "./suffix";
@@ -19,6 +12,9 @@ const {
   INSERT_COLUMN,
   INSERT_ROW,
   PASTE,
+  PASTE_CONTROL,
+  PASTE_CUT,
+  PASTE_CUT_CONTROL,
   REMOVE_COLUMN,
   REMOVE_ROW,
 } = CellMenuKey;
@@ -34,11 +30,17 @@ const ContextMenu: FC<CellMenuProps> = (props) => {
   })();
 
   function onPaste(e: MouseEvent) {
-    const { paste_cut, paste } = KeyboardType;
-    if (e.altKey) {
-      onAction(PASTE, paste_cut);
+    const { altKey, shiftKey } = e;
+    // 粘贴
+    if (altKey && shiftKey) {
+      onAction(PASTE_CUT_CONTROL);
+      return;
+    } else if (!altKey && shiftKey) {
+      onAction(PASTE_CONTROL);
+    } else if (altKey && !shiftKey) {
+      onAction(PASTE_CUT);
     } else {
-      onAction(PASTE, paste);
+      onAction(PASTE);
     }
   }
 
@@ -46,101 +48,98 @@ const ContextMenu: FC<CellMenuProps> = (props) => {
 
   /** render */
   return (
-    <Menu>
-      <MenuItem
-        icon={<Icon name="edit-copy" />}
-        label={"拷贝"}
-        onClick={() => onAction(COPY)}
-        suffix={<SuffixTip icon={metaKeyIcon} label="C" />}
-      />
-      <MenuItem
-        icon={<Icon name="edit-paste" />}
-        label={"粘贴"}
-        onClick={onPaste}
-        suffix={<SuffixTip icon={metaKeyIcon} label="V" />}
-      />
-      <SubMenuItem
-        label={`清除单元格 ${selectionRef.cellRef}`}
-        icon={<Icon name="trash-o" />}
-      >
-        <MenuItem
-          icon={<Icon name="close" />}
-          label={"仅清除数据"}
-          onClick={() => onAction(CLEAR, true)}
+    <Fragment>
+      <Menu>
+        <Menu.Item
+          icon={<Icon name="edit-copy" />}
+          label={"拷贝"}
+          onClick={() => onAction(COPY)}
+          suffix={<SuffixTip icon={metaKeyIcon} label="C" />}
         />
-        <MenuItem
-          icon={<Icon name="times-circle" />}
-          label={"全部清除"}
-          onClick={() => onAction(CLEAR, false)}
+        <Menu.Item
+          icon={<Icon name="edit-paste" />}
+          label={`粘贴 ${selectionRef.cellRef}`}
+          onClick={onPaste}
+          suffix={<SuffixTip icon={metaKeyIcon} label={`(⇧/⌥/) V`} />}
         />
-      </SubMenuItem>
-      <MenuDriver />
-      <SubMenuItem icon={<Icon name="plus" />} label="添加行">
-        <MenuItem
-          icon={<Icon name="long-arrow-up" />}
-          label={"在上方添加一行"}
-          onClick={() =>
-            onAction(INSERT_ROW, {
-              position: "before",
-              count: 1,
-            })
-          }
-        />
-        <MenuItem
-          icon={<Icon name="long-arrow-down" />}
-          label={"在下方添加一行"}
-          onClick={() =>
-            onAction(INSERT_ROW, {
-              position: "after",
-              count: 1,
-            })
-          }
-        />
-        <MenuItem
+        <Menu.SubItem
+          label={`清除单元格 ${selectionRef.cellRef}`}
+          icon={<Icon name="trash-o" />}
+        >
+          <Menu.Item
+            icon={<Icon name="close" />}
+            label={"仅清除数据"}
+            onClick={() => onAction(CLEAR, true)}
+          />
+          <Menu.Item
+            icon={<Icon name="times-circle" />}
+            label={"清除数据和样式"}
+            onClick={() => onAction(CLEAR, false)}
+          />
+        </Menu.SubItem>
+        <Menu.Driver />
+        <Menu.SubItem icon={<Icon name="plus" />} label="添加行">
+          <Menu.Item
+            icon={<Icon name="long-arrow-up" />}
+            label={"在上方添加一行"}
+            onClick={() =>
+              onAction(INSERT_ROW, {
+                position: "before",
+                count: 1,
+              })
+            }
+          />
+          <Menu.Item
+            icon={<Icon name="long-arrow-down" />}
+            label={"在下方添加一行"}
+            onClick={() =>
+              onAction(INSERT_ROW, {
+                position: "after",
+                count: 1,
+              })
+            }
+          />
+        </Menu.SubItem>
+        <Menu.SubItem icon={<Icon name="plus" />} label="添加列">
+          <Menu.Item
+            icon={<Icon name="long-arrow-left" />}
+            label={"在前方添加一列"}
+            onClick={() =>
+              onAction(INSERT_COLUMN, {
+                position: "before",
+                count: 1,
+              })
+            }
+          />
+          <Menu.Item
+            icon={<Icon name="long-arrow-right" />}
+            label={"向后方添加一列"}
+            onClick={() =>
+              onAction(INSERT_COLUMN, {
+                position: "after",
+                count: 1,
+              })
+            }
+          />
+        </Menu.SubItem>
+        <Menu.Item
           icon={<Icon name="ellipsis-v" />}
-          label={"更多"}
+          label={"更多添加选项"}
           onClick={() => onMoreInsert()}
         />
-      </SubMenuItem>
-      <SubMenuItem icon={<Icon name="plus" />} label="添加列">
-        <MenuItem
-          icon={<Icon name="long-arrow-left" />}
-          label={"在前方添加一列"}
-          onClick={() =>
-            onAction(INSERT_COLUMN, {
-              position: "before",
-              count: 1,
-            })
-          }
+        <Menu.Driver />
+        <Menu.Item
+          icon={<Icon name="edit-remove-col" />}
+          label={`删除列 ${selectionRef.columnRef}`}
+          onClick={() => onAction(REMOVE_COLUMN)}
         />
-        <MenuItem
-          icon={<Icon name="long-arrow-right" />}
-          label={"向后方添加一列"}
-          onClick={() =>
-            onAction(INSERT_COLUMN, {
-              position: "after",
-              count: 1,
-            })
-          }
+        <Menu.Item
+          icon={<Icon name="edit-remove-row" />}
+          label={`删除行 ${selectionRef.rowRef}`}
+          onClick={() => onAction(REMOVE_ROW)}
         />
-        <MenuItem
-          icon={<Icon name="ellipsis-v" />}
-          label={"更多"}
-          onClick={() => onMoreInsert()}
-        />
-      </SubMenuItem>
-      <MenuDriver />
-      <MenuItem
-        icon={<Icon name="edit-remove-col" />}
-        label={`删除列 ${selectionRef.columnRef}`}
-        onClick={() => onAction(REMOVE_COLUMN)}
-      />
-      <MenuItem
-        icon={<Icon name="edit-remove-row" />}
-        label={`删除行 ${selectionRef.rowRef}`}
-        onClick={() => onAction(REMOVE_ROW)}
-      />
-    </Menu>
+      </Menu>
+    </Fragment>
   );
 };
 

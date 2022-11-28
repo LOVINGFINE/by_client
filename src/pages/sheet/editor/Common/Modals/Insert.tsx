@@ -5,7 +5,7 @@
 import { FC, useState, useEffect } from "react";
 import { Modal, Input } from "@/packages/design";
 import { FormItem } from "@/packages/design/Form";
-import { RadioGroup } from "@/packages/design/Radio";
+import { Radio } from "@/packages/design";
 // import styles from "./style.less";
 
 import { INSERT_CONFIG } from "./final";
@@ -43,14 +43,14 @@ const InsertModel: FC<InsertModelProps> = ({ close, ok, type }) => {
   /** render */
   return (
     <Modal title={config.title} onOk={onOk} onCancel={close}>
-      {/* <FormItem label={"添加模式"}>
-        <RadioGroup
+      <FormItem label={"添加模式"}>
+        <Radio.Group
           options={config.options}
           onChange={(e) => setPosition(e as PositionMode)}
         />
-      </FormItem> */}
+      </FormItem>
       <FormItem label={"添加位置"}>
-        <RadioGroup
+        <Radio.Group
           options={config.options}
           onChange={(e) => setPosition(e as PositionMode)}
         />

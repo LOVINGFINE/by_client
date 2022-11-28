@@ -1,6 +1,6 @@
 import { FC, ReactElement } from "react";
-import { MenuOptionChildren } from "../index";
-import Icon from "../../Icon";
+import { MenuOptionChildren } from "./index";
+import Icon from "../Icon";
 import Menu from "./Menu";
 
 const SubMenuItem: FC<SubMenuItemProps> = (props) => {

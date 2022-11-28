@@ -5,10 +5,14 @@
 import React, { FC, useRef } from "react";
 import styles from "./style.less";
 import { SimpleValue } from "@/pages/sheet/editor/type";
-import TextInput, { TextInputCore } from "../TextInput";
-import CellContextMenu from "./Menu";
+import TextInput, { TextInputCore } from "./TextInput";
+import { MetaType, VcColumn } from "../type";
+import { useClassNames } from "@/packages/design/utils/style";
+import { Checkbox } from "@/packages/design";
 
-const Cell: FC<CellProps> = ({ value, onChange }) => {
+const cn = useClassNames(styles);
+
+const Cell: FC<CellProps> = ({ value, onChange, column }) => {
   const inputRef = useRef<TextInputCore>(null);
 
   function onDoubleClick() {
@@ -17,10 +21,21 @@ const Cell: FC<CellProps> = ({ value, onChange }) => {
     }
   }
 
+  const render = () => {
+    switch (column.type) {
+      case MetaType.Boolean:
+        return <Checkbox onChange={onChange} checked={!!value} />;
+      default:
+        return <TextInput ref={inputRef} value={value} onChange={onChange} />;
+    }
+  };
   /** render */
   return (
-    <div className={styles["cell"]} onDoubleClick={onDoubleClick}>
-      <TextInput ref={inputRef} style={{}} value={value} onChange={onChange} />
+    <div
+      className={cn(["cell", `cell-${column.type.toLowerCase()}`])}
+      onDoubleClick={onDoubleClick}
+    >
+      {render()}
     </div>
   );
 };
@@ -30,8 +45,8 @@ const Cell: FC<CellProps> = ({ value, onChange }) => {
  */
 export interface CellProps {
   value: SimpleValue;
+  column: VcColumn;
   onChange?(e: SimpleValue): void;
 }
 
-export { CellContextMenu };
 export default Cell;

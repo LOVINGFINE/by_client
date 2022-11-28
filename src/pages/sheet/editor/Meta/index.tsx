@@ -84,6 +84,7 @@ const MetaEditor: FC = () => {
   /**
    * @Methods
    */
+
   function initWorkbooks() {
     getMetaWorkbooks(sheetId).then((res) => {
       dispatch({
@@ -135,11 +136,6 @@ const MetaEditor: FC = () => {
     });
   }
 
-  function insertEntries(
-    payload: {
-      [k: string]: SimpleValue;
-    }[]
-  ) {}
   function onSelection(e: Selection) {
     dispatch({
       selection: e,
@@ -152,6 +148,8 @@ const MetaEditor: FC = () => {
     });
     updateMetaWorkbook(sheetId, workbookId, {
       showRowCount,
+    }).then(() => {
+      global.onUpdateTime();
     });
   }
 
@@ -170,7 +168,9 @@ const MetaEditor: FC = () => {
         return ele;
       }),
     });
-    updateMetaWorkbookEntries(sheetId, workbookId, payload);
+    updateMetaWorkbookEntries(sheetId, workbookId, payload).then(() => {
+      global.onUpdateTime();
+    });
   }
 
   function onColumn(code: string, payload: Partial<ColumnPayload>) {
@@ -191,6 +191,8 @@ const MetaEditor: FC = () => {
     });
     updateMetaWorkbookColumn(sheetId, workbookId, {
       [code]: payload,
+    }).then(() => {
+      global.onUpdateTime();
     });
   }
 
@@ -198,11 +200,15 @@ const MetaEditor: FC = () => {
   function onDeleteColumns(codes: string[]) {}
 
   function onAddEntry(payload: { [k: string]: SimpleValue }[]) {
-    insertMetaWorkbookEntries(sheetId, workbookId, payload).then((res) => {
-      dispatch({
-        entries: [...res, ...state.entries],
+    insertMetaWorkbookEntries(sheetId, workbookId, payload)
+      .then((res) => {
+        dispatch({
+          entries: [...res, ...state.entries],
+        });
+      })
+      .then(() => {
+        global.onUpdateTime();
       });
-    });
   }
 
   function onDeleteEntry() {}
@@ -212,11 +218,6 @@ const MetaEditor: FC = () => {
   function onClear(only: boolean) {}
 
   function onPaste() {}
-
-  function onCutPaste() {
-    if (state.clipboard) {
-    }
-  }
 
   /** render */
   return (
@@ -236,7 +237,6 @@ const MetaEditor: FC = () => {
         onDeleteEntry,
         onCopy,
         onPaste,
-        onCutPaste,
         onChange,
         onVcTableRef,
         onClear,
@@ -279,7 +279,6 @@ export interface ContextValue extends ContextState {
   onCopy(): void;
   onClear(e: boolean): void;
   onPaste(): void;
-  onCutPaste(): void;
   onChange(m: EntryPayload): void;
   onVcTableRef(ref: VcTableCore | null): void;
 }

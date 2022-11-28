@@ -54,10 +54,106 @@ export function onCopyToClipboard(
   } catch (e) {
     console.warn(e);
   }
+
   return {
     data: target,
     selection,
   };
+}
+
+/** 粘贴 */
+export function onPasteByClipboard(
+  selection: Selection,
+  clipboard: WorkbookClipboard,
+  opts: {
+    style: boolean;
+    cut: boolean;
+  }
+): WorkbookData {
+  const target: WorkbookData = {};
+  if (clipboard) {
+    // 粘贴
+    const getSource = (x: number, y: number) => {
+      if (clipboard.data.length === 1 && clipboard.data[0].length === 1) {
+        return clipboard.data[0][0];
+      }
+      if (clipboard.data[y] && clipboard.data[y][x]) {
+        return clipboard.data[y][x];
+      }
+      return null;
+    };
+    if (opts.cut) {
+      const rowStart = clipboard.selection.row.start;
+      const rowEnd = clipboard.selection.row.end;
+      const colStart = clipboard.selection.column.start;
+      const colEnd = clipboard.selection.column.end;
+      for (let i = rowStart; i <= rowEnd; i++) {
+        for (let j = colStart; j <= colEnd; j++) {
+          const x = j - colStart;
+          const y = i - rowStart;
+          const source = getSource(x, y);
+          if (source) {
+            // 删除
+            const key = getKeyByCoord(j, i);
+            const style = opts.style ? INIT_CELL.style : source.style;
+            target[key] = {
+              value: "",
+              style,
+              comments: [],
+            };
+          }
+        }
+      }
+    }
+    const { column, row } = selection;
+    const rowStart = row.start;
+    const rowEnd = row.end;
+    const colStart = column.start;
+    const colEnd = column.end;
+
+    for (let i = rowStart; i <= rowEnd; i++) {
+      for (let j = colStart; j <= colEnd; j++) {
+        const x = j - colStart;
+        const y = i - rowStart;
+        const source = getSource(x, y);
+        if (source) {
+          // 更新
+          const key = getKeyByCoord(j, i);
+          const style = opts.style ? source.style : INIT_CELL.style;
+          target[key] = {
+            value: source.value,
+            style,
+            comments: [],
+          };
+        }
+      }
+    }
+  }
+
+  return target;
+}
+
+/** 清除数据 */
+export function getClearBySelection(
+  data: WorkbookData,
+  selection: Selection,
+  only = true
+) {
+  const { column, row } = selection;
+  const target: WorkbookData = {};
+  for (let y = row.start; y <= row.end; y++) {
+    for (let x = column.start; x <= column.end; x++) {
+      const key = getKeyByCoord(x, y);
+      if (data[key]) {
+        if (only) {
+          target[key].value = "";
+        } else {
+          target[key] = INIT_CELL;
+        }
+      }
+    }
+  }
+  return target;
 }
 
 export function onChangeStyle(
@@ -91,86 +187,6 @@ export function onChangeStyle(
     }
   }
   return _data;
-}
-/** 粘贴 */
-export function onPasteByClipboard(
-  selection: Selection,
-  clipboard: WorkbookClipboard
-): WorkbookData {
-  const target: WorkbookData = {};
-  if (clipboard) {
-    // 粘贴
-    const { column, row } = selection;
-    const rowStart = row.start;
-    const rowEnd = row.end;
-    const colStart = column.start;
-    const colEnd = column.end;
-    const source = clipboard.data;
-    for (let i = rowStart; i <= rowEnd; i++) {
-      for (let j = colStart; j <= colEnd; j++) {
-        const x = j - colStart;
-        const y = i - rowStart;
-        if (source[y] && source[y][x] !== undefined) {
-          // 更新
-          const key = getKeyByCoord(j, i);
-          target[key] = source[y][x];
-        }
-      }
-    }
-  }
-  return target;
-}
-
-/** 清除数据 */
-export function getClearBySelection(
-  data: WorkbookData,
-  selection: Selection,
-  only = true
-) {
-  const { column, row } = selection;
-  const target: WorkbookData = {};
-  for (let y = row.start; y <= row.end; y++) {
-    for (let x = column.start; x <= column.end; x++) {
-      const key = getKeyByCoord(x, y);
-      if (data[key]) {
-        if (only) {
-          target[key].value = "";
-        } else {
-          target[key] = INIT_CELL;
-        }
-      }
-    }
-  }
-  return target;
-}
-
-/** 剪切粘贴 */
-export function onCutPasteByClipboard(
-  selection: Selection,
-  clipboard: WorkbookClipboard
-): WorkbookData {
-  const target: WorkbookData = {};
-  if (clipboard) {
-    // 粘贴
-    const { column, row } = selection;
-    const rowStart = row.start;
-    const rowEnd = row.end;
-    const colStart = column.start;
-    const colEnd = column.end;
-    const source = clipboard.data;
-    for (let i = rowStart; i <= rowEnd; i++) {
-      for (let j = colStart; j <= colEnd; j++) {
-        const x = j - colStart;
-        const y = i - rowStart;
-        if (source[y] && source[y][x] !== undefined) {
-          // 更新
-          const key = getKeyByCoord(j, i);
-          target[key] = source[y][x];
-        }
-      }
-    }
-  }
-  return target;
 }
 
 /** 删除列 */

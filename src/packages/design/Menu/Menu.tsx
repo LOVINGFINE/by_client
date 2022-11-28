@@ -2,7 +2,7 @@ import { FC, ReactElement, MouseEvent, CSSProperties } from "react";
 import SubMenuItem from "./SubMenuItem";
 import MenuItem from "./MenuItem";
 import MenuDriver from "./MenuDriver";
-import { MenuOptionChildren, MenuOptionDriver } from "../index";
+import { MenuOptionChildren, MenuOptionDriver } from "./index";
 
 const Menu: FC<MenuProps> = ({
   options = [],

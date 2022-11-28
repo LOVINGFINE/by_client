@@ -1,10 +1,10 @@
-import { keyboardEvent, KeyboardType } from "@/plugins/event";
+import { keyboardEventKey, KeyboardType } from "@/plugins/event";
 import { Selection } from "@/pages/sheet/editor/type";
 
 export function createKeyboardEvent() {
   let callback: null | ((e: KeyboardType, p?: unknown) => void) = null;
   const listener = (e: KeyboardEvent) => {
-    const key = keyboardEvent(e);
+    const key = keyboardEventKey(e);
     if (callback && key) {
       callback(key);
     }

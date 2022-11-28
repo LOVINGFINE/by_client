@@ -4,7 +4,6 @@
  */
 import { FC } from "react";
 import { Icon, Menu, Dropdown, Button } from "@/packages/design";
-import { MenuItem } from "@/packages/design/Menu";
 import { ListAction } from "./List";
 
 const SheetMethods: FC<SheetMethodsProps> = ({ onAction }) => {
@@ -17,17 +16,17 @@ const SheetMethods: FC<SheetMethodsProps> = ({ onAction }) => {
         minWidth: 185,
       }}
     >
-      <MenuItem
+      <Menu.Item
         icon={<Icon name="rename" />}
         label={"修改标题"}
         onClick={() => onAction(ListAction.rename)}
       />
-      <MenuItem
+      <Menu.Item
         icon={<Icon name="external-link" />}
         label={`新窗口编辑`}
         onClick={() => onAction(ListAction.openBlank)}
       />
-      <MenuItem
+      <Menu.Item
         icon={<Icon name="trash-o" />}
         label={`删除`}
         onClick={() => onAction(ListAction.remove)}

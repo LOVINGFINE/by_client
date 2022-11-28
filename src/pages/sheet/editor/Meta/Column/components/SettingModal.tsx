@@ -58,6 +58,7 @@ const ColumnSettingModal = forwardRef<
         setType(e.type);
         setWidth(e.width);
         setVisible(true);
+        setMeta(e.meta);
       },
     }),
     []

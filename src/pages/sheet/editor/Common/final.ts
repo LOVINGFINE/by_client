@@ -2,7 +2,7 @@ import { Vertical, Horizontal, Cell, StyleOption } from "./type";
 
 export const INIT_CELL: Cell = {
   style: {
-    fontSize: 13,
+    fontSize: 14,
     lineHeight: 1,
     background: "transparent",
     color: "#424f58",

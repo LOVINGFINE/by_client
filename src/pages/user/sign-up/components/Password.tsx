@@ -35,8 +35,7 @@ const PasswordForm: FC<PasswordFormProps> = ({ onOk, onCancel, current }) => {
       <div className={styles["form-item"]}>
         <div className={styles["form-item-label"]}>{"设置密码"}</div>
         <div className="form-item-body">
-          <Input
-            password
+          <Input.Password
             placeholder="请设置密码,密码不少于8位"
             value={password}
             change={setPassword}
@@ -46,7 +45,7 @@ const PasswordForm: FC<PasswordFormProps> = ({ onOk, onCancel, current }) => {
       <div className={styles["form-item"]}>
         <div className={styles["form-item-label"]}>{"确认密码"}</div>
         <div className="form-item-body">
-          <Input
+          <Input.Password
             placeholder="请输入密码以确认"
             value={confirmation}
             change={setConfirmation}

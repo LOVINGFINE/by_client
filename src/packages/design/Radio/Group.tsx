@@ -3,7 +3,6 @@
  * RadioGroup
  */
 import { FC, ReactElement } from "react";
-import "./style.less";
 import { covClass } from "@/plugins/style";
 import Radio from ".";
 
@@ -37,6 +36,7 @@ export interface RadioOption {
   label: string | ReactElement;
   key: string;
 }
+
 export interface RadioGroupProps {
   options?: RadioOption[];
   value?: string;

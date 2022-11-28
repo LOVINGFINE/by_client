@@ -13,7 +13,7 @@ import React, {
 } from "react";
 import styles from "../style.less";
 import { debounce } from "lodash";
-import { KeyboardType } from "@/plugins/event";
+import { KeyboardType, keyboardEventKey } from "@/plugins/event";
 import { useClassNames } from "@/plugins/style";
 import { Selection } from "@/pages/sheet/editor/type";
 import Thead from "./Header";
@@ -26,7 +26,6 @@ import {
   filterColumns,
   filterRows,
   getBodyStyle,
-  createKeyboardEvent,
   keydownSelected,
   keydownSelection,
 } from "../utils";
@@ -34,7 +33,6 @@ import { DEFAULT_INDEX_WIDTH, DEFAULT_CODE_HEIGHT } from "../../final";
 import { init_selection } from "../../../final";
 
 const classNames = useClassNames(styles);
-const keyboard = createKeyboardEvent();
 
 const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
   (props, ref) => {
@@ -44,7 +42,6 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
       children,
       onCopy,
       onPaste,
-      onCutPaste,
       onSelection,
       onColumnSize,
       onRowSize,
@@ -147,31 +144,42 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
       }
     }
 
-    const removeListener = () => {
-      keyboard.remove();
-    };
-
-    /** 拷贝/粘贴 */
-    const addListener = () => {
-      const { copy, paste, paste_cut } = KeyboardType;
-      keyboard.on((key: KeyboardType) => {
+    function onKeyboard(event: React.KeyboardEvent) {
+      const { copy, paste, paste_cut, paste_cut_control, paste_control } =
+        KeyboardType;
+      const key = keyboardEventKey(event);
+      if (key) {
         if (key === copy) {
           onCopy();
         }
         if (key === paste) {
           onPaste();
         }
-        if (key === paste_cut) {
-          onCutPaste();
+        if (key === paste_control) {
+          onPaste({
+            style: true,
+          });
         }
+        if (key === paste_cut) {
+          onPaste({
+            cut: true,
+          });
+        }
+        if (key === paste_cut_control) {
+          onPaste({
+            cut: true,
+            style: true,
+          });
+        }
+
         if (key.indexOf("selected_") > -1) {
           onMoveSelected(key);
         }
         if (key.indexOf("selection_") > -1) {
           onMoveSelection(key);
         }
-      });
-    };
+      }
+    }
 
     /**
      * @Effect
@@ -223,9 +231,9 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
           "table-none": offset.width === 0,
         })}
         ref={tableRef}
+        tabIndex={0}
+        onKeyDown={onKeyboard}
         onMouseDown={(e) => e.stopPropagation()}
-        onMouseOver={addListener}
-        onMouseOut={removeListener}
       >
         {offset.width > 0 && (
           <>
@@ -283,8 +291,7 @@ export interface VcTableProps {
   rows: RowConfig;
   columns: ColumnConfig;
   onCopy(): void;
-  onPaste(): void;
-  onCutPaste(): void;
+  onPaste(e?: { style?: boolean; cut?: boolean }): void;
   onSelection(e: Selection): void;
   onColumnSize(i: number, w: number): void;
   onRowSize(i: number, h: number): void;

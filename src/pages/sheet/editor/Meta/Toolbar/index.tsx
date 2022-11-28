@@ -3,7 +3,6 @@ import styles from "./style.less";
 import { editorContext } from "../index";
 import ShowRowCount from "./components/ShowRowCount";
 import { Action } from "./Widgets";
-import { Icon } from "@/packages/design";
 
 const Toolbar: FC = () => {
   const editContextValue = useContext(editorContext);
@@ -15,9 +14,6 @@ const Toolbar: FC = () => {
     editContextValue.onShowRow(bol);
   }
 
-  function onAdd() {
-    editContextValue.onAddEntry([{}]);
-  }
   function onDelete() {
     // 删除 工作表
     editContextValue.onDelete();
@@ -25,9 +21,7 @@ const Toolbar: FC = () => {
   /** render */
   return (
     <div className={styles["toolbar"]} onMouseDown={(e) => e.stopPropagation()}>
-      <div className={styles["toolbar-left"]}>
-        <Action onClick={onAdd} icon="plus" />
-      </div>
+      <div className={styles["toolbar-left"]}></div>
       <div className={styles["toolbar-right"]}>
         <ShowRowCount
           value={editContextValue.showRowCount}

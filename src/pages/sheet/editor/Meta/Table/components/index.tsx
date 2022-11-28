@@ -13,7 +13,7 @@ import React, {
 } from "react";
 import styles from "../style.less";
 import { debounce } from "lodash";
-import { KeyboardType } from "@/plugins/event";
+import { KeyboardType, keyboardEventKey } from "@/plugins/event";
 import { useClassNames } from "@/plugins/style";
 import Thead from "./Header";
 import TCorner from "./Corner";
@@ -31,7 +31,6 @@ import {
   filterColumns,
   filterEntries,
   getBodyStyle,
-  createKeyboardEvent,
   keydownSelected,
   keydownSelection,
 } from "../utils";
@@ -39,22 +38,21 @@ import { DEFAULT_INDEX_WIDTH, DEFAULT_CODE_HEIGHT } from "../../final";
 import { init_selection } from "../../../final";
 
 const classNames = useClassNames(styles);
-const keyboard = createKeyboardEvent();
 
 const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
   (props, ref) => {
     const {
       columns,
       entries,
+      showRowCount,
       children,
       onCopy,
       onPaste,
-      onCutPaste,
       onSelection,
       onColumnSize,
       columnRender,
       codeRender,
-      showRowCount,
+      onAddRow,
     } = props;
 
     /** @State */
@@ -148,31 +146,25 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
       }
     }
 
-    const removeListener = () => {
-      keyboard.remove();
-    };
-
-    /** 拷贝/粘贴 */
-    const addListener = () => {
-      const { copy, paste, paste_cut } = KeyboardType;
-      keyboard.on((key: KeyboardType) => {
+    function onKeyboard(event: React.KeyboardEvent) {
+      const { copy, paste } = KeyboardType;
+      const key = keyboardEventKey(event);
+      if (key) {
         if (key === copy) {
           onCopy();
         }
         if (key === paste) {
           onPaste();
         }
-        if (key === paste_cut) {
-          onCutPaste();
-        }
+
         if (key.indexOf("selected_") > -1) {
           onMoveSelected(key);
         }
         if (key.indexOf("selection_") > -1) {
           onMoveSelection(key);
         }
-      });
-    };
+      }
+    }
 
     /**
      * @Effect
@@ -224,11 +216,15 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
           "table-none": offset.width === 0,
         })}
         ref={tableRef}
+        tabIndex={0}
+        onKeyDown={onKeyboard}
         onMouseDown={(e) => e.stopPropagation()}
-        onMouseEnter={addListener}
-        onMouseLeave={removeListener}
       >
-        <TCorner width={rowIndexWidth} height={DEFAULT_CODE_HEIGHT} />
+        <TCorner
+          onAddRow={onAddRow}
+          width={rowIndexWidth}
+          height={DEFAULT_CODE_HEIGHT}
+        />
         <div className={styles["table-scroll"]} onScroll={onScroll}>
           <Thead
             columns={displayColumns}
@@ -281,9 +277,9 @@ export interface VcTableProps {
   columns: MetaColumn[];
   entries: MetaEntry[];
   showRowCount: boolean;
+  onAddRow(): void;
   onCopy(): void;
   onPaste(): void;
-  onCutPaste(): void;
   onSelection(e: Selection): void;
   onColumnSize(i: string, w: number): void;
   onThContextMenu?(e: MouseEvent, c: number): void;

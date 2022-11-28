@@ -4,12 +4,19 @@
  */
 import { FC } from "react";
 import { Icon } from "@/packages/design";
-import styles from "../style.less";
 
 const SuffixTip: FC<SuffixTipProps> = ({ icon, label }) => {
   /** @render */
   return (
-    <span className={styles["suffixTip"]}>
+    <span
+      style={{
+        display: "flex",
+        alignItems: "center",
+        color: "#8898a5",
+        gap: 3,
+        fontSize: 14,
+      }}
+    >
       {icon && <Icon name={icon} />}
       {label}
     </span>

@@ -2,7 +2,7 @@
  * Created by zhangq on 2022/11/26
  * style
  */
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import styles from "./style.less";
 import { VcColumn } from "../type";
 import { Icon } from "@/packages/design";

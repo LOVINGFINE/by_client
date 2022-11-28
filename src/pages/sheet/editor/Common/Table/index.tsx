@@ -34,6 +34,9 @@ const EditableTable: FC = () => {
     const {
       COPY,
       PASTE,
+      PASTE_CONTROL,
+      PASTE_CUT_CONTROL,
+      PASTE_CUT,
       CLEAR,
       INSERT_COLUMN,
       INSERT_ROW,
@@ -47,11 +50,26 @@ const EditableTable: FC = () => {
           break;
         }
         case PASTE: {
-          if (opts) {
-            editContextValue.onPaste();
-          } else {
-            editContextValue.onCutPaste();
-          }
+          editContextValue.onPaste();
+          break;
+        }
+        case PASTE_CONTROL: {
+          editContextValue.onPaste({
+            style: true,
+          });
+          break;
+        }
+        case PASTE_CUT: {
+          editContextValue.onPaste({
+            cut: true,
+          });
+          break;
+        }
+        case PASTE_CUT_CONTROL: {
+          editContextValue.onPaste({
+            style: true,
+            cut: true,
+          });
           break;
         }
         case CLEAR: {
@@ -127,7 +145,6 @@ const EditableTable: FC = () => {
         onTdContextMenu={onTdContextMenu}
         onCopy={editContextValue.onCopy}
         onPaste={editContextValue.onPaste}
-        onCutPaste={editContextValue.onCutPaste}
       >
         {render}
       </VcTable>

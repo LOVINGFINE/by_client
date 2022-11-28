@@ -6,6 +6,8 @@ const {
   copy,
   paste,
   paste_cut,
+  paste_control,
+  paste_cut_control,
   selected_top,
   selected_bottom,
   selected_left,
@@ -27,6 +29,15 @@ export function keyboardWindowsOs(event: KeyboardEvent | React.KeyboardEvent) {
 
   if (ctrlKey && keyCode === "v") {
     // 粘贴
+    if (altKey && shiftKey) {
+      return paste_cut_control;
+    }
+    if (!altKey && shiftKey) {
+      return paste_control;
+    }
+    if (altKey && !shiftKey) {
+      return paste_cut;
+    }
     return paste;
   }
 
@@ -108,7 +119,7 @@ export function keyboardMacOs(event: KeyboardEvent | React.KeyboardEvent) {
   }
 }
 
-export function keyboardEvent(event: KeyboardEvent | React.KeyboardEvent) {
+export function keyboardEventKey(event: KeyboardEvent | React.KeyboardEvent) {
   let key: KeyboardType | undefined;
   if (platform.os === OsType.MacOS) {
     key = keyboardMacOs(event);

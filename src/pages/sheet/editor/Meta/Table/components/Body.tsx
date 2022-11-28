@@ -2,7 +2,7 @@
  * Created by zhangq on 2022/09/10
  * style
  */
-import { FC, MouseEvent, useState, Fragment, ReactElement } from "react";
+import { FC, MouseEvent, useState, ReactElement } from "react";
 import styles from "../style.less";
 import { Selection } from "@/pages/sheet/editor/type";
 import { VcColumn, VcEntry } from "../../type";

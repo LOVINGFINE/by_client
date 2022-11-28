@@ -1,5 +1,7 @@
 import "./theme.less";
 import Button from "./Button";
+import Checkbox from "./Checkbox";
+
 import Drawer from "./Drawer";
 // import Empty from "./Empty";
 // import ErrorBoundary from "./ErrorBoundary";
@@ -26,6 +28,7 @@ import Popover from "./Popover";
 export {
   Button,
   Drawer,
+  Checkbox,
   // Empty,
   // ErrorBoundary,
   Icon,

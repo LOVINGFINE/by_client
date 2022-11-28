@@ -95,7 +95,7 @@ export interface VcTableCore {
   deSelection(): void;
 }
 
-export enum CellMenuKey {
+export enum ContextMenuKey {
   COPY = "COPY",
   PASTE = "PASTE",
   CLEAR = "CLEAR",

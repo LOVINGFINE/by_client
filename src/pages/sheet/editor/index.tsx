@@ -47,6 +47,12 @@ const SheetEditor: FC = () => {
   /**
    * @Methods
    */
+  function onUpdateTime() {
+    dispatch({
+      updatedTime: new Date().toString(),
+    });
+  }
+  
   function initState(id?: string) {
     const sheetId = id ?? state.id;
     setLoading(true);
@@ -84,6 +90,7 @@ const SheetEditor: FC = () => {
         ...state,
         initState,
         onRename,
+        onUpdateTime,
       }}
     >
       <ApplicationLayout
@@ -103,6 +110,7 @@ export interface ContextState extends Sheet {}
 export interface ContextValue extends ContextState {
   initState(): void;
   onRename(n: string): void;
+  onUpdateTime(): void;
 }
 
 export default SheetEditor;

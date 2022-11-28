@@ -7,7 +7,6 @@ import styles from "../style.less";
 import { ListFilter, ListMode, ListSort } from "@/pages/sheet/type";
 import { Icon, Button, Dropdown, Menu, Space } from "@/packages/design";
 import { ActionOptions } from "../type";
-import { MenuItem } from "@/packages/design/Menu";
 import { FILTER_OPTIONS, SORT_OPTIONS } from "../final";
 
 const Toolbar: FC<ToolbarProps> = ({
@@ -56,7 +55,7 @@ const Toolbar: FC<ToolbarProps> = ({
     >
       {getOptions<ListFilter>(FILTER_OPTIONS).map((ele) => {
         return (
-          <MenuItem
+          <Menu.Item
             key={ele.value}
             icon={
               <Icon name={filter === ele.value ? "circle" : ""} size={10} />
@@ -82,7 +81,7 @@ const Toolbar: FC<ToolbarProps> = ({
     >
       {getOptions<ListSort>(SORT_OPTIONS).map((ele) => {
         return (
-          <MenuItem
+          <Menu.Item
             key={ele.value}
             icon={<Icon name={sort === ele.value ? "circle" : ""} size={10} />}
             label={

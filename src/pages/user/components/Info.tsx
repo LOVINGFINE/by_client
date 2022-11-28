@@ -5,7 +5,6 @@
 import { FC, useContext } from "react";
 import styles from "./style.less";
 import { Icon, Menu } from "@/packages/design";
-import { MenuItem } from "@/packages/design/Menu";
 import { userContext } from "@/plugins/user";
 import UserAvatar from "./Avatar";
 
@@ -31,7 +30,7 @@ const UserInfo: FC<UserInfoProps> = ({}) => {
         </span>
       </div>
       <Menu>
-        <MenuItem
+        <Menu.Item
           icon={<Icon name="sign-out" />}
           label={"退出登录"}
           type="error"

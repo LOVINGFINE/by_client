@@ -8,13 +8,14 @@ import CodeRender from "../Column/Code";
 import { Selection } from "@/pages/sheet/editor/type";
 import {
   VcTableCore,
-  CellMenuKey,
+  ContextMenuKey,
   VcEntry,
   VcColumn,
   ColumnPayload,
 } from "../type";
 import { mouseEventContent } from "@/plugins/event";
-import Cell, { CellContextMenu } from "../Cell";
+import ContextMenu from "../ContextMenu";
+import Cell from "../Cell";
 import { editorContext } from "../index";
 import ColumnRender from "../Column";
 import ColumnSettingModal, {
@@ -50,19 +51,15 @@ const EditableTable: FC = () => {
       // INSERT_ENTRY,
       // REMOVE_COLUMN,
       // REMOVE_ENTRY,
-    } = CellMenuKey;
-    const onMenuAction = (k: CellMenuKey, opts: unknown) => {
+    } = ContextMenuKey;
+    const onMenuAction = (k: ContextMenuKey, opts: unknown) => {
       switch (k) {
         case COPY: {
           editContextValue.onCopy();
           break;
         }
         case PASTE: {
-          if (opts) {
-            editContextValue.onPaste();
-          } else {
-            editContextValue.onCutPaste();
-          }
+          editContextValue.onPaste();
           break;
         }
         case CLEAR: {
@@ -74,7 +71,7 @@ const EditableTable: FC = () => {
 
     mouseEventContent(
       e,
-      <CellContextMenu
+      <ContextMenu
         selection={editContextValue.selection}
         onAction={onMenuAction}
       />
@@ -89,12 +86,21 @@ const EditableTable: FC = () => {
     editContextValue.onColumn(code, column);
   }
 
+  function onAddRow() {
+    editContextValue.onAddEntry([{}]);
+  }
+
   /** @render */
   return (
-    <div style={{ height: `calc(100% - 88px)` }}>
+    <div
+      style={{
+        height: `calc(100% - 88px)`,
+      }}
+    >
       <ColumnSettingModal ref={columnSettingRef} onOk={onColumnSettingOK} />
       <VcTable
         ref={vcTableRef}
+        onAddRow={onAddRow}
         showRowCount={editContextValue.showRowCount}
         columns={editContextValue.columns}
         entries={editContextValue.entries}
@@ -103,7 +109,6 @@ const EditableTable: FC = () => {
         onTdContextMenu={onTdContextMenu}
         onCopy={editContextValue.onCopy}
         onPaste={editContextValue.onPaste}
-        onCutPaste={editContextValue.onCutPaste}
         codeRender={(column) => <CodeRender column={column} />}
         columnRender={(column) => (
           <ColumnRender onSetting={onSetting} column={column} />
@@ -113,6 +118,7 @@ const EditableTable: FC = () => {
           return (
             <Cell
               value={entry.values[column.code] || ""}
+              column={column}
               onChange={(val) => {
                 editContextValue.onChange({
                   [entry.id]: {

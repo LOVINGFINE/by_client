@@ -16,7 +16,9 @@ export interface DropEndProp {
 export enum KeyboardType {
   copy = "copy",
   paste = "paste",
+  paste_control = "paste_control",
   paste_cut = "paste_cut",
+  paste_cut_control = "paste_cut_control",
   selected_top = "selected_top",
   selected_bottom = "selected_bottom",
   selected_left = "selected_left",

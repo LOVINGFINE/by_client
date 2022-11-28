@@ -13,8 +13,7 @@ const Switch: FC<SwitchProps> = ({
   size = "middle",
   onChange,
 }) => {
-  function onClick(event: React.MouseEvent) {
-    event;
+  function onClick() {
     if (!disabled) {
       onChange && onChange(!checked);
     }

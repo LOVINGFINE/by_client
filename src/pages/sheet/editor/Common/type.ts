@@ -95,6 +95,9 @@ export interface UpdateCell {
 export enum CellMenuKey {
   COPY = "COPY",
   PASTE = "PASTE",
+  PASTE_CONTROL = "PASTE_CONTROL",
+  PASTE_CUT = "PASTE_CUT",
+  PASTE_CUT_CONTROL = "PASTE_CUT_CONTROL",
   CLEAR = "CLEAR",
   INSERT_COLUMN = "INSERT_COLUMN",
   INSERT_ROW = "INSERT_ROW",

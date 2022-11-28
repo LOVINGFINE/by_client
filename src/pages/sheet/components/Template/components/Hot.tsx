@@ -9,7 +9,6 @@ import TemplateEmpty from "./Empty";
 import { TemplateListItem } from "../type";
 import { Button, Dropdown, Icon, Menu } from "@/packages/design";
 import { useNavigate } from "react-router";
-import { MenuItem } from "@/packages/design/Menu";
 import { SheetType } from "@/pages/sheet/type";
 
 const TemplateHot: FC<TemplateHotProps> = ({
@@ -31,7 +30,7 @@ const TemplateHot: FC<TemplateHotProps> = ({
         minWidth: 185,
       }}
     >
-      <MenuItem
+      <Menu.Item
         icon={<Icon name="eye-slash" />}
         label={"隐藏模版库"}
         onClick={onHide}

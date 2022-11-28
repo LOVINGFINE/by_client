@@ -20,23 +20,35 @@
   position: absolute;
   left: 0;
   top: 0;
-  background-color: #fff;
+  background-color: #f6f6f6;
   display: flex;
-  justify-content: flex-end;
   flex-direction: column;
   cursor: pointer;
   z-index: 99;
   overflow: hidden;
-  > span {
+  &-addRow {
     height: 36px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--d-desc);
-    background-color: #f1f1f1;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    // border-top: 1px solid #ddd;
+    // border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+    font-size: 18px;
+    &:hover {
+      background-color: #eee;
+      color: var(--d-hover);
+    }
+  }
+  &-title {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--d-desc);
     box-sizing: border-box;
   }
 }
@@ -64,7 +76,7 @@
   height: 100%;
   z-index: 5;
   overflow: hidden;
-  background-color: #fff;
+  background-color: #f6f6f6;
   &-selection {
     background-color: #c6dad7;
   }

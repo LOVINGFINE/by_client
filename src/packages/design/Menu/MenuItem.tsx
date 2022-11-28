@@ -1,5 +1,5 @@
 import { FC, MouseEvent } from "react";
-import { MenuOption } from "..";
+import { MenuOption } from "./index";
 
 const MenuItem: FC<MenuItemProps> = (props) => {
   const { label, type = "default", disabled, icon, suffix, onClick } = props;

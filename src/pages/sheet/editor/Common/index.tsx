@@ -114,7 +114,6 @@ const PageEditor: FC = () => {
       });
     }
   }
-  getCommonWorkbookById;
 
   function initWorkbooks() {
     getCommonWorkbooks(global.id).then((res) => {
@@ -173,6 +172,7 @@ const PageEditor: FC = () => {
     onColumns(res.columns);
     onChange(res.data);
   }
+
   function onDeleteColumns() {
     const res = onDeleteColumn(state.data, state.columns, state.selection);
     onColumns(res.columns);
@@ -208,21 +208,14 @@ const PageEditor: FC = () => {
     onChange(maps);
   }
 
-  function onPaste() {
+  function onPaste(opts?: { style?: boolean; cut?: boolean }) {
+    const { style = false, cut = false } = opts || {};
     if (state.clipboard) {
-      const payload = onPasteByClipboard(state.selection, state.clipboard);
-      onChange(payload);
-    }
-  }
-
-  function onCutPaste() {
-    if (state.clipboard) {
-      const maps = getClearBySelection(state.data, state.selection, false);
-      const update = onPasteByClipboard(state.selection, state.clipboard);
-      onChange({
-        ...maps,
-        ...update,
+      const payload = onPasteByClipboard(state.selection, state.clipboard, {
+        style,
+        cut,
       });
+      onChange(payload);
     }
   }
 
@@ -244,7 +237,6 @@ const PageEditor: FC = () => {
         onDeleteRows,
         onCopy,
         onPaste,
-        onCutPaste,
         onChange,
         onVcTableRef,
         onClear,
@@ -284,8 +276,7 @@ export interface ContextValue extends ContextState {
   onDeleteRows(): void;
   onCopy(): void;
   onClear(e: boolean): void;
-  onPaste(): void;
-  onCutPaste(): void;
+  onPaste(e?: { style?: boolean; cut?: boolean }): void;
   onChange(m: { [k: string]: Partial<Cell> }): void;
   onVcTableRef(ref: VcTableCore | null): void;
 }

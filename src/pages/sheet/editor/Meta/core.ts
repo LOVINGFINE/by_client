@@ -1,4 +1,4 @@
-import { arrayToCsv } from "@/plugins/convert";
+// import { arrayToCsv } from "@/plugins/convert";
 import { MetaColumn, MetaEntry, MetaClipboard } from "./type";
 import { Selection } from "@/pages/sheet/editor/type";
 

@@ -12,7 +12,6 @@ import { StyleOption } from "../type";
 
 const Cell: FC<CellProps> = ({ value, onChange, style }) => {
   const inputRef = useRef<TextInputCore>(null);
-
   function onDoubleClick() {
     if (inputRef.current) {
       inputRef.current.focus();
