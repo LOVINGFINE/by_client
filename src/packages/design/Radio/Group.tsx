@@ -18,10 +18,11 @@ const RadioGroup: FC<RadioGroupProps> = ({
       {options.map((ele, i) => {
         return (
           <Radio
-            checked={value === ele.key}
-            onChange={() => onChange && onChange(ele.key)}
+            checked={value === ele.value}
+            onChange={() => onChange && onChange(ele.value)}
             key={i}
             label={ele.label}
+            disabled={ele.disabled}
           />
         );
       })}
@@ -32,15 +33,18 @@ const RadioGroup: FC<RadioGroupProps> = ({
 /**
  * @interface props
  */
+export type RadioValue = string | number | boolean;
+
 export interface RadioOption {
-  label: string | ReactElement;
-  key: string;
+  label?: string | ReactElement;
+  value: RadioValue;
+  disabled?: boolean;
 }
 
 export interface RadioGroupProps {
   options?: RadioOption[];
-  value?: string;
-  onChange?(e: string): void;
+  value?: RadioValue;
+  onChange?(e: RadioValue): void;
   direction?: "vertical" | "horizontal";
 }
 

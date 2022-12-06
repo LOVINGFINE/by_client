@@ -1,8 +1,8 @@
 /*
  * Created by zhangq on 2022/10/19
- * style
+ * FormItem
  */
-import { FC, ReactElement } from "react";
+import { FC } from "react";
 import styles from "./style.less";
 
 const FormItem: FC<FormItemProps> = ({ children, label }) => {
@@ -19,8 +19,8 @@ const FormItem: FC<FormItemProps> = ({ children, label }) => {
  * @interface props
  */
 export interface FormItemProps {
-  children?: ReactElement;
-  label?: string | ReactElement;
+  children?: React.ReactNode;
+  label?: React.ReactNode | React.ReactNode[];
 }
 
 export default FormItem;

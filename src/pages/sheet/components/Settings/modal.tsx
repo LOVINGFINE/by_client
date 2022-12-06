@@ -6,7 +6,7 @@ import { useImperativeHandle, useState, forwardRef } from "react";
 import styles from "./style.less";
 import { SheetUserSettings } from "@/pages/sheet/type";
 import { Button, Input, Modal, Switch } from "@/packages/design";
-import { FormItem } from "@/packages/design/Form";
+import { Form } from "@/packages/design";
 
 const SettingsModal = forwardRef<SettingsModalRef | null, SettingsModalProps>(
   (props, ref) => {
@@ -51,16 +51,16 @@ const SettingsModal = forwardRef<SettingsModalRef | null, SettingsModalProps>(
         footer={null}
       >
         <div className={styles["form"]}>
-          <FormItem label={"在首页隐藏模版库"}>
+          <Form.Item label={"在首页隐藏模版库"}>
             <Switch checked={hideTemplate} onChange={setHideTemplate} />
-          </FormItem>
-          <FormItem label={"新建表格时默认标题"}>
+          </Form.Item>
+          <Form.Item label={"新建表格时默认标题"}>
             <Input
               value={defaultTitle}
               change={setDefaultTitle}
               placeholder={"未命名标题"}
             />
-          </FormItem>
+          </Form.Item>
           <div className={styles["form-bottom"]}>
             <Button
               type="primary"

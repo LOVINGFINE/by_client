@@ -28,6 +28,7 @@ export interface InputProps {
   placeholder?: string;
   width?: number | string;
   style?: CSSProperties;
+  disabled?: boolean;
 }
 
 const Input = forwardRef<InputRef | null, InputProps>((props, ref) => {
@@ -40,18 +41,21 @@ const Input = forwardRef<InputRef | null, InputProps>((props, ref) => {
     change,
     onBlur,
     onEnter,
+    disabled = false,
   } = props;
   const inputRef = useRef<HTMLInputElement>(null);
   function onKeyDown(e: KeyboardEvent) {
-    const key = e.key;
-    if (key === "Enter" && onEnter) {
-      onEnter(e);
+    if (!disabled) {
+      const key = e.key;
+      if (key === "Enter" && onEnter) {
+        onEnter(e);
+      }
     }
   }
 
   function onInput(e: FormEvent<HTMLInputElement>) {
     const input = e.currentTarget.value || "";
-    if (change) {
+    if (change && !disabled) {
       change(input);
     }
   }
@@ -60,8 +64,16 @@ const Input = forwardRef<InputRef | null, InputProps>((props, ref) => {
   useImperativeHandle(
     ref,
     (): InputRef => ({
-      focus: () => inputRef.current?.focus(),
-      select: () => inputRef.current?.select(),
+      focus: () => {
+        if (!disabled) {
+          inputRef.current?.focus();
+        }
+      },
+      select: () => {
+        if (!disabled) {
+          inputRef.current?.select();
+        }
+      },
     }),
     []
   );
@@ -69,12 +81,13 @@ const Input = forwardRef<InputRef | null, InputProps>((props, ref) => {
   return (
     <input
       ref={inputRef}
-      className={`input input-${size}`}
+      className={`input input-${size} ${disabled ? "input-disabled" : ""}`}
       placeholder={placeholder}
       style={{
         width,
         ...style,
       }}
+      readOnly={disabled}
       value={value}
       onBlur={onBlur}
       onKeyDown={onKeyDown}

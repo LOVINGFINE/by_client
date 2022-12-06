@@ -3,20 +3,17 @@
  * style
  */
 import { FC } from "react";
-import { Dropdown } from "@/packages/design";
-import { Action, ColorPicker } from "../Widgets";
+import { Action } from "../Widgets";
 import { Icon } from "@/packages/design";
 import styles from "../style.less";
 import { useClassNames } from "@/plugins/style";
+import { ColorPicker } from "@/components";
 
 const cn = useClassNames(styles);
 const BackgroundColor: FC<BackgroundColorProps> = ({ value, onChange }) => {
   /** render */
   return (
-    <Dropdown
-      placement="bottomRight"
-      overlay={<ColorPicker onChange={onChange} />}
-    >
+    <ColorPicker value={value} onChange={onChange}>
       <Action>
         <div className={styles["background"]}>
           <span
@@ -33,7 +30,7 @@ const BackgroundColor: FC<BackgroundColorProps> = ({ value, onChange }) => {
           </span>
         </div>
       </Action>
-    </Dropdown>
+    </ColorPicker>
   );
 };
 

@@ -6,9 +6,19 @@ import { Route, Outlet, Routes } from "react-router-dom";
 import { lazy } from "react";
 import { RouteProp } from "./type";
 
-export function AppRouter(routes: RouteProp[]) {
-  function renderCurrentRoute(path: string, children?: boolean) {
-    const LazyElement = lazy(() => import(`@/${path}`));
+function AppRouter(routes: RouteProp[]) {
+  function renderCurrentRoute(
+    path: string,
+    opts?: {
+      children?: boolean;
+      title?: string;
+    }
+  ) {
+    const { children = false, title = "" } = opts || {};
+    const LazyElement = lazy(() => {
+      document.title = title;
+      return import(`@/${path}`);
+    });
     if (children) {
       return (
         <LazyElement>
@@ -24,9 +34,13 @@ export function AppRouter(routes: RouteProp[]) {
       if (ele.routes) {
         return (
           <Route
+            id={i + ele.path}
             key={i + ele.path}
             path={ele.path}
-            element={renderCurrentRoute(ele.view, true)}
+            element={renderCurrentRoute(ele.view, {
+              children: true,
+              title: ele.title,
+            })}
           >
             {getElements(ele.routes)}
           </Route>
@@ -34,13 +48,17 @@ export function AppRouter(routes: RouteProp[]) {
       }
       return (
         <Route
-          index={i === 0}
+          id={i + ele.path}
           key={i + ele.path}
           path={ele.path}
-          element={renderCurrentRoute(ele.view)}
+          element={renderCurrentRoute(ele.view, {
+            title: ele.title,
+          })}
         />
       );
     });
   }
   return <Routes>{getElements(routes)}</Routes>;
 }
+
+export default AppRouter;

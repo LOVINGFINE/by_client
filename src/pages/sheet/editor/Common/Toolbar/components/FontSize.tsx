@@ -3,23 +3,21 @@
  * font size
  */
 import { FC } from "react";
-import { Icon, Dropdown } from "@/packages/design";
+import { Icon } from "@/packages/design";
 import styles from "../style.less";
-import { Action, SizePicker } from "../Widgets";
+import { Action } from "../Widgets";
+import { SizePicker } from "@/components";
 
 const FontSize: FC<FontSizeProps> = ({ value, onChange }) => {
   /** render */
   return (
     <Action>
       <span className={styles["font-size-input"]}>{value}</span>
-      <Dropdown
-        placement="bottom"
-        overlay={<SizePicker value={value} onChange={onChange} />}
-      >
+      <SizePicker value={value} onChange={onChange}>
         <span className={styles["font-size-picker"]}>
           <Icon name="caret-down" />
         </span>
-      </Dropdown>
+      </SizePicker>
     </Action>
   );
 };

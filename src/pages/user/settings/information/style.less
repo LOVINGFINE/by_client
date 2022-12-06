@@ -1,0 +1,56 @@
+.information {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-direction: column;
+  animation: show-content 0.2s;
+}
+
+@keyframes show-content {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.form {
+  &-desc {
+    width: 100%;
+    font-size: 15px;
+    color: var(--d-desc);
+  }
+  &-warn {
+    width: 100%;
+    font-size: 15px;
+    color: var(--d-text-warn);
+    display: flex;
+    align-items: center;
+  }
+}
+
+.userValueNone {
+  background-color: #f9f9f9;
+  color: var(--d-desc);
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.avatarValue {
+  width: 115px;
+  height: 115px;
+  margin-bottom: 35px;
+  > img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.emailCode {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

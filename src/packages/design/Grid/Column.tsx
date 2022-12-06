@@ -2,23 +2,23 @@
  * Created by zhangq on 2022/10/17
  * Column
  */
-import { FC, useEffect } from "react";
-import "./style.less";
+import { FC } from "react";
 
-const Column: FC<ColumnProps> = ({ span }) => {
+const Column: FC<ColumnProps> = ({ span, children }) => {
   /** @State */
   const width = (() => {
-    if (span !== undefined) {
+    if (span !== undefined && span >= 0 && span <= 24) {
       return `${span / 24}%`;
     }
     return "100%";
   })();
 
-  /** @Effect */
-  useEffect(() => {}, []);
-
   /** render */
-  return <div className="column" style={{ width }}></div>;
+  return (
+    <div className="column" style={{ width }}>
+      {children}
+    </div>
+  );
 };
 
 /**
@@ -26,6 +26,7 @@ const Column: FC<ColumnProps> = ({ span }) => {
  */
 export interface ColumnProps {
   span?: number;
+  children?: React.ReactNode;
 }
 
 export default Column;

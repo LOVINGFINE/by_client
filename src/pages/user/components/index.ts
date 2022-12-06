@@ -1,3 +1,4 @@
 import UserAvatar from "./Avatar";
-import UserInfo from "./Info";
-export { UserAvatar, UserInfo };
+import UserCarte from "./Carte";
+
+export { UserAvatar, UserCarte };

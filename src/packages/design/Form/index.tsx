@@ -1,30 +1,13 @@
-/*
- * Created by zhangq on 2022/10/19
- * Form
- */
-import { FC, useEffect } from "react";
-// import styles from "./style.less";
-import FormItem from "./item";
+import "./style.less";
+import FormNormal, { FormProps } from "./Form";
+import Item, { FormItemProps } from "./Item";
 
-const Form: FC<FormProps> = ({}) => {
-  /** @State */
+export type { FormProps, FormItemProps };
 
-  /** @Effect */
-  useEffect(() => {}, []);
-
-  /**
-   * @Methods
-   */
-
-  /** render */
-  return <div></div>;
+const Form = FormNormal as React.ForwardRefExoticComponent<FormProps> & {
+  Item: typeof Item;
 };
 
-/**
- * @interface props
- */
-export interface FormProps {}
-
-export { FormItem };
+Form.Item = Item;
 
 export default Form;

@@ -1,0 +1,41 @@
+.picker {
+  width: 222px;
+  padding: 15px 0;
+  height: 216px;
+  &-content {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    padding: 0 12px;
+    .ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      width: 100%;
+      &-item {
+        width: 24px;
+        height: 24px;
+        border-radius: 2px;
+        cursor: pointer;
+      }
+      .white {
+        border: 1px solid #eee;
+      }
+      .transparent {
+        border: 1px solid #eee;
+        position: relative;
+        overflow: hidden;
+        &::before {
+          content: "";
+          width: 35px;
+          height: 2px;
+          background-color: red;
+          transform: rotate(45deg);
+          position: absolute;
+          left: -6px;
+          top: 10px;
+        }
+      }
+    }
+  }
+}

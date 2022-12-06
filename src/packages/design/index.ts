@@ -13,7 +13,7 @@ import Loading from "./Spanging/Loading";
 
 import Menu from "./Menu";
 import Modal from "./Modal";
-import Space from "./Space";
+
 import Select from "./Select";
 import Switch from "./Switch";
 
@@ -25,6 +25,8 @@ import message from "./Message";
 import Dropdown from "./Dropdown";
 import Popover from "./Popover";
 
+import Space from "./Space";
+import Grid from "./Grid";
 export {
   Button,
   Drawer,
@@ -41,6 +43,7 @@ export {
   Tooltip,
   // VirtualScroll,
   // VirtualTree,
+  Grid,
   Radio,
   Select,
   message,

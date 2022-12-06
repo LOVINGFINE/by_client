@@ -35,11 +35,11 @@ const Dropdown: FC<DropdownProps> = ({
         const div = document.createElement("div");
         div.id = id;
         div.className = "dropdown";
-        div.onmousedown = (e) => {
+        div.onmouseup = (e) => {
           e.stopPropagation();
           setTimeout(() => {
             onClose();
-          }, 200);
+          });
         };
         const root = createRoot(div);
         root.render(<div className="dropdown-overlay">{overlay}</div>);
@@ -69,13 +69,11 @@ const Dropdown: FC<DropdownProps> = ({
   function onChangeVisible() {
     if (!visibleValue.value) {
       setTimeout(() => {
-        window.addEventListener("mousedown", onClose, { once: true });
-        window.addEventListener("click", onClose, { once: true });
-      }, 200);
+        window.addEventListener("mouseup", onClose, { once: true });
+      });
     } else {
       setTimeout(() => {
-        window.removeEventListener("mousedown", onClose);
-        window.removeEventListener("click", onClose);
+        window.removeEventListener("mouseup", onClose);
       });
     }
     visibleValue.setVisible(!visibleValue.value);
@@ -100,7 +98,7 @@ const Dropdown: FC<DropdownProps> = ({
       };
     }
     return {
-      onMouseDown: (...s: unknown[]) => {
+      onMouseUp: (...s: unknown[]) => {
         if (ele.props?.onClick) {
           ele.props?.onMouseDown(s);
         }

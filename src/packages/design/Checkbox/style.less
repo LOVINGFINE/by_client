@@ -1,33 +1,51 @@
-.checkbook {
-  cursor: pointer;
-  display: inline-block;
-  user-select: none;
-  position: relative;
-  background-color: var(--d-desc);
-  border: 1px solid #ddd;
+.checkbox {
+  display: flex;
+  align-items: center;
+  &-wrapper {
+    cursor: pointer;
+    display: inline-block;
+    user-select: none;
+    position: relative;
+    border: 1px solid #ddd;
+    &-middle {
+      height: 24px;
+      width: 24px;
+      border-radius: 3px;
+    }
+    &-small {
+      height: 20px;
+      width: 20px;
+      border-radius: 2px;
+    }
+    &-large {
+      height: 28px;
+      width: 28px;
+      border-radius: 4px;
+    }
 
-  &-middle {
-    height: 24px;
-    width: 24px;
-    border-radius: 3px;
+    &:checked {
+      background-color: var(--d-primary) !important;
+      color: #fff !important;
+    }
+    &-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
-  &-small {
-    height: 20px;
-    width: 20px;
-    border-radius: 2px;
+  > span {
+    padding: 0 6px;
   }
-  &-large {
-    height: 28px;
-    width: 28px;
-    border-radius: 4px;
-  }
+}
 
-  &:checked {
-    background-color: var(--d-primary);
-    color: #fff;
+.checkbookGroup {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  &-vertical {
+    flex-direction: column;
   }
-  &-disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  &-horizontal {
+    flex-direction: row;
+    align-items: center;
   }
 }

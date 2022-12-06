@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import { Icon } from "@/packages/design";
 import { UserWithToken } from "../type";
 import SignInForm from "./components/Form";
-import styles from "./style.less";
+import styles from "../style.less";
 import { userContext } from "@/plugins/user";
 
 const SignInPage: FC = () => {
@@ -24,11 +24,11 @@ const SignInPage: FC = () => {
   }
   /** render */
   return (
-    <div className={styles["signIn"]}>
-      <div className={styles["signIn-card"]}>
-        <div className={styles["signIn-card-top"]}>
+    <div className={styles["sign"]}>
+      <div className={styles["sign-card"]}>
+        <div className={styles["sign-card-top"]}>
           <Icon name={"doclogo"} size={42} />
-          <span className={styles["signIn-card-top-title"]}>登录账号</span>
+          <span className={styles["sign-card-top-title"]}>登录账号</span>
         </div>
         <SignInForm onOK={onSignInOk} />
       </div>

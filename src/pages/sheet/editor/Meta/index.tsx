@@ -91,15 +91,20 @@ const MetaEditor: FC = () => {
         workbooks: res,
       });
       if (!workbookId && res.length > 0) {
-        onWorkbook(res[0].id);
+        onWorkbook(res[0].id, true);
       }
     });
   }
 
   function onWorkbook(id: string, replace?: boolean) {
-    navigate(`/sheets/${sheetId}?wid=${id}`, {
-      replace,
-    });
+    navigate(
+      {
+        search: `?wid=${id}`,
+      },
+      {
+        replace,
+      }
+    );
   }
 
   function onDelete() {

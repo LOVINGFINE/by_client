@@ -11,12 +11,15 @@ import {
 } from "react";
 import "./style.less";
 import { InputRef, InputProps } from "./Input";
+import { useVisible } from "@/plugins/event";
+import Icon from "../Icon";
 
 /**
  * @interface props
  */
 export interface InputPasswordProps extends InputProps {
   hide?: boolean;
+  onHide?(e: boolean): void;
 }
 
 const InputPassword = forwardRef<InputRef | null, InputPasswordProps>(
@@ -28,11 +31,18 @@ const InputPassword = forwardRef<InputRef | null, InputPasswordProps>(
       width = "100%",
       style = {},
       hide = true,
+      onHide,
       change,
       onBlur,
       onEnter,
     } = props;
+    const hideValue = useVisible({
+      value: hide,
+      cb: onHide,
+    });
+
     const inputRef = useRef<HTMLInputElement>(null);
+
     function onKeyDown(e: KeyboardEvent) {
       const key = e.key;
       if (key === "Enter" && onEnter) {
@@ -56,22 +66,36 @@ const InputPassword = forwardRef<InputRef | null, InputPasswordProps>(
       }),
       []
     );
+    console.log(hideValue.value);
+
     /** render */
     return (
-      <input
-        ref={inputRef}
-        type={hide ? "password" : "text"}
-        className={`input input-${size}`}
-        placeholder={placeholder}
+      <div
+        className="input-wrapper"
         style={{
           width,
-          ...style,
         }}
-        value={value}
-        onBlur={onBlur}
-        onKeyDown={onKeyDown}
-        onInput={onInput}
-      />
+      >
+        <input
+          ref={inputRef}
+          type={hideValue.value ? "password" : "text"}
+          className={`input input-${size}`}
+          placeholder={placeholder}
+          style={{
+            ...style,
+          }}
+          value={value}
+          onBlur={onBlur}
+          onKeyDown={onKeyDown}
+          onInput={onInput}
+        />
+        <span
+          className={`input-wrapper-suffix input-wrapper-suffix-${size}`}
+          onClick={() => hideValue.setVisible(!hideValue.value)}
+        >
+          <Icon name={hideValue.value ? "eye-slash" : "eye"} />
+        </span>
+      </div>
     );
   }
 );

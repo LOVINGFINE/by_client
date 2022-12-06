@@ -2,7 +2,7 @@
  * Created by zhangq on 2021/07/02
  * Spanging
  */
-import { ReactElement, FC } from "react";
+import { FC, Fragment } from "react";
 import "./style.less";
 import Loading, { LoadingType } from "./Loading";
 
@@ -11,10 +11,10 @@ const Spanging: FC<SpangingProps> = ({
   size,
   loading = false,
   type = "stripes",
-}): ReactElement => {
+}) => {
   /** render */
   return (
-    <>
+    <Fragment>
       {loading ? (
         <div className="spanging">
           <Loading type={type} size={size} />
@@ -22,11 +22,11 @@ const Spanging: FC<SpangingProps> = ({
       ) : (
         children
       )}
-    </>
+    </Fragment>
   );
 };
 export interface SpangingProps {
-  children?: ReactElement | ReactElement[];
+  children?: React.ReactNode;
   size?: "middle" | "small" | "large";
   type?: LoadingType;
   loading?: boolean;

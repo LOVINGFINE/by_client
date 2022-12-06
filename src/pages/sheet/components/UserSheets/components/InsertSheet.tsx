@@ -21,7 +21,9 @@ const InsertSheet: FC = () => {
   }
 
   function navToTemplate() {
-    navigate("/sheets?st=1");
+    navigate({
+      search: `?st=1`,
+    });
   }
   /** render */
   return (

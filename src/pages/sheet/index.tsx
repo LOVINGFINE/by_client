@@ -63,6 +63,7 @@ const UserSheetPage: FC = () => {
   return (
     <ApplicationLayout
       title={"表格"}
+      logo={true}
       control={display !== "full"}
       settings={
         <Settings settings={userSettings} onSettings={onUserSettings} />

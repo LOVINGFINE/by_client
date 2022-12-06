@@ -2,7 +2,7 @@
  * Created by zhangq on 2021/11/26
  *
  */
-import React, { ReactElement, FC, MouseEvent } from "react";
+import React, { ReactElement, FC, MouseEvent, useState } from "react";
 import "./style.less";
 import Icon from "../Icon";
 import { covertNames } from "../utils/style";
@@ -19,6 +19,7 @@ const Button: FC<ButtonProps> = ({
   link,
   round = false,
 }: ButtonProps): ReactElement => {
+  const [down, setDown] = useState(false);
   const classNames = (() => {
     const list = ["btn"];
     if (disabled || loading) {
@@ -35,14 +36,11 @@ const Button: FC<ButtonProps> = ({
       list.push(`btn-${type}`);
       list.push(`btn-${size}`);
     }
+    if (down) {
+      list.push(`btn-down`);
+    }
     return covertNames(list);
   })();
-
-  function handleClick(e: MouseEvent) {
-    if (onClick && !(disabled || loading)) {
-      onClick(e);
-    }
-  }
 
   const getChildren = () => {
     if (typeof children === "string") {
@@ -53,10 +51,31 @@ const Button: FC<ButtonProps> = ({
     }
     return children;
   };
+
+  function handleClick(e: MouseEvent) {
+    if (onClick && !(disabled || loading)) {
+      onClick(e);
+    }
+  }
+
+  function onSetDown(e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!loading || !disabled) {
+      setDown(true);
+      document.addEventListener("mouseup", () => {
+        setDown(false);
+      });
+    }
+  }
   /** render */
   return (
-    <div className="button">
-      <div onClick={handleClick} className={classNames} style={style}>
+    <div className={`button `}>
+      <div
+        onMouseUp={handleClick}
+        onMouseDown={onSetDown}
+        className={classNames}
+        style={style}
+      >
         {loading ? (
           <span className={"btn-icon"}>
             <Icon name="spinner" className={"btn-icon-loading"} />
@@ -70,7 +89,7 @@ const Button: FC<ButtonProps> = ({
   );
 };
 export interface ButtonProps {
-  children?: React.ReactElement | (React.ReactElement | string)[] | string;
+  children?: React.ReactNode;
   type?: "default" | "error" | "primary";
   size?: "middle" | "small" | "large";
   style?: React.CSSProperties;

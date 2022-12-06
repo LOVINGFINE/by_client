@@ -3,11 +3,11 @@
  * sign up
  */
 import { FC, useContext } from "react";
+import styles from "../style.less";
 import { useNavigate } from "react-router";
 import { Icon } from "@/packages/design";
 import { UserWithToken } from "../type";
 import SignUpForm from "./components/Form";
-import styles from "./style.less";
 import { userContext } from "@/plugins/user";
 
 const SignUpPage: FC = () => {
@@ -24,11 +24,11 @@ const SignUpPage: FC = () => {
   }
   /** render */
   return (
-    <div className={styles["signUp"]}>
-      <div className={styles["signUp-card"]}>
-        <div className={styles["signUp-card-top"]}>
+    <div className={styles["sign"]}>
+      <div className={styles["sign-card"]}>
+        <div className={styles["sign-card-top"]}>
           <Icon name={"doclogo"} size={42} />
-          <span className={styles["signUp-card-top-title"]}>注册您账号</span>
+          <span className={styles["sign-card-top-title"]}>注册您账号</span>
         </div>
         <SignUpForm onOK={onSignUpOk} />
       </div>

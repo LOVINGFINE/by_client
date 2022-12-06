@@ -5,11 +5,11 @@ export const INSERT_CONFIG = {
     title: "添加列",
     options: [
       {
-        key: PositionMode.forward,
+        value: PositionMode.forward,
         label: "向前添加",
       },
       {
-        key: PositionMode.back,
+        value: PositionMode.back,
         label: "向后添加",
       },
     ],
@@ -18,11 +18,11 @@ export const INSERT_CONFIG = {
     title: "添加行",
     options: [
       {
-        key: PositionMode.forward,
+        value: PositionMode.forward,
         label: "在上方添加",
       },
       {
-        key: PositionMode.back,
+        value: PositionMode.back,
         label: "在下方添加",
       },
     ],

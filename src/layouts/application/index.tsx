@@ -1,14 +1,15 @@
 /*
  * Created by zhangq on 2022/11/02
- * style
+ * ApplicationLayout
  */
-import { FC, ReactElement } from "react";
+import { FC, useContext } from "react";
 import styles from "./style.less";
 import ApplicationControl from "./Control";
 import { Dropdown } from "@/packages/design";
-import { UserInfo, UserAvatar } from "@/pages/user/components";
+import { UserCarte, UserAvatar } from "@/pages/user/components";
 import { Icon, Spanging } from "@/packages/design";
 import { useNavigate } from "react-router";
+import { userContext } from "@/plugins/user";
 
 const ApplicationLayout: FC<ApplicationLayoutProps> = ({
   children,
@@ -20,6 +21,7 @@ const ApplicationLayout: FC<ApplicationLayoutProps> = ({
   settings,
 }) => {
   const navigate = useNavigate();
+  const context = useContext(userContext);
   /** render */
   return (
     <div className={styles["layout"]}>
@@ -37,8 +39,11 @@ const ApplicationLayout: FC<ApplicationLayoutProps> = ({
         )}
         <div className={styles["layout-header-content"]}>{header}</div>
         <div className={styles["layout-header-user"]}>
-          <Dropdown overlay={<UserInfo />} placement={"bottomLeft"}>
-            <UserAvatar />
+          <Dropdown
+            overlay={<UserCarte user={context.user} />}
+            placement={"bottomLeft"}
+          >
+            <UserAvatar user={context.user} />
           </Dropdown>
         </div>
       </div>
@@ -48,9 +53,9 @@ const ApplicationLayout: FC<ApplicationLayoutProps> = ({
 };
 
 export interface ApplicationLayoutProps {
-  header?: ReactElement | ReactElement[];
-  children?: ReactElement | ReactElement[];
-  settings?: ReactElement | ReactElement[];
+  header?: React.ReactNode;
+  children?: React.ReactNode;
+  settings?: React.ReactNode;
   loading?: boolean;
   title?: string;
   control?: boolean;

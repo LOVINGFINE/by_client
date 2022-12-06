@@ -2,21 +2,13 @@
  * Created by zhangq on 2022/08/09
  * excel table
  */
-import {
-  FC,
-  useReducer,
-  useEffect,
-  createContext,
-  Fragment,
-  useState,
-} from "react";
+import { FC, useReducer, useEffect, createContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import ApplicationLayout from "@/layouts/application";
 import { getSheetById, updateUserSheetName } from "../apis";
 import SheetHeader from "./Header";
 import CommonEditor from "./Common";
 import MetaEditor from "./Meta";
-
 import { Sheet, SheetType } from "../type";
 
 export const initialState: ContextState = {
@@ -31,7 +23,6 @@ export const initialState: ContextState = {
 };
 
 export const globalContext = createContext({} as ContextValue);
-const { common, meta } = SheetType;
 const SheetEditor: FC = () => {
   const params = useParams();
   /** @State */
@@ -52,7 +43,7 @@ const SheetEditor: FC = () => {
       updatedTime: new Date().toString(),
     });
   }
-  
+
   function initState(id?: string) {
     const sheetId = id ?? state.id;
     setLoading(true);
@@ -99,7 +90,7 @@ const SheetEditor: FC = () => {
         loading={loading}
         header={<SheetHeader />}
       >
-        {state.type === common ? <CommonEditor /> : <MetaEditor />}
+        {state.type === SheetType.common ? <CommonEditor /> : <MetaEditor />}
       </ApplicationLayout>
     </globalContext.Provider>
   );

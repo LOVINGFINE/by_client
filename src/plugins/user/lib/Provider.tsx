@@ -1,11 +1,13 @@
 import { ReactElement, FC, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { userInfoWidthToken } from "./api";
-import context from "./context";
-import { User } from "./type";
+import { User, UserContext } from "./type";
 import { createStorageRef } from "@/plugins/storage";
+import { createContext } from "react";
 
 const accessToken = createStorageRef<string>("access-token");
+
+export const userContext = createContext<UserContext>({} as UserContext);
 
 const Provider: FC<{
   children?: ReactElement | ReactElement[];
@@ -13,41 +15,42 @@ const Provider: FC<{
 }> = ({ children, neglect = [] }) => {
   const navigate = useNavigate();
   const route = useLocation();
-  const [user, setUser] = useState<User>({
+  const [user, setUserState] = useState<User>({
     id: "",
     username: "",
     nickname: "",
     mobile: "",
     email: "",
+    usernameUpdated: "",
+    updatedTime: "",
+    createdTime: "",
   });
   const [token, setTokenValue] = useState<string | null>(null);
   const ignore = neglect.includes(route.pathname);
+
   useEffect(() => {
-    if (accessToken.get()) {
-      setTokenValue(accessToken.get());
-    } else {
-      if (!ignore) {
+    if (!ignore) {
+      if (accessToken.get()) {
+        setTokenValue(accessToken.get());
+      } else {
         navigate("/sign-in", {
           replace: true,
         });
       }
     }
-  }, []);
+  }, [ignore]);
 
   useEffect(() => {
-    if (token) {
+    if (!ignore && token) {
       userInfoWidthToken()
         .then((res) => {
           setUser(res);
         })
         .catch(() => {
-          if (!ignore) {
-            navigate("/sign-in", {
-              replace: true,
-            });
-          }
+          navigate("/sign-in", {
+            replace: true,
+          });
         });
-    } else {
     }
   }, [token]);
 
@@ -55,16 +58,24 @@ const Provider: FC<{
     setTokenValue(e);
     accessToken.set(e);
   }
+
+  function setUser(e: Partial<User>) {
+    setUserState({
+      ...user,
+      ...e,
+    });
+  }
   return (
-    <context.Provider
+    <userContext.Provider
       value={{
         user,
         token,
         setToken,
+        setUser,
       }}
     >
       {children}
-    </context.Provider>
+    </userContext.Provider>
   );
 };
 

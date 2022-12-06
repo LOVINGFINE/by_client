@@ -21,7 +21,9 @@ const TemplateHot: FC<TemplateHotProps> = ({
 
   /** @methods */
   function onOpenAll() {
-    navigate(`/sheets?st=1`);
+    navigate({
+      search: `?st=1`,
+    });
   }
 
   const overlay = (

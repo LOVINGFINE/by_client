@@ -9,7 +9,13 @@ export enum SignType {
   email = "email",
   username = "username",
 }
+
 export interface EmailPayload {
   email: string;
+  password: string;
+}
+
+export interface SignInPayload {
+  accent: string;
   password: string;
 }

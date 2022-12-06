@@ -20,7 +20,7 @@ import { editorContext } from "../index";
 import ColumnRender from "../Column";
 import ColumnSettingModal, {
   ColumnSettingModalRef,
-} from "../Column/components/SettingModal";
+} from "../Column/SettingModal";
 
 const EditableTable: FC = () => {
   const vcTableRef = useRef<VcTableCore>(null);

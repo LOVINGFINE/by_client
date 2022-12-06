@@ -3,17 +3,14 @@
  * style
  */
 import { FC } from "react";
-import { Dropdown } from "@/packages/design";
-import { Action, ColorPicker } from "../Widgets";
+import { Action } from "../Widgets";
 import styles from "../style.less";
+import { ColorPicker } from "@/components";
 
 const FontColor: FC<FontColorProps> = ({ value, onChange }) => {
   /** render */
   return (
-    <Dropdown
-      placement="bottomRight"
-      overlay={<ColorPicker onChange={onChange} />}
-    >
+    <ColorPicker value={value} onChange={onChange}>
       <Action>
         <div className={styles["font-color"]}>
           A
@@ -25,7 +22,7 @@ const FontColor: FC<FontColorProps> = ({ value, onChange }) => {
           />
         </div>
       </Action>
-    </Dropdown>
+    </ColorPicker>
   );
 };
 

@@ -19,6 +19,18 @@ const routes: RouteProp[] = [
     path: "/user/settings",
     view: "pages/user/settings",
     title: "用户 · 管理",
+    routes: [
+      {
+        path: "information",
+        view: "pages/user/settings/information",
+        title: "基本信息",
+      },
+      {
+        path: "safety",
+        view: "pages/user/settings/safety",
+        title: "账号安全",
+      },
+    ],
   },
   {
     path: "/sheets",

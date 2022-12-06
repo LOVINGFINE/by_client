@@ -1,5 +1,5 @@
 // 账号
-// export const accentRegExp = /^[A-Za-z0-9_-&!]+$/;
+export const accentRegExp = /^[A-Za-z0-9-_&!=+|]{8,32}$/;
 
 // 手机号
 export const mobileRegExp =
@@ -13,10 +13,10 @@ export function verifyMobile(mobile: string) {
   return mobileRegExp.test(mobile);
 }
 
-export function verifyEmail(mobile: string) {
-  return emailRegExp.test(mobile);
+export function verifyEmail(email: string) {
+  return emailRegExp.test(email);
 }
 
-// export function verifyAccent(accent: string) {
-//   return accentRegExp.test(accent);
-// }
+export function verifyAccent(accent: string) {
+  return accentRegExp.test(accent);
+}

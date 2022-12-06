@@ -1,5 +1,4 @@
-import userContext from "./lib/context";
-import UserProvider from "./lib/Provider";
+import UserProvider, { userContext } from "./lib/Provider";
 
 export * from "./lib/type";
 

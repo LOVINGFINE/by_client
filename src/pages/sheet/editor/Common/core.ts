@@ -146,7 +146,10 @@ export function getClearBySelection(
       const key = getKeyByCoord(x, y);
       if (data[key]) {
         if (only) {
-          target[key].value = "";
+          target[key] = {
+            ...data[key],
+            value: "",
+          };
         } else {
           target[key] = INIT_CELL;
         }

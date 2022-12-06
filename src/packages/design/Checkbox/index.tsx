@@ -1,46 +1,14 @@
-/*
- * Created by zhangq on 2022/10/19
- * Checkbook
- */
-import { FC } from "react";
 import "./style.less";
-import { covClass } from "@/plugins/style";
+import CheckboxNormal, { CheckboxProps } from "./Checkbox";
+import Group, { CheckboxGroupProps } from "./Group";
 
-const Checkbook: FC<SwitchProps> = ({
-  checked = false,
-  disabled,
-  size = "middle",
-  onChange,
-}) => {
-  function onCheckedChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if (!disabled) {
-      onChange && onChange(event.target.checked);
-    }
-  }
-  /** render */
-  return (
-    <input
-      type={"checkbox"}
-      className={covClass({
-        checkbook: true,
-        [`checkbook-${size}`]: true,
-        "checkbook-checked": checked,
-        "checkbook-disabled": disabled,
-      })}
-      checked={checked}
-      onChange={onCheckedChange}
-    />
-  );
-};
+export type { CheckboxProps, CheckboxGroupProps };
 
-/**
- * @interface props
- */
-export interface SwitchProps {
-  checked?: boolean;
-  disabled?: boolean;
-  onChange?(e: boolean): void;
-  size?: "middle" | "small" | "large";
-}
+const Checkbox =
+  CheckboxNormal as React.ForwardRefExoticComponent<CheckboxProps> & {
+    Group: typeof Group;
+  };
 
-export default Checkbook;
+Checkbox.Group = Group;
+
+export default Checkbox;

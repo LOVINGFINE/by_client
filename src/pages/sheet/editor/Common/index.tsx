@@ -11,7 +11,7 @@ import {
   useState,
 } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import EditableTable from "./Table";
 
 import Toolbar from "./Toolbar";
@@ -68,7 +68,6 @@ export const initialState: ContextState = {
 };
 
 const PageEditor: FC = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const [query] = useSearchParams();
   const global = useContext(globalContext);
@@ -119,15 +118,20 @@ const PageEditor: FC = () => {
     getCommonWorkbooks(global.id).then((res) => {
       setWorkbooks(res);
       if (!workbookId) {
-        navigate(`/sheets/${global.id}?wid=${res[0].id}`, {
-          replace: true,
-        });
+        onWorkbook(res[0].id);
       }
     });
   }
 
-  function onWorkbook(id: string) {
-    navigate(`${location.pathname}?wid=${id}`);
+  function onWorkbook(id: string, replace?: boolean) {
+    navigate(
+      {
+        search: `?wid=${id}`,
+      },
+      {
+        replace,
+      }
+    );
   }
 
   function onSelection(e: Selection) {

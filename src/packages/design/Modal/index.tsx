@@ -54,6 +54,7 @@ const Modal: FC<ModalProps> = (props: ModalProps): ReactElement => {
           onClick={onCancel}
           disabled={cancelProps.disabled}
           loading={cancelProps.loading}
+          size="large"
         >
           {cancelProps.text}
         </Button>
@@ -62,6 +63,7 @@ const Modal: FC<ModalProps> = (props: ModalProps): ReactElement => {
           disabled={okProps.disabled}
           loading={okProps.loading}
           onClick={onOk}
+          size="large"
         >
           {okProps.text}
         </Button>
