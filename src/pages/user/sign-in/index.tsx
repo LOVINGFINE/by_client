@@ -8,7 +8,7 @@ import { Icon } from "@/packages/design";
 import { UserWithToken } from "../type";
 import SignInForm from "./components/Form";
 import styles from "../style.less";
-import { userContext } from "@/plugins/user";
+import { userContext } from "@/pages/user/provider";
 
 const SignInPage: FC = () => {
   const context = useContext(userContext);

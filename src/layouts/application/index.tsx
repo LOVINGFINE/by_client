@@ -9,7 +9,7 @@ import { Dropdown } from "@/packages/design";
 import { UserCarte, UserAvatar } from "@/pages/user/components";
 import { Icon, Spanging } from "@/packages/design";
 import { useNavigate } from "react-router";
-import { userContext } from "@/plugins/user";
+import { userContext } from "@/pages/user/provider";
 
 const ApplicationLayout: FC<ApplicationLayoutProps> = ({
   children,

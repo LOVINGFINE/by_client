@@ -1,5 +1,6 @@
 import request from "@/config/request";
-import { Sheet, SheetType } from "../type";
+import { WorkbookListItem, WorkbookType } from "../editor/type";
+import { Sheet } from "../type";
 
 export function getUserSheets(search: string) {
   return request<Sheet[]>({
@@ -11,13 +12,12 @@ export function getUserSheets(search: string) {
   });
 }
 
-export function insertUserSheet(name: string, type: SheetType) {
+export function insertUserSheet(name: string) {
   return request<Sheet>({
     method: "post",
     url: `/sheets`,
     data: {
       name,
-      type,
     },
   });
 }
@@ -43,5 +43,26 @@ export function getSheetById(id: string) {
   return request<Sheet>({
     method: "get",
     url: `/sheets/${id}`,
+  });
+}
+
+export function getSheetWorkbooksById(id: string) {
+  return request<WorkbookListItem[]>({
+    method: "get",
+    url: `/sheets/${id}/workbooks`,
+  });
+}
+
+export function insertSheetWorkbook(
+  id: string,
+  data: Partial<{
+    name: string;
+    type: WorkbookType;
+  }>
+) {
+  return request<WorkbookListItem>({
+    method: "post",
+    url: `/sheets/${id}/workbooks`,
+    data,
   });
 }

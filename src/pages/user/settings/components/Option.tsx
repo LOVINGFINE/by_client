@@ -5,14 +5,9 @@
 
 import { FC } from "react";
 import styles from "./style.less";
-import { Button } from "@/packages/design";
+import { Button, Icon } from "@/packages/design";
 
-const Option: FC<OptionProps> = ({
-  label,
-  value,
-  action,
-  onAction,
-}) => {
+const Option: FC<OptionProps> = ({ label, value, action, onAction }) => {
   /** render */
   return (
     <div className={styles["option"]}>
@@ -22,7 +17,9 @@ const Option: FC<OptionProps> = ({
         action
       ) : (
         <div className={styles["option-action"]} onClick={onAction}>
-          <Button icon="pencil" size="large" round></Button>
+          <Button.Round size="large">
+            <Icon name="pencil" />
+          </Button.Round>
         </div>
       )}
     </div>

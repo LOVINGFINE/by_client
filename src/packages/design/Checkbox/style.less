@@ -1,39 +1,76 @@
-.checkbox {
-  display: flex;
-  align-items: center;
-  &-wrapper {
-    cursor: pointer;
-    display: inline-block;
+.checkbox-wrapper {
+  display: inline-block;
+  cursor: pointer;
+  .checkbox {
+    display: flex;
+    align-items: center;
     user-select: none;
-    position: relative;
-    border: 1px solid #ddd;
-    &-middle {
-      height: 24px;
-      width: 24px;
-      border-radius: 3px;
+    gap: 6px;
+    > span {
+      font-weight: 500;
     }
-    &-small {
-      height: 20px;
-      width: 20px;
-      border-radius: 2px;
-    }
-    &-large {
-      height: 28px;
-      width: 28px;
-      border-radius: 4px;
-    }
+    &-value {
+      border: 1px solid #ddd;
+      position: relative;
+      cursor: pointer;
+      &-checked {
+        background-color: var(--d-primary) !important;
+        color: #fff !important;
+        border-color: var(--d-primary);
+        &:after {
+          cursor: pointer;
+          content: "";
+          position: absolute;
+          display: table;
+          border: 3px solid #fff;
+          border-top: none;
+          border-left: none;
+          transform: rotate(45deg) scale(1) translate(-50%, -50%);
+          transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+        }
+      }
+      &-middle {
+        height: 20px;
+        width: 20px;
+        border-radius: 2px;
+        &:after {
+          width: 6px;
+          height: 12px;
+          top: 45%;
+          left: 18%;
+          border-width: 2px;
+        }
+      }
+      &-small {
+        height: 16px;
+        width: 16px;
+        border-radius: 2px;
+        &:after {
+          width: 5px;
+          height: 9px;
+          top: 45%;
+          left: 16%;
+          border-width: 2px;
+        }
+      }
+      &-large {
+        height: 24px;
+        width: 24px;
+        border-radius: 3px;
+        &:after {
+          width: 7px;
+          height: 14px;
+          top: 45%;
+          left: 16%;
+          border-width: 3px;
+        }
+      }
 
-    &:checked {
-      background-color: var(--d-primary) !important;
-      color: #fff !important;
+      &-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
-    &-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  }
-  > span {
-    padding: 0 6px;
   }
 }
 

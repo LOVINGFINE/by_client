@@ -2,14 +2,13 @@
  * Created by zhangq on 2022/04/03
  * Dropdown 组件
  */
-import { useVisible } from "@/plugins/event";
-import React, { ReactElement, FC, useRef, useEffect } from "react";
-import { createRoot } from "react-dom/client";
+import React, { ReactElement, FC, useRef, useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import "./style.less";
-import { setStyles } from "./utils";
+import { getStyles } from "./utils";
 
 const Dropdown: FC<DropdownProps> = ({
-  visible,
+  visible = false,
   overlay,
   placement = "bottom",
   children,
@@ -17,57 +16,40 @@ const Dropdown: FC<DropdownProps> = ({
   onVisible,
 }: DropdownProps): ReactElement => {
   const childrenRef = useRef<HTMLElement>(null);
-  const renderId = useRef<string | null>(null);
+  const [visibleValue, setVisibleValue] = useState(visible);
 
-  const visibleValue = useVisible({
-    value: visible,
-    cb: onVisible,
-  });
+  const overlayRenderStyles = (() => {
+    return getStyles(childrenRef.current, placement);
+  })();
+
+  useEffect(() => {
+    if (onVisible) {
+      onVisible(visibleValue);
+    }
+  }, [visibleValue]);
+
+  useEffect(() => {
+    if (visible !== visibleValue) {
+      setVisibleValue(visibleValue);
+    }
+  }, [visible]);
 
   useEffect(() => {
     return onClose;
   }, []);
 
-  useEffect(() => {
-    if (overlay) {
-      if (visibleValue.value && !renderId.current) {
-        const id = `dropdown-${new Date().getTime()}`;
-        const div = document.createElement("div");
-        div.id = id;
-        div.className = "dropdown";
-        div.onmouseup = (e) => {
-          e.stopPropagation();
-          setTimeout(() => {
-            onClose();
-          });
-        };
-        const root = createRoot(div);
-        root.render(<div className="dropdown-overlay">{overlay}</div>);
-        setTimeout(() => {
-          setStyles(childrenRef.current, placement, div);
-        });
-        document.body.appendChild(div);
-        renderId.current = id;
-      }
-    }
-  }, [overlay, childrenRef.current, visibleValue.value]);
   /**
    * @method
    */
 
   function onClose() {
-    visibleValue.setVisible(false);
-    if (renderId.current) {
-      const is = document.getElementById(renderId.current);
-      if (is) {
-        document.body.removeChild(is);
-        renderId.current = null;
-      }
-    }
+    setTimeout(() => {
+      setVisibleValue(false);
+    });
   }
 
   function onChangeVisible() {
-    if (!visibleValue.value) {
+    if (!visibleValue) {
       setTimeout(() => {
         window.addEventListener("mouseup", onClose, { once: true });
       });
@@ -76,7 +58,7 @@ const Dropdown: FC<DropdownProps> = ({
         window.removeEventListener("mouseup", onClose);
       });
     }
-    visibleValue.setVisible(!visibleValue.value);
+    setVisibleValue(!visibleValue);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -100,26 +82,41 @@ const Dropdown: FC<DropdownProps> = ({
     return {
       onMouseUp: (...s: unknown[]) => {
         if (ele.props?.onClick) {
-          ele.props?.onMouseDown(s);
+          ele.props?.onMouseUp(s);
         }
         onChangeVisible();
       },
     };
   }
 
-  if (!children) return <></>;
-  if (typeof children?.type !== "string") {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const ele = children as any;
-    return React.cloneElement(ele?.type(ele?.props), {
+  const render = (() => {
+    if (!children) return <></>;
+    if (typeof children?.type !== "string") {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const ele = children as any;
+      return React.cloneElement(ele?.type(ele?.props), {
+        ref: childrenRef,
+        ...getProps(ele),
+      });
+    }
+    return React.cloneElement(children, {
       ref: childrenRef,
-      ...getProps(ele),
+      ...getProps(children),
     });
-  }
-  return React.cloneElement(children, {
-    ref: childrenRef,
-    ...getProps(children),
-  });
+  })();
+
+  return (
+    <>
+      {visibleValue &&
+        ReactDOM.createPortal(
+          <div style={overlayRenderStyles} className="dropdown">
+            <div className="dropdown-overlay">{overlay}</div>
+          </div>,
+          document.body
+        )}
+      {render}
+    </>
+  );
 };
 
 export interface DropdownProps {

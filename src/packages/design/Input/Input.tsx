@@ -79,20 +79,24 @@ const Input = forwardRef<InputRef | null, InputProps>((props, ref) => {
   );
   /** render */
   return (
-    <input
-      ref={inputRef}
-      className={`input input-${size} ${disabled ? "input-disabled" : ""}`}
-      placeholder={placeholder}
+    <div
+      className="input-wrapper"
       style={{
         width,
         ...style,
       }}
-      readOnly={disabled}
-      value={value}
-      onBlur={onBlur}
-      onKeyDown={onKeyDown}
-      onInput={onInput}
-    />
+    >
+      <input
+        ref={inputRef}
+        className={`input input-${size} ${disabled ? "input-disabled" : ""}`}
+        placeholder={placeholder}
+        readOnly={disabled}
+        value={value}
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
+        onInput={onInput}
+      />
+    </div>
   );
 });
 

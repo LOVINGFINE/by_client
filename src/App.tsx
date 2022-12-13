@@ -6,7 +6,7 @@ import { FC } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { AppRouter } from "@/plugins/router";
 import { LocaleProvider } from "@/plugins/i18n";
-import { UserProvider } from "@/plugins/user";
+import UserProvider from "@/pages/user/provider";
 import routes, { ACCESS_TOKEN_NEGLECT } from "@/config/router";
 import i18n from "@/locales";
 import "./styles/common.less";

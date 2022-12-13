@@ -98,15 +98,27 @@ export function keydownSelection(type: KeyboardType, selection: Selection) {
   };
   if (column.current > -1 && row.current > -1) {
     if (type === selection_top && row.start > 0) {
+      if (row.end - 1 >= row.current) {
+        return on({ r: row.end - 1 });
+      }
       return on({ r: row.start - 1 });
     }
     if (type === selection_bottom) {
+      if (row.start + 1 <= row.current) {
+        return on({ r: row.start + 1 });
+      }
       return on({ r: row.end + 1 });
     }
     if (type === selection_left && column.start > 0) {
+      if (column.end - 1 >= column.current) {
+        return on({ c: column.end - 1 });
+      }
       return on({ c: column.start - 1 });
     }
     if (type === selection_right) {
+      if (column.start + 1 <= column.current) {
+        return on({ c: column.start + 1 });
+      }
       return on({ c: column.end + 1 });
     }
   }

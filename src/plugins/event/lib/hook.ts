@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function useVisible(props: {
   value?: boolean;
   cb?: (e: boolean) => void;
 }) {
-  const [visible, setVisible] = useState(false);
+  let visible = false;
 
   useEffect(() => {
     if (props.value !== undefined) {
-      setVisible(props.value);
+      visible = props.value;
     }
   }, [props.value]);
 
@@ -20,7 +20,7 @@ export function useVisible(props: {
           props?.cb(v);
         }
       } else {
-        setVisible(v);
+        visible = v;
       }
     },
   };

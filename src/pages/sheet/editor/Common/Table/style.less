@@ -97,28 +97,19 @@
 .ref {
   width: 0;
   height: 0;
-  .bgc {
-    position: absolute;
-    z-index: 0;
-    background-color: #13c2c2;
-    opacity: 0.1;
-  }
-  .border {
-    position: absolute;
-    z-index: 4;
-    &-h {
-      border-top: 1px solid #13c2c2;
-    }
-    &-v {
-      border-left: 1px solid #13c2c2;
-    }
+  pointer-events: none;
+  position: absolute;
+  z-index: 11;
+  background-color: #13c2c210;
+  &-border {
+    border: 1px solid #13c2c2;
   }
 }
 
 .drop {
   position: absolute;
   background-color: transparent;
-  z-index: 4;
+  z-index: 6;
   &-ew {
     width: 2px;
     height: 100%;
@@ -227,6 +218,7 @@
     height: 100%;
     width: 100%;
     position: relative;
+    z-index: 0;
     &-top {
       background-color: #13c2c2;
       height: 2px;

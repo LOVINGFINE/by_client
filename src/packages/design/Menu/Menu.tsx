@@ -1,4 +1,4 @@
-import { FC, ReactElement, MouseEvent, CSSProperties } from "react";
+import { FC, MouseEvent, CSSProperties, ReactNode } from "react";
 import SubMenuItem from "./SubMenuItem";
 import MenuItem from "./MenuItem";
 import MenuDriver from "./MenuDriver";
@@ -43,9 +43,13 @@ const Menu: FC<MenuProps> = ({
   );
 };
 
-export interface MenuProps {
+export interface MenuProps
+  extends Omit<
+    React.HTMLAttributes<HTMLUListElement>,
+    "onClick" | "onSelect" | "dir"
+  > {
   options?: (MenuOptionChildren | MenuOptionDriver)[];
-  children?: ReactElement | ReactElement[];
+  children?: ReactNode;
   onClick?(e: MouseEvent): void;
   style?: CSSProperties;
 }

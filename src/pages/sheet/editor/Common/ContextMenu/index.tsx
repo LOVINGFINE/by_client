@@ -1,10 +1,10 @@
 import { FC, Fragment, MouseEvent } from "react";
 import { Icon, Menu } from "@/packages/design";
 import { Selection } from "@/pages/sheet/editor/type";
-import { getSelectionRef } from "../../RefTool/utils";
+import { getSelectionRef } from "../RefTool/utils";
 import SuffixTip from "./suffix";
 import platform, { OsType } from "@/plugins/platform";
-import { CellMenuKey } from "../../type";
+import { CellMenuKey } from "../type";
 
 const {
   CLEAR,

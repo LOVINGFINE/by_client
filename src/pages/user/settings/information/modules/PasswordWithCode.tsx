@@ -7,11 +7,11 @@ import { useNavigate } from "react-router";
 import styles from "../style.less";
 import FormCard from "../../components/FormCard";
 import { Button, Form, Input, message } from "@/packages/design";
-import { userContext } from "@/plugins/user";
+import { userContext } from "@/pages/user/provider";
 import {
   setUserPasswordWithCode,
   sendUserPasswordWithCode,
-} from "@/pages/user/apis/setting";
+} from "@/pages/user/apis";
 import SendCodeTimer from "@/pages/user/components/SendCodeTimer";
 import FormLayout from "../../components/FormLayout";
 

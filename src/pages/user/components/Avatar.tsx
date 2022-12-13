@@ -4,7 +4,7 @@
  */
 import { Icon } from "@/packages/design";
 import { useClassNames } from "@/packages/design/utils/style";
-import { User } from "@/plugins/user";
+import { User } from "@/pages/user/type";
 import { FC } from "react";
 import styles from "./style.less";
 const cn = useClassNames(styles);

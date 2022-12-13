@@ -5,7 +5,15 @@ import SuffixTip from "./suffix";
 import platform, { OsType } from "@/plugins/platform";
 import { ContextMenuKey } from "../type";
 
-const { CLEAR, COPY, PASTE, REMOVE_COLUMN, REMOVE_ENTRY } = ContextMenuKey;
+const {
+  CLEAR,
+  COPY,
+  PASTE,
+  REMOVE_COLUMN,
+  REMOVE_ENTRY,
+  INSERT_COLUMN,
+  INSERT_ENTRY,
+} = ContextMenuKey;
 const ContextMenu: FC<CellMenuProps> = (props) => {
   const { onAction } = props;
 
@@ -33,10 +41,22 @@ const ContextMenu: FC<CellMenuProps> = (props) => {
       />
       <Menu.Driver />
       <Menu.Item
+        icon={<Icon name="plus" />}
+        label={`添加行`}
+        onClick={() => onAction(INSERT_ENTRY)}
+      />
+      <Menu.Item
+        icon={<Icon name="plus" />}
+        label={`添加列`}
+        onClick={() => onAction(INSERT_COLUMN)}
+      />
+      <Menu.Driver />
+      <Menu.Item
         icon={<Icon name="close" />}
         label={"清除数据"}
         onClick={() => onAction(CLEAR, true)}
       />
+
       <Menu.Item
         icon={<Icon name="edit-remove-col" />}
         label={`删除列`}

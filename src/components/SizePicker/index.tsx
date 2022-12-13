@@ -15,7 +15,10 @@ const SizePicker: FC<SizePickerProps> = ({ onChange, value, children }) => {
     <Dropdown
       placement="bottom"
       overlay={
-        <div className={styles["size"]}>
+        <div
+          className={styles["size"]}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
           <ul className={styles["size-ul"]}>
             {picker_sizes.map((item) => {
               return (

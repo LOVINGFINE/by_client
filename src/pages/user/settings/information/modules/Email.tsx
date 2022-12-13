@@ -8,11 +8,11 @@ import styles from "../style.less";
 import FormLayout from "../../components/FormLayout";
 import FormCard from "../../components/FormCard";
 import { Form, Input, message } from "@/packages/design";
-import { userContext } from "@/plugins/user";
+import { userContext } from "@/pages/user/provider";
 import {
   setUserEmail,
   sendUserEmailUpdateCode,
-} from "@/pages/user/apis/setting";
+} from "@/pages/user/apis";
 import SendCodeTimer from "@/pages/user/components/SendCodeTimer";
 import { verifyEmail } from "@/plugins/convert";
 

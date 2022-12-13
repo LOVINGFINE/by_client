@@ -2,32 +2,33 @@
  * Created by zhangq on 2022/10/26
  * homepage
  */
-import { FC, useEffect, useState } from "react";
-// import styles from "./style.less";
-// import { Switch, Spanging } from "@/packages/design";
+import { FC } from "react";
+import styles from "./style.less";
 import ApplicationLayout from "@/layouts/application";
 import PageHeader from "./components/Header";
-// import { CONTROL_LINKS, ControlLink } from "@/config/application";
+import Application from "./components/Application";
+import { application_links } from "@/config/application";
 
 const Homepage: FC = () => {
   /** @State */
-  const [loading, setLoading] = useState(true);
+
   /**
    * @Methods
    */
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
   return (
     <ApplicationLayout
       control={false}
       logo={true}
-      loading={loading}
+      loading={false}
       header={<PageHeader />}
-    ></ApplicationLayout>
+    >
+      <div className={styles["applications"]}>
+        {application_links.map((ele) => {
+          return <Application {...ele} key={ele.path} />;
+        })}
+      </div>
+    </ApplicationLayout>
   );
 };
 

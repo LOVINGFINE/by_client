@@ -12,7 +12,7 @@ import RenameModal, { RenameModalRef } from "./components/Rename";
 import UserSheetsEmpty from "./components/Empty";
 import InsertSheet from "./components/InsertSheet";
 
-import { userContext } from "@/plugins/user";
+import { userContext } from "@/pages/user/provider";
 import { Spanging } from "@/packages/design";
 import {
   Sheet,
@@ -140,7 +140,7 @@ const UserSheets: FC<UserSheetsProps> = ({
     <div
       className={`${styles["userSheets"]} ${styles[`userSheets-${display}`]}`}
     >
-      {display === "hide" && <InsertSheet />}
+      {display === "hide" && <InsertSheet title={settings.defaultTitle} />}
       <RenameModal ref={renameRef} onOk={initSheets} />
       {display !== "full" && (
         <>

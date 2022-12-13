@@ -12,6 +12,7 @@ import {
   VcEntry,
   VcColumn,
   ColumnPayload,
+  MetaEntry,
 } from "../type";
 import { mouseEventContent } from "@/plugins/event";
 import ContextMenu from "../ContextMenu";
@@ -21,9 +22,11 @@ import ColumnRender from "../Column";
 import ColumnSettingModal, {
   ColumnSettingModalRef,
 } from "../Column/SettingModal";
+import InsertModel, { InsertModelRef, RowColumnMode } from "../Modals";
 
 const EditableTable: FC = () => {
   const vcTableRef = useRef<VcTableCore>(null);
+  const insertModelRef = useRef<InsertModelRef | null>(null);
   const columnSettingRef = useRef<ColumnSettingModalRef>(null);
   /** @State */
   const editContextValue = useContext(editorContext);
@@ -35,6 +38,7 @@ const EditableTable: FC = () => {
       editContextValue.onVcTableRef(null);
     }
   }, [vcTableRef.current]);
+
   /**
    * @Methods
    */
@@ -47,10 +51,10 @@ const EditableTable: FC = () => {
       COPY,
       PASTE,
       CLEAR,
-      // INSERT_COLUMN,
-      // INSERT_ENTRY,
-      // REMOVE_COLUMN,
-      // REMOVE_ENTRY,
+      INSERT_COLUMN,
+      REMOVE_COLUMN,
+      REMOVE_ENTRY,
+      INSERT_ENTRY,
     } = ContextMenuKey;
     const onMenuAction = (k: ContextMenuKey, opts: unknown) => {
       switch (k) {
@@ -66,6 +70,22 @@ const EditableTable: FC = () => {
           editContextValue.onClear(opts as boolean);
           break;
         }
+        case INSERT_COLUMN: {
+          openInsertModal(RowColumnMode.column);
+          break;
+        }
+        case REMOVE_COLUMN: {
+          editContextValue.onDeleteColumns();
+          break;
+        }
+        case REMOVE_ENTRY: {
+          editContextValue.onDeleteEntry();
+          break;
+        }
+        case INSERT_ENTRY: {
+          openInsertModal(RowColumnMode.row);
+          break;
+        }
       }
     };
 
@@ -78,6 +98,11 @@ const EditableTable: FC = () => {
     );
   }
 
+  function openInsertModal(type: RowColumnMode) {
+    if (insertModelRef.current) {
+      insertModelRef.current.mount(type);
+    }
+  }
   function onSetting(c: VcColumn) {
     columnSettingRef.current?.mount(c);
   }
@@ -90,13 +115,30 @@ const EditableTable: FC = () => {
     editContextValue.onAddEntry([{}]);
   }
 
+  function onEntryChange(id: string, v: Partial<MetaEntry>) {
+    const payload: Partial<MetaEntry> = {};
+    if (v.height !== undefined) {
+      payload["height"] = v.height;
+    }
+    if (v.values) {
+      payload["values"] = v.values;
+    }
+    editContextValue.onChange({
+      [id]: payload,
+    });
+  }
   /** @render */
   return (
     <div
       style={{
-        height: `calc(100% - 88px)`,
+        height: `calc(100% - 100px)`,
       }}
     >
+      <InsertModel
+        ref={insertModelRef}
+        addColumns={editContextValue.onAddColumns}
+        addEntries={editContextValue.onAddEntry}
+      />
       <ColumnSettingModal ref={columnSettingRef} onOk={onColumnSettingOK} />
       <VcTable
         ref={vcTableRef}
@@ -106,6 +148,9 @@ const EditableTable: FC = () => {
         entries={editContextValue.entries}
         onSelection={onSelection}
         onColumnSize={(c, width) => onColumnSettingOK(c, { width })}
+        onRowSize={(id, height) => {
+          onEntryChange(id, { height });
+        }}
         onTdContextMenu={onTdContextMenu}
         onCopy={editContextValue.onCopy}
         onPaste={editContextValue.onPaste}
@@ -120,8 +165,8 @@ const EditableTable: FC = () => {
               value={entry.values[column.code] || ""}
               column={column}
               onChange={(val) => {
-                editContextValue.onChange({
-                  [entry.id]: {
+                onEntryChange(entry.id, {
+                  values: {
                     [column.code]: val,
                   },
                 });

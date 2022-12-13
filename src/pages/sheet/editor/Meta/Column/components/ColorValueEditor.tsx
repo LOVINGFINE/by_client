@@ -2,22 +2,17 @@
  * Created by zhangq on 2022/11/28
  * Meta Editor
  */
-import { FC, useEffect } from "react";
+import { FC, useState } from "react";
 import styles from "../style.less";
 import { useClassNames } from "@/plugins/style";
 import { MetaOptionsItem } from "../../type";
 import { Icon, Input } from "@/packages/design";
 import { ColorPicker } from "@/components";
-// import { meta_config } from "../../final";
 
 const cn = useClassNames(styles);
 
-const MetaEditor: FC<MetaEditorProps> = ({ value, onChange }) => {
-  /** @State */
-  // const label = meta_config[type].label;
-  /** @Effect */
-  useEffect(() => {}, []);
-
+const ColorValueEditor: FC<ColorValueEditorProps> = ({ value, onChange }) => {
+  const [down, setDown] = useState(false);
   /**
    * @Methods
    */
@@ -29,6 +24,11 @@ const MetaEditor: FC<MetaEditorProps> = ({ value, onChange }) => {
         color: "#ffffff",
       },
     ];
+    onChange(items);
+  }
+
+  function onRemoveOptionsItem(index: number) {
+    const items = value.filter((_, i) => i !== index);
     onChange(items);
   }
 
@@ -46,37 +46,58 @@ const MetaEditor: FC<MetaEditorProps> = ({ value, onChange }) => {
     onChange(items);
   }
 
+  function onAddMouseDown() {
+    setDown(true);
+    document.addEventListener("mouseup", () => {
+      setDown(false);
+    });
+  }
   return (
     <div className={styles["options"]}>
-      {value.map((ele, i) => {
-        return (
-          <div className={styles["item"]} key={i}>
-            <ColorPicker
-              onChange={(color) => onChangeOptionsItem(i, { color })}
-            >
-              <div className={styles["color"]}>
-                <span
-                  className={cn({
-                    "color-value": true,
-                    transparent: ele.color === "transparent",
-                  })}
-                  style={{
-                    background: ele.color,
-                  }}
-                />
-                <span className={styles["color-picker"]}>
-                  <Icon name="caret-down" />
-                </span>
-              </div>
-            </ColorPicker>
-            <Input
-              value={ele.value}
-              change={(value) => onChangeOptionsItem(i, { value })}
-            />
-          </div>
-        );
-      })}
-      <div className={styles["options-add"]} onClick={onAddOptionsItem}>
+      <div className={styles["options-over"]}>
+        {value.map((ele, i) => {
+          return (
+            <div className={styles["item"]} key={i}>
+              <ColorPicker
+                onChange={(color) => onChangeOptionsItem(i, { color })}
+              >
+                <div className={styles["color"]}>
+                  <span
+                    className={cn({
+                      "color-value": true,
+                      transparent: ele.color === "transparent",
+                    })}
+                    style={{
+                      background: ele.color,
+                    }}
+                  />
+                  <span className={styles["color-picker"]}>
+                    <Icon name="caret-down" />
+                  </span>
+                </div>
+              </ColorPicker>
+              <Input
+                value={ele.value}
+                change={(value) => onChangeOptionsItem(i, { value })}
+              />
+              <span
+                className={styles["item-close"]}
+                onClick={() => onRemoveOptionsItem(i)}
+              >
+                <Icon name="close" />
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      <div
+        className={cn({
+          "options-add": true,
+          "options-add-down": down,
+        })}
+        onMouseDown={onAddMouseDown}
+        onMouseUp={onAddOptionsItem}
+      >
         + 添加选项
       </div>
     </div>
@@ -86,9 +107,9 @@ const MetaEditor: FC<MetaEditorProps> = ({ value, onChange }) => {
 /**
  * @interface props
  */
-export interface MetaEditorProps {
+export interface ColorValueEditorProps {
   value: MetaOptionsItem[];
   onChange(e: MetaOptionsItem[]): void;
 }
 
-export default MetaEditor;
+export default ColorValueEditor;

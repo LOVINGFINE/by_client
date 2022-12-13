@@ -4,7 +4,7 @@
  */
 import { FC } from "react";
 import { Icon } from "@/packages/design";
-import styles from "../style.less";
+import styles from "./style.less";
 
 const SuffixTip: FC<SuffixTipProps> = ({ icon, label }) => {
   /** @render */

@@ -20,20 +20,31 @@ const Checkbox: FC<CheckboxProps> = ({
   }
   /** render */
   return (
-    <label className="checkbox">
-      <input
-        className={covClass({
-          "checkbox-wrapper": true,
-          [`checkbox-wrapper-${size}`]: true,
-          "checkbox-wrapper-checked": checked,
-          "checkbox-wrapper-disabled": disabled,
-        })}
-        type={"checkbox"}
-        checked={checked}
-        onChange={onCheckedChange}
-      />
-      {children && <span>{children}</span>}
-    </label>
+    <div className="checkbox-wrapper">
+      <div className="checkbox">
+        <span
+          className={covClass({
+            "checkbox-value": true,
+            [`checkbox-value-${size}`]: true,
+            "checkbox-value-checked": checked,
+            "checkbox-value-disabled": disabled,
+          })}
+        ></span>
+        <input
+          style={{
+            opacity: 0,
+            position: "absolute",
+          }}
+          className={`checkbox-value-${size} ${
+            disabled ? "checkbox-value-disabled" : ""
+          } `}
+          type={"checkbox"}
+          checked={checked}
+          onChange={onCheckedChange}
+        />
+        {children && <span>{children}</span>}
+      </div>
+    </div>
   );
 };
 

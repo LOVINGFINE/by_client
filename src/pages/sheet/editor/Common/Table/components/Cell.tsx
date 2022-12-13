@@ -1,7 +1,7 @@
 import { FC, ReactElement } from "react";
 import styles from "../style.less";
 
-const Cell: FC<CellProps> = ({
+const TCell: FC<TCellProps> = ({
   width,
   left,
   height,
@@ -46,7 +46,7 @@ const Cell: FC<CellProps> = ({
   );
 };
 
-export interface CellProps {
+export interface TCellProps {
   width: number | string;
   height: number | string;
   left: number;
@@ -57,4 +57,4 @@ export interface CellProps {
   onContextMenu?(e: React.MouseEvent): void;
 }
 
-export default Cell;
+export default TCell;

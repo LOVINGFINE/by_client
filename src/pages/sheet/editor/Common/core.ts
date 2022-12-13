@@ -5,7 +5,7 @@ import {
   Cell,
   StyleOption,
   WorkbookClipboard,
-  WorkbookData,
+  WorkbookCommonData,
   ColumnConfig,
   RowConfig,
 } from "./type";
@@ -25,7 +25,7 @@ export function getCoordByKey(key: string) {
 }
 
 export function onCopyToClipboard(
-  data: WorkbookData,
+  data: WorkbookCommonData,
   selection: Selection
 ): WorkbookClipboard {
   const { column, row } = selection;
@@ -69,8 +69,8 @@ export function onPasteByClipboard(
     style: boolean;
     cut: boolean;
   }
-): WorkbookData {
-  const target: WorkbookData = {};
+): WorkbookCommonData {
+  const target: WorkbookCommonData = {};
   if (clipboard) {
     // 粘贴
     const getSource = (x: number, y: number) => {
@@ -135,12 +135,12 @@ export function onPasteByClipboard(
 
 /** 清除数据 */
 export function getClearBySelection(
-  data: WorkbookData,
+  data: WorkbookCommonData,
   selection: Selection,
   only = true
 ) {
   const { column, row } = selection;
-  const target: WorkbookData = {};
+  const target: WorkbookCommonData = {};
   for (let y = row.start; y <= row.end; y++) {
     for (let x = column.start; x <= column.end; x++) {
       const key = getKeyByCoord(x, y);
@@ -160,12 +160,12 @@ export function getClearBySelection(
 }
 
 export function onChangeStyle(
-  data: WorkbookData,
+  data: WorkbookCommonData,
   selection: Selection,
   update: Partial<StyleOption>
 ) {
   const { column, row } = selection;
-  const _data: WorkbookData = {};
+  const _data: WorkbookCommonData = {};
   // 转化为二维数组
   for (let y = row.start; y <= row.end; y++) {
     for (let x = column.start; x <= column.end; x++) {
@@ -194,12 +194,12 @@ export function onChangeStyle(
 
 /** 删除列 */
 export function onDeleteColumn(
-  data: WorkbookData,
+  data: WorkbookCommonData,
   columns: ColumnConfig,
   selection: Selection
 ) {
   const { column } = selection;
-  const _data: WorkbookData = {};
+  const _data: WorkbookCommonData = {};
   const _columns: ColumnConfig = {};
   const columnLength = column.end - column.start + 1;
 
@@ -231,12 +231,12 @@ export function onDeleteColumn(
 
 /** 删除行 */
 export function onDeleteRow(
-  data: WorkbookData,
+  data: WorkbookCommonData,
   rows: RowConfig,
   selection: Selection
 ) {
   const { row } = selection;
-  const _data: WorkbookData = {};
+  const _data: WorkbookCommonData = {};
   const _rows: RowConfig = {};
   const rowLength = row.end - row.start + 1;
 
@@ -268,7 +268,7 @@ export function onDeleteRow(
 
 /** 添加列 */
 export function onInsertColumn(
-  data: WorkbookData,
+  data: WorkbookCommonData,
   columns: ColumnConfig,
   selection: Selection,
   opts: {
@@ -282,7 +282,7 @@ export function onInsertColumn(
   if (position === "after") {
     start = column.end;
   }
-  const _data: WorkbookData = {};
+  const _data: WorkbookCommonData = {};
   const _columns: ColumnConfig = {};
   // 添加列
   for (const key in data) {
@@ -310,7 +310,7 @@ export function onInsertColumn(
 
 /** 添加行 */
 export function onInsertRow(
-  data: WorkbookData,
+  data: WorkbookCommonData,
   rows: RowConfig,
   selection: Selection,
   opts: {
@@ -324,7 +324,7 @@ export function onInsertRow(
   if (position === "after") {
     start = row.end;
   }
-  const _data: WorkbookData = {};
+  const _data: WorkbookCommonData = {};
   const _rows: RowConfig = {};
   for (const key in data) {
     const { x, y } = getCoordByKey(key);
@@ -383,7 +383,7 @@ export function onInsertRow(
 // }
 
 // /** 更新单元格 */
-// export function onUpdateCell(data: WorkbookData, payload: unknown) {
+// export function onUpdateCell(data: WorkbookCommonData, payload: unknown) {
 //   let updates: UpdateCell[] = [];
 //   if (Array.isArray(payload)) {
 //     updates = payload as UpdateCell[];

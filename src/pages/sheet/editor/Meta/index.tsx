@@ -1,37 +1,43 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * Created by zhangq on 2022/08/09
  * excel table
  */
 import { FC, useContext, useReducer, createContext, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { useNavigate } from "react-router";
 import EditableTable from "./Table";
 import Toolbar from "./Toolbar";
-import Footer from "./Footer";
-import { Selection, SimpleValue } from "@/pages/sheet/editor/type";
+import {
+  MetaWorkbook,
+  Selection,
+  SimpleValue,
+  WorkbookType,
+} from "@/pages/sheet/editor/type";
 import { init_selection } from "../final";
-import {} from "./core";
+import {
+  getClearBySelection,
+  onCopyToClipboard,
+  onPasteByClipboard,
+} from "./core";
 import {
   VcTableCore,
   MetaClipboard,
-  MetaWorkbook,
   MetaColumn,
   MetaEntry,
   EntryPayload,
-  MetaWorkbookListItem,
   ColumnPayload,
 } from "./type";
 import { globalContext } from "../index";
 import {
-  getMetaWorkbooks,
   getMetaWorkbookById,
   updateMetaWorkbook,
-  getMetaWorkbookColumns,
+  insertMetaWorkbookEntries,
   getMetaWorkbookEntries,
   updateMetaWorkbookEntries,
-  updateMetaWorkbookColumn,
-  removeMetaWorkbookById,
-  insertMetaWorkbookEntries,
+  deleteMetaWorkbookEntries,
+  insertMetaWorkbookColumns,
+  getMetaWorkbookColumns,
+  updateMetaWorkbookColumns,
+  deleteMetaWorkbookColumns,
 } from "../../apis";
 
 export const editorContext = createContext({} as ContextValue);
@@ -40,13 +46,13 @@ export const initialState: ContextState = {
   code: "",
   id: "",
   name: "",
+  type: WorkbookType.meta,
   showRowCount: false,
   columns: [],
   entries: [],
   clipboard: null,
   createdTime: "",
   updatedTime: "",
-  workbooks: [],
   selection: init_selection,
   history: {
     current: -1,
@@ -56,11 +62,10 @@ export const initialState: ContextState = {
 };
 
 const MetaEditor: FC = () => {
-  const navigate = useNavigate();
-  const [query] = useSearchParams();
   const global = useContext(globalContext);
-  const workbookId = query.get("wid") || "";
   const sheetId = global.id;
+  const workbookId = global.workbookId;
+
   /** @State */
   const [state, dispatch] = useReducer(
     (s: ContextState, p: Partial<ContextState>): ContextState => ({
@@ -69,10 +74,6 @@ const MetaEditor: FC = () => {
     }),
     initialState
   );
-
-  useEffect(() => {
-    initWorkbooks();
-  }, [workbookId]);
 
   useEffect(() => {
     if (workbookId) {
@@ -85,48 +86,19 @@ const MetaEditor: FC = () => {
    * @Methods
    */
 
-  function initWorkbooks() {
-    getMetaWorkbooks(sheetId).then((res) => {
-      dispatch({
-        workbooks: res,
-      });
-      if (!workbookId && res.length > 0) {
-        onWorkbook(res[0].id, true);
-      }
-    });
-  }
-
-  function onWorkbook(id: string, replace?: boolean) {
-    navigate(
-      {
-        search: `?wid=${id}`,
-      },
-      {
-        replace,
-      }
-    );
-  }
-
-  function onDelete() {
-    removeMetaWorkbookById(sheetId, workbookId).then(() => {
-      onWorkbook("", true);
-      initWorkbooks();
-    });
-  }
-
   function onVcTableRef(ref: VcTableCore | null) {
     dispatch({
       vcTableRef: ref,
     });
   }
 
-  function initState() {
-    getMetaWorkbookById(sheetId, workbookId).then((res) => {
+  async function initState() {
+    await getMetaWorkbookById(sheetId, workbookId).then((res) => {
       dispatch({
         ...res,
       });
     });
-    getMetaWorkbookColumns(sheetId, workbookId).then((res) => {
+    await getMetaWorkbookColumns(sheetId, workbookId).then((res) => {
       dispatch({
         columns: res,
       });
@@ -164,9 +136,10 @@ const MetaEditor: FC = () => {
         if (payload[ele.id]) {
           return {
             ...ele,
+            height: payload[ele.id]?.height || ele.height,
             values: {
               ...ele.values,
-              ...payload[ele.id],
+              ...payload[ele.id].values,
             },
           };
         }
@@ -194,15 +167,40 @@ const MetaEditor: FC = () => {
         return ele;
       }),
     });
-    updateMetaWorkbookColumn(sheetId, workbookId, {
+    updateMetaWorkbookColumns(sheetId, workbookId, {
       [code]: payload,
     }).then(() => {
       global.onUpdateTime();
     });
   }
 
-  function onAddColumns(opts: unknown) {}
-  function onDeleteColumns(codes: string[]) {}
+  function onAddColumns(data: Partial<MetaColumn>[]) {
+    insertMetaWorkbookColumns(sheetId, workbookId, data).then((res) => {
+      dispatch({
+        columns: res,
+      });
+    });
+  }
+  function onDeleteColumns() {
+    const codes: string[] = [];
+    for (
+      let i = state.selection.column.start;
+      i <= state.selection.column.end;
+      i++
+    ) {
+      codes.push(state.columns[i].code);
+    }
+    deleteMetaWorkbookColumns(sheetId, workbookId, codes).then(() => {
+      dispatch({
+        columns: state.columns.filter((ele) => {
+          return !codes.includes(ele.code);
+        }),
+      });
+      setTimeout(() => {
+        state.vcTableRef?.deSelection();
+      });
+    });
+  }
 
   function onAddEntry(payload: { [k: string]: SimpleValue }[]) {
     insertMetaWorkbookEntries(sheetId, workbookId, payload)
@@ -216,13 +214,54 @@ const MetaEditor: FC = () => {
       });
   }
 
-  function onDeleteEntry() {}
+  function onDeleteEntry() {
+    const ids: string[] = [];
+    for (let i = state.selection.row.start; i <= state.selection.row.end; i++) {
+      ids.push(state.entries[i].id);
+    }
+    deleteMetaWorkbookEntries(sheetId, workbookId, ids).then(() => {
+      dispatch({
+        entries: state.entries.filter((ele) => {
+          return !ids.includes(ele.id);
+        }),
+      });
+      setTimeout(() => {
+        state.vcTableRef?.deSelection();
+      });
+    });
+  }
 
-  function onCopy() {}
+  function onCopy() {
+    const clipboard = onCopyToClipboard(
+      state.columns,
+      state.entries,
+      state.selection
+    );
+    dispatch({
+      clipboard,
+    });
+  }
 
-  function onClear(only: boolean) {}
+  function onClear() {
+    const payload = getClearBySelection(
+      state.columns,
+      state.entries,
+      state.selection
+    );
+    onChange(payload);
+  }
 
-  function onPaste() {}
+  function onPaste() {
+    if (state.clipboard) {
+      const payload = onPasteByClipboard(
+        state.columns,
+        state.entries,
+        state.selection,
+        state.clipboard
+      );
+      onChange(payload);
+    }
+  }
 
   /** render */
   return (
@@ -230,9 +269,6 @@ const MetaEditor: FC = () => {
       value={{
         ...state,
         initState,
-        initWorkbooks,
-        onWorkbook,
-        onDelete,
         onSelection,
         onShowRow,
         onColumn,
@@ -249,7 +285,6 @@ const MetaEditor: FC = () => {
     >
       <Toolbar />
       <EditableTable />
-      <Footer />
     </editorContext.Provider>
   );
 };
@@ -259,7 +294,6 @@ export interface ContextState extends MetaWorkbook {
   selection: Selection;
   columns: MetaColumn[];
   entries: MetaEntry[];
-  workbooks: MetaWorkbookListItem[];
   history: {
     current: number;
     items: {
@@ -271,16 +305,13 @@ export interface ContextState extends MetaWorkbook {
 
 export interface ContextValue extends ContextState {
   initState(): void;
-  initWorkbooks(): void;
-  onWorkbook(i: string): void;
-  onDelete(): void;
   onSelection(e: Selection): void;
   onShowRow(e: boolean): void;
   onColumn(code: string, e: Partial<ColumnPayload>): void;
-  onAddColumns(opts: Partial<MetaColumn>): void;
-  onDeleteColumns(codes: string[]): void;
+  onAddColumns(opts: Partial<MetaColumn>[]): void;
+  onDeleteColumns(): void;
   onAddEntry(m: { [k: string]: SimpleValue }[]): void;
-  onDeleteEntry(ids: string[]): void;
+  onDeleteEntry(): void;
   onCopy(): void;
   onClear(e: boolean): void;
   onPaste(): void;

@@ -58,20 +58,24 @@ const InputPassword = forwardRef<InputRef | null, InputNumberProps>(
     );
     /** render */
     return (
-      <input
-        ref={inputRef}
-        type="number"
-        className={`input input-${size}`}
-        placeholder={placeholder}
+      <div
+        className="input-wrapper"
         style={{
           width,
           ...style,
         }}
-        value={value}
-        onBlur={onBlur}
-        onKeyDown={onKeyDown}
-        onInput={onInput}
-      />
+      >
+        <input
+          ref={inputRef}
+          type="number"
+          className={`input input-${size}`}
+          placeholder={placeholder}
+          value={value}
+          onBlur={onBlur}
+          onKeyDown={onKeyDown}
+          onInput={onInput}
+        />
+      </div>
     );
   }
 );

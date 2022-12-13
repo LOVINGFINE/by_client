@@ -1,24 +1,12 @@
 import { Selection, SimpleValue } from "@/pages/sheet/editor/type";
-export interface WorkbookListItem {
-  id: string;
-  name: string;
-}
 
-export interface CommonWorkbook extends WorkbookListItem {
-  data: WorkbookData;
-  columns: ColumnConfig;
-  rows: RowConfig;
-  createdTime: string;
-  updatedTime: string;
+export interface WorkbookCommonData {
+  [k: string]: Cell;
 }
 
 export interface WorkbookClipboard {
   selection: Selection;
   data: Cell[][];
-}
-
-export interface WorkbookData {
-  [k: string]: Cell;
 }
 
 export interface DataPayload {

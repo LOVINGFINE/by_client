@@ -20,7 +20,7 @@ const ColumnRender: FC<ColumnRenderProps> = ({ column, onSetting }) => {
     <div className={styles["column"]}>
       <span className={styles["column-title"]}>{column.title}</span>
       <span className={styles["column-edit"]} onMouseDown={onEdit}>
-        <Icon name="equalizer" />
+        <Icon name="setting" />
       </span>
     </div>
   );

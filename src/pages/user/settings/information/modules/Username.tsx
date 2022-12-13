@@ -9,8 +9,8 @@ import styles from "../style.less";
 import FormLayout from "../../components/FormLayout";
 import FormCard from "../../components/FormCard";
 import { Form, Icon, Input, message } from "@/packages/design";
-import { userContext } from "@/plugins/user";
-import { setUserUsername } from "@/pages/user/apis/setting";
+import { userContext } from "@/pages/user/provider";
+import { setUserUsername } from "@/pages/user/apis";
 import { verifyAccent } from "@/plugins/convert";
 
 const afterDays = (time: string) => {

@@ -18,11 +18,6 @@ export enum ListFilter {
   shareToMe = "shareToMe",
 }
 
-export enum SheetType {
-  common = "common",
-  meta = "meta",
-}
-
 export interface SheetUserSettings {
   hideTemplate: boolean;
   defaultTitle: string;
@@ -39,5 +34,4 @@ export interface Sheet {
   lastOpenTime: string;
   owner: string;
   share: string[];
-  type: SheetType;
 }

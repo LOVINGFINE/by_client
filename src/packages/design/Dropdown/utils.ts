@@ -18,6 +18,58 @@ export function getOffset(current?: HTMLElement | null) {
   };
 }
 
+export function getStyles(childrenRef: HTMLElement | null, placement: string) {
+  const { offsetHeight, offsetWidth, offsetTop, offsetLeft } =
+    getOffset(childrenRef);
+  const centerH = offsetLeft + offsetWidth / 2;
+  const extra = 6;
+  switch (placement) {
+    case "top":
+      return {
+        left: centerH,
+        top: offsetTop - extra,
+        transform: `translate(-50%,-100%)`,
+        paddingBottom: extra,
+      };
+    case "topLeft":
+      return {
+        left: offsetLeft + offsetWidth,
+        top: offsetTop - extra,
+        transform: `translate(-100%,-100%)`,
+        paddingBottom: extra,
+      };
+    case "topRight":
+      return {
+        left: offsetLeft,
+        top: offsetTop - extra,
+        transform: `translateY(-100%)`,
+        paddingBottom: extra,
+      };
+    case "bottomLeft":
+      return {
+        left: offsetLeft + offsetWidth,
+        transform: `translateX(-100%)`,
+        top: offsetTop + offsetHeight + extra,
+        paddingTop: extra,
+      };
+    case "bottomRight":
+      return {
+        left: offsetLeft,
+        top: offsetTop + offsetHeight + extra,
+        paddingTop: extra,
+      };
+    default:
+      return {
+        // bottom
+        left: centerH,
+        transform: `translateX(-50%)`,
+        top: offsetTop + offsetHeight + extra,
+        paddingTop: extra,
+      };
+  }
+}
+
+
 export function setStyles(
   childrenRef: HTMLElement | null,
   placement: string,

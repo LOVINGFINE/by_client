@@ -6,7 +6,7 @@ import { FC, useState } from "react";
 import { useNavigate } from "react-router";
 import FormCard from "../../components/FormCard";
 import { Button, Form, Input, message } from "@/packages/design";
-import { setUserPasswordOld } from "@/pages/user/apis/setting";
+import { setUserPasswordOld } from "@/pages/user/apis";
 import FormLayout from "../../components/FormLayout";
 
 const UpdatePasswordOld: FC = () => {

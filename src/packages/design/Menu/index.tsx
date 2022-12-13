@@ -1,5 +1,4 @@
 import "./style.less";
-import { ReactElement } from "react";
 import MenuNormal, { MenuProps } from "./Menu";
 import SubMenuItem from "./SubMenuItem";
 import MenuItem from "./MenuItem";
@@ -10,11 +9,11 @@ type MenuOptionDriver = "driver";
 export type { MenuProps, MenuOptionDriver };
 
 export interface MenuOption {
-  label?: string | ReactElement;
+  label?: React.ReactNode;
   disabled?: boolean;
   type?: "default" | "error" | "warning";
-  suffix?: string | number | ReactElement;
-  icon?: string | number | ReactElement;
+  suffix?: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 export interface MenuOptionChildren extends MenuOption {

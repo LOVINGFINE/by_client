@@ -137,8 +137,8 @@ const EditableTable: FC = () => {
     <div style={{ height: `calc(100% - 116px)` }}>
       <VcTable
         ref={vcTableRef}
-        columns={editContextValue.columns}
-        rows={editContextValue.rows}
+        column={editContextValue.config.column}
+        row={editContextValue.config.row}
         onSelection={onSelection}
         onColumnSize={onColumnSize}
         onRowSize={onRowSize}

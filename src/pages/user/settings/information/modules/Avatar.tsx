@@ -7,8 +7,8 @@ import styles from "../style.less";
 import FormLayout from "../../components/FormLayout";
 import FormCard from "../../components/FormCard";
 import { Button, message } from "@/packages/design";
-import { userContext } from "@/plugins/user";
-import { setUserAvatar } from "@/pages/user/apis/setting";
+import { userContext } from "@/pages/user/provider";
+import { setUserAvatar } from "@/pages/user/apis";
 import { uploadFile } from "@/plugins/file";
 
 const UpdateAvatar: FC = () => {

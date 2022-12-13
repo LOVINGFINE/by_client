@@ -4,7 +4,7 @@
  */
 import { FC } from "react";
 import styles from "../style.less";
-import { Sheet, ListMode, SheetType } from "@/pages/sheet/type";
+import { Sheet, ListMode } from "@/pages/sheet/type";
 import SheetMethods from "./Methods";
 
 import { useNavigate } from "react-router";
@@ -22,12 +22,7 @@ const List: FC<ListProps> = ({
 
   /** @State */
 
-  const icon = (type: SheetType) => {
-    if (type === SheetType.common) {
-      return "sheet";
-    }
-    return "meta-sheet";
-  };
+  const icon = "sheet";
   /**
    * @Methods
    */
@@ -61,7 +56,7 @@ const List: FC<ListProps> = ({
             className={styles[`listItem`]}
             onClick={() => onEdit(item)}
           >
-            <Icon name={icon(item.type)} size={28} />
+            <Icon name={icon} size={28} />
             <span className={styles[`listItem-name`]}>{item.name}</span>
             <span className={styles[`listItem-isOwner`]}>{getOwner(item)}</span>
             <span className={styles[`listItem-updateTime`]}>
@@ -87,7 +82,7 @@ const List: FC<ListProps> = ({
           >
             <div className={styles[`gridItem-display`]}></div>
             <div className={styles[`gridItem-row`]}>
-              <Icon name={icon(item.type)} size={24} />
+              <Icon name={icon} size={24} />
               <span className={styles[`data-gridItem-name`]}>{item.name}</span>
             </div>
             <div className={styles[`gridItem-row`]}>

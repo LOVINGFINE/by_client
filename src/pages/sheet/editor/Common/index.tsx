@@ -1,24 +1,17 @@
 /*
  * Created by zhangq on 2022/08/09
- * excel table
+ * common table
  */
-import {
-  FC,
-  useContext,
-  useReducer,
-  createContext,
-  useEffect,
-  useState,
-} from "react";
-import { useSearchParams } from "react-router-dom";
-import { useNavigate } from "react-router";
+import { FC, useContext, useReducer, createContext, useEffect } from "react";
 import EditableTable from "./Table";
-
 import Toolbar from "./Toolbar";
 import { Cell } from "./type";
 import RefTool from "./RefTool";
-import Footer from "./Footer";
-import { Selection } from "@/pages/sheet/editor/type";
+import {
+  CommonWorkbook,
+  Selection,
+  WorkbookType,
+} from "@/pages/sheet/editor/type";
 import { init_selection } from "../final";
 import {
   getClearBySelection,
@@ -33,15 +26,13 @@ import {
   ColumnConfig,
   RowConfig,
   WorkbookClipboard,
-  WorkbookData,
-  WorkbookListItem,
-  CommonWorkbook,
+  WorkbookCommonData,
 } from "./type";
 import { VcTableCore } from "./Table/index";
 import { globalContext } from "../index";
 import {
   getCommonWorkbookById,
-  getCommonWorkbooks,
+  getCommonWorkbookData,
   updateCommonWorkbookColumn,
   updateCommonWorkbookData,
   updateCommonWorkbookRow,
@@ -52,11 +43,14 @@ export const editorContext = createContext({} as ContextValue);
 export const initialState: ContextState = {
   id: "",
   name: "",
-  data: {},
-  columns: {},
-  rows: {},
+  type: WorkbookType.common,
   createdTime: "",
   updatedTime: "",
+  data: {},
+  config: {
+    column: {},
+    row: {},
+  },
   clipboard: null,
   selection: init_selection,
   history: {
@@ -64,17 +58,15 @@ export const initialState: ContextState = {
     items: [],
   },
   vcTableRef: null,
-  workbooks: [],
 };
 
-const PageEditor: FC = () => {
-  const navigate = useNavigate();
-  const [query] = useSearchParams();
+const CommonEditor: FC = () => {
   const global = useContext(globalContext);
-  const workbookId = query.get("wid") || "";
+  const sheetId = global.id;
+  const workbookId = global.workbookId;
+
   /** @State */
 
-  const [workbooks, setWorkbooks] = useState<WorkbookListItem[]>([]);
   const [state, dispatch] = useReducer(
     (s: ContextState, p: Partial<ContextState>): ContextState => ({
       ...s,
@@ -84,12 +76,10 @@ const PageEditor: FC = () => {
   );
 
   useEffect(() => {
-    initWorkbooks();
-  }, [global.id]);
-
-  useEffect(() => {
-    initState();
-  }, [workbookId]);
+    if (global.workbookId) {
+      initState();
+    }
+  }, [global.workbookId]);
 
   /**
    * @Methods
@@ -100,38 +90,19 @@ const PageEditor: FC = () => {
     });
   }
 
-  function initState() {
-    if (workbookId) {
-      getCommonWorkbookById(global.id, workbookId).then((res) => {
-        dispatch({
-          data: res.data,
-          columns: res.columns,
-          rows: res.rows,
-          name: res.name,
-          id: res.id,
-        });
+  async function initData() {
+    return getCommonWorkbookData(sheetId, workbookId).then((res) => {
+      dispatch({
+        data: res,
       });
-    }
-  }
-
-  function initWorkbooks() {
-    getCommonWorkbooks(global.id).then((res) => {
-      setWorkbooks(res);
-      if (!workbookId) {
-        onWorkbook(res[0].id);
-      }
     });
   }
 
-  function onWorkbook(id: string, replace?: boolean) {
-    navigate(
-      {
-        search: `?wid=${id}`,
-      },
-      {
-        replace,
-      }
-    );
+  async function initState() {
+    await getCommonWorkbookById(sheetId, workbookId).then((res) => {
+      dispatch({ ...res });
+    });
+    await initData();
   }
 
   function onSelection(e: Selection) {
@@ -141,7 +112,7 @@ const PageEditor: FC = () => {
   }
 
   function onChange(maps: { [k: string]: Partial<Cell> }) {
-    updateCommonWorkbookData(global.id, workbookId, maps).then((data) => {
+    updateCommonWorkbookData(sheetId, workbookId, maps).then((data) => {
       dispatch({
         data,
       });
@@ -149,19 +120,23 @@ const PageEditor: FC = () => {
   }
 
   function onColumns(payload: ColumnConfig) {
-    updateCommonWorkbookColumn(global.id, workbookId, payload).then(
-      (columns) => {
-        dispatch({
-          columns,
-        });
-      }
-    );
+    updateCommonWorkbookColumn(sheetId, workbookId, payload).then((column) => {
+      dispatch({
+        config: {
+          column,
+          row: state.config.row,
+        },
+      });
+    });
   }
 
   function onRows(payload: RowConfig) {
-    updateCommonWorkbookRow(global.id, workbookId, payload).then((rows) => {
+    updateCommonWorkbookRow(sheetId, workbookId, payload).then((row) => {
       dispatch({
-        rows,
+        config: {
+          row,
+          column: state.config.column,
+        },
       });
     });
   }
@@ -169,7 +144,7 @@ const PageEditor: FC = () => {
   function onAddColumns(opts: unknown) {
     const res = onInsertColumn(
       state.data,
-      state.columns,
+      state.config.column,
       state.selection,
       opts as { position: "after" | "before"; count: number }
     );
@@ -178,7 +153,11 @@ const PageEditor: FC = () => {
   }
 
   function onDeleteColumns() {
-    const res = onDeleteColumn(state.data, state.columns, state.selection);
+    const res = onDeleteColumn(
+      state.data,
+      state.config.column,
+      state.selection
+    );
     onColumns(res.columns);
     onChange(res.data);
   }
@@ -186,7 +165,7 @@ const PageEditor: FC = () => {
   function onAddRows(opts: unknown) {
     const res = onInsertRow(
       state.data,
-      state.rows,
+      state.config.row,
       state.selection,
       opts as { position: "after" | "before"; count: number }
     );
@@ -195,7 +174,7 @@ const PageEditor: FC = () => {
   }
 
   function onDeleteRows() {
-    const res = onDeleteRow(state.data, state.rows, state.selection);
+    const res = onDeleteRow(state.data, state.config.row, state.selection);
     onRows(res.rows);
     onChange(res.data);
   }
@@ -228,10 +207,7 @@ const PageEditor: FC = () => {
     <editorContext.Provider
       value={{
         ...state,
-        workbooks,
         initState,
-        initWorkbooks,
-        onWorkbook,
         onSelection,
         onColumns,
         onAddColumns,
@@ -249,28 +225,25 @@ const PageEditor: FC = () => {
       <Toolbar />
       <RefTool />
       <EditableTable />
-      <Footer />
     </editorContext.Provider>
   );
 };
 
 export interface ContextState extends CommonWorkbook {
+  data: WorkbookCommonData;
   clipboard: WorkbookClipboard | null;
   selection: Selection;
   history: {
     current: number;
     items: {
-      data: WorkbookData;
+      data: WorkbookCommonData;
     }[];
   };
-  workbooks: WorkbookListItem[];
   vcTableRef: VcTableCore | null;
 }
 
 export interface ContextValue extends ContextState {
   initState(): void;
-  initWorkbooks(): void;
-  onWorkbook(i: string): void;
   onSelection(e: Selection): void;
   onColumns(columns: ColumnConfig): void;
   onAddColumns(opts: unknown): void;
@@ -285,4 +258,4 @@ export interface ContextValue extends ContextState {
   onVcTableRef(ref: VcTableCore | null): void;
 }
 
-export default PageEditor;
+export default CommonEditor;

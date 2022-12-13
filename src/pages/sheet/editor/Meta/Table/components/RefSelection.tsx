@@ -9,7 +9,7 @@ import { Selection } from "@/pages/sheet/editor/type";
 import { MetaColumn, MetaEntry } from "../../type";
 import { getRefStyle } from "../utils/core";
 
-const classNames = useClassNames(styles);
+const cn = useClassNames(styles);
 
 const RefSelection: FC<RefSelectionProps> = ({
   border,
@@ -22,64 +22,16 @@ const RefSelection: FC<RefSelectionProps> = ({
   const style = (() => {
     return getRefStyle(columns, entries, selection, rowIndexWidth);
   })();
-  const show = (() => {
-    const { column, row } = selection;
-    return column.end - column.start > 0 || row.end - row.start > 0;
-  })();
 
-  /** render */
+  /** @render */
   return (
-    <>
-      {show && (
-        <div className={styles["ref"]}>
-          {border && (
-            <>
-              <div
-                className={classNames(["border", "border-v"])}
-                style={{
-                  left: style.left,
-                  top: style.top,
-                  height: style.height,
-                }}
-              />
-              <div
-                className={classNames(["border", "border-v"])}
-                style={{
-                  left: style.left + style.width - 1,
-                  top: style.top,
-                  height: style.height,
-                }}
-              />
-              <div
-                className={classNames(["border", "border-h"])}
-                style={{
-                  left: style.left,
-                  top: style.top,
-                  width: style.width,
-                }}
-              />
-              <div
-                className={classNames(["border", "border-h"])}
-                style={{
-                  left: style.left,
-                  top: style.top + style.height,
-                  width: style.width,
-                }}
-              />
-            </>
-          )}
-          <div
-            className={styles["bgc"]}
-            style={{
-              width: style.width,
-              height: style.height,
-              left: style.left,
-              top: style.top,
-            }}
-          />
-        </div>
-      )}
-    </>
+    <li
+      className={cn({
+        ref: true,
+        "ref-border": border,
+      })}
+      style={style}
+    />
   );
 };
 

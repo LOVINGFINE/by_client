@@ -53,31 +53,23 @@ export function mouseEventContent(
   const elementId = `mouse-content-${new Date().getTime()}`;
   const element = document.createElement("div");
   element.id = elementId;
-  element.addEventListener("contextmenu", (e) => e.stopPropagation());
-  element.addEventListener("mouseup", (e) => e.stopPropagation());
-  element.addEventListener("mousedown", (e) => e.stopPropagation());
-  element.addEventListener("click", (e) => e.stopPropagation());
   // ReactDOM.render(children, element);
   const root = createRoot(element);
   root.render(children);
   const offset = getReactElementOffset(element);
   element.setAttribute("style", getContentStyle(event, offset));
   const unmount = () => {
-    const is = document.getElementById(elementId);
-    if (is) {
-      document.body.removeChild(element);
-    }
-    window.removeEventListener("contextmenu", unmount);
-    window.removeEventListener("mousedown", unmount);
-    window.removeEventListener("mouseup", unmount);
-    window.removeEventListener("click", unmount);
+    setTimeout(() => {
+      const is = document.getElementById(elementId);
+      if (is) {
+        document.body.removeChild(element);
+      }
+    }, 200);
   };
 
   document.body.appendChild(element);
   setTimeout(() => {
-    window.addEventListener("contextmenu", unmount);
-    window.addEventListener("mouseup", unmount);
-    window.addEventListener("mousedown", unmount);
-    window.addEventListener("click", unmount);
-  });
+    window.addEventListener("contextmenu", unmount, { once: true });
+    window.addEventListener("mouseup", unmount, { once: true });
+  }, 200);
 }

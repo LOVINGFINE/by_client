@@ -10,9 +10,10 @@ import React, {
   MouseEvent,
   useImperativeHandle,
   forwardRef,
+  useCallback,
 } from "react";
 import styles from "../style.less";
-import { debounce } from "lodash";
+import { debounce, throttle } from "lodash";
 import { KeyboardType, keyboardEventKey } from "@/plugins/event";
 import { useClassNames } from "@/plugins/style";
 import { Selection } from "@/pages/sheet/editor/type";
@@ -22,23 +23,18 @@ import TBody from "./Body";
 import RefSelection from "./RefSelection";
 import { VcTableCore } from "../index";
 import { RowConfig, ColumnConfig } from "../../type";
-import {
-  filterColumns,
-  filterRows,
-  getBodyStyle,
-  keydownSelected,
-  keydownSelection,
-} from "../utils";
+import { filterColumns, filterRows, getBodyStyle } from "../utils";
 import { DEFAULT_INDEX_WIDTH, DEFAULT_CODE_HEIGHT } from "../../final";
 import { init_selection } from "../../../final";
+import { keydownSelected, keydownSelection } from "../../../utils/event";
 
 const classNames = useClassNames(styles);
 
 const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
   (props, ref) => {
     const {
-      columns,
-      rows,
+      column,
+      row,
       children,
       onCopy,
       onPaste,
@@ -57,10 +53,9 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
       ...init_selection,
     });
     const _selection = useRef<Selection>(selection);
-    const grid = useRef({
-      column: 32,
-      row: 100,
-    });
+    const gridColumns = useRef(32);
+    const gridRows = useRef(100);
+
     const [scrollLeft, setScrollLeft] = useState(0);
     const [scrollTop, setScrollTop] = useState(0);
 
@@ -70,38 +65,68 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
     });
 
     const displayColumns = (() => {
-      return filterColumns(grid.current.column, {
+      return filterColumns(gridColumns.current, {
         offsetWidth: offset.width,
         scrollLeft,
-        maps: columns,
+        maps: column,
       });
     })();
 
     const displayRows = (() => {
-      return filterRows(grid.current.row, {
+      return filterRows(gridRows.current, {
         offsetHeight: offset.height,
         scrollTop,
-        maps: rows,
+        maps: row,
       });
     })();
 
     /**
      * @Methods
      */
-    const onResize = debounce(() => {
-      if (tableRef.current) {
-        const { offsetHeight, offsetWidth } = tableRef.current;
-        setOffset({
-          width: offsetWidth,
-          height: offsetHeight,
-        });
-      }
-    }, 500);
+    const scrollBottomEnd = useCallback(
+      throttle(() => {
+        // 触底
+        gridRows.current += 50;
+
+        console.log("bottom");
+      }, 500),
+      []
+    );
+
+    const scrollRightEnd = useCallback(
+      throttle(() => {
+        // 最右
+        gridColumns.current += 10;
+        console.log("right");
+      }, 500),
+      []
+    );
+
+    const onResize = useCallback(
+      debounce(() => {
+        if (tableRef.current) {
+          const { offsetHeight, offsetWidth } = tableRef.current;
+          setOffset({
+            width: offsetWidth,
+            height: offsetHeight,
+          });
+        }
+      }, 500),
+      []
+    );
 
     function onScroll(e: React.UIEvent) {
       const target = e.target as HTMLDivElement;
       setScrollTop(target.scrollTop);
       setScrollLeft(target.scrollLeft);
+      // 判断是否触底
+      if (target.scrollTop + target.offsetHeight >= target.scrollHeight - 10) {
+        scrollBottomEnd();
+      }
+      // 判断是否 最右
+      if (target.scrollLeft + target.offsetWidth >= target.scrollWidth - 10) {
+        scrollRightEnd();
+      }
     }
 
     function inSelection(e: Selection) {
@@ -145,8 +170,7 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
     }
 
     function onKeyboard(event: React.KeyboardEvent) {
-      const { copy, paste, paste_cut, paste_cut_control, paste_control } =
-        KeyboardType;
+      const { copy, paste, paste_cut, paste_cut_all, paste_all } = KeyboardType;
       const key = keyboardEventKey(event);
       if (key) {
         if (key === copy) {
@@ -155,7 +179,7 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
         if (key === paste) {
           onPaste();
         }
-        if (key === paste_control) {
+        if (key === paste_all) {
           onPaste({
             style: true,
           });
@@ -165,7 +189,7 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
             cut: true,
           });
         }
-        if (key === paste_cut_control) {
+        if (key === paste_cut_all) {
           onPaste({
             cut: true,
             style: true,
@@ -190,8 +214,17 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
     }, [selection]);
 
     useEffect(() => {
-      setBodyStyle(getBodyStyle(grid.current, columns, rows));
-    }, [columns, rows, grid.current]);
+      setBodyStyle(
+        getBodyStyle(
+          {
+            column: gridColumns.current,
+            row: gridRows.current,
+          },
+          column,
+          row
+        )
+      );
+    }, [column, row, gridColumns.current, gridRows.current]);
 
     useEffect(() => {
       const remove = () => {
@@ -235,61 +268,60 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
         onKeyDown={onKeyboard}
         onMouseDown={(e) => e.stopPropagation()}
       >
-        {offset.width > 0 && (
-          <>
-            <TCorner width={DEFAULT_INDEX_WIDTH} height={DEFAULT_CODE_HEIGHT} />
-            <div className={styles["table-scroll"]} onScroll={onScroll}>
-              <Thead
-                columns={displayColumns}
-                width={bodyStyle.width}
-                left={DEFAULT_INDEX_WIDTH}
-                height={DEFAULT_CODE_HEIGHT}
-                offsetHeight={offset.height}
-                rowEndIndex={grid.current.column - 2}
-                selection={selection}
-                onColumnSize={onColumnSize}
-                onContextMenu={onThContextMenu}
-                onSelection={inSelection}
-                onSelectionStop={onSelectionStop}
-              />
-              <TBody
-                width={bodyStyle.width}
-                height={bodyStyle.height}
-                rows={displayRows}
-                columns={displayColumns}
-                columnEndIndex={grid.current.column - 1}
-                rowIndexWidth={DEFAULT_INDEX_WIDTH}
-                selection={selection}
-                onRowSize={onRowSize}
-                onSelection={inSelection}
-                onSelectionStop={onSelectionStop}
-                onContextMenu={onTdContextMenu}
-                refs={(canSelection) => {
-                  return (
-                    <RefSelection
-                      grid={grid.current}
-                      rowIndexWidth={DEFAULT_INDEX_WIDTH}
-                      border={!canSelection}
-                      columns={columns}
-                      rows={rows}
-                      selection={selection}
-                    />
-                  );
-                }}
-              >
-                {children}
-              </TBody>
-            </div>
-          </>
-        )}
+        <TCorner width={DEFAULT_INDEX_WIDTH} height={DEFAULT_CODE_HEIGHT} />
+        <div className={styles["table-scroll"]} onScroll={onScroll}>
+          <Thead
+            columns={displayColumns}
+            width={bodyStyle.width}
+            left={DEFAULT_INDEX_WIDTH}
+            height={DEFAULT_CODE_HEIGHT}
+            offsetHeight={offset.height}
+            rowEndIndex={gridRows.current - 1}
+            selection={selection}
+            onColumnSize={onColumnSize}
+            onContextMenu={onThContextMenu}
+            onSelection={inSelection}
+            onSelectionStop={onSelectionStop}
+          />
+          <TBody
+            width={bodyStyle.width}
+            height={bodyStyle.height}
+            rows={displayRows}
+            columns={displayColumns}
+            columnEndIndex={gridColumns.current - 1}
+            rowIndexWidth={DEFAULT_INDEX_WIDTH}
+            selection={selection}
+            onRowSize={onRowSize}
+            onSelection={inSelection}
+            onSelectionStop={onSelectionStop}
+            onContextMenu={onTdContextMenu}
+            refs={(canSelection) => {
+              return (
+                <RefSelection
+                  grid={{
+                    column: gridColumns.current,
+                    row: gridRows.current,
+                  }}
+                  rowIndexWidth={DEFAULT_INDEX_WIDTH}
+                  border={!canSelection}
+                  column={column}
+                  row={row}
+                  selection={selection}
+                />
+              );
+            }}
+          >
+            {children}
+          </TBody>
+        </div>
       </div>
     );
   }
 );
 
 export interface VcTableProps {
-  rows: RowConfig;
-  columns: ColumnConfig;
+  row: RowConfig;
+  column: ColumnConfig;
   onCopy(): void;
   onPaste(e?: { style?: boolean; cut?: boolean }): void;
   onSelection(e: Selection): void;

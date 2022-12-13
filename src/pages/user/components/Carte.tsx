@@ -5,7 +5,7 @@
 import { FC } from "react";
 import styles from "./style.less";
 import { Button } from "@/packages/design";
-import { User } from "@/plugins/user";
+import { User } from "@/pages/user/type";
 import UserAvatar from "./Avatar";
 
 const UserCarte: FC<UserCarteProps> = ({ user }) => {
@@ -41,7 +41,7 @@ const UserCarte: FC<UserCarteProps> = ({ user }) => {
           管理您的账号
         </Button>
         <div className={styles["userCarte-driver"]} />
-        <Button size="large" icon="sign-out" type="error" onClick={onLogout}>
+        <Button icon="sign-out" type="error" onClick={onLogout}>
           退出登录
         </Button>
       </div>

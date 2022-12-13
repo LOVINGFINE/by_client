@@ -23,6 +23,7 @@ const TBody: FC<TBodyProps> = ({
   columns,
   columnEndIndex,
   selection,
+  onRowSize,
   refs,
   children,
   onContextMenu,
@@ -97,7 +98,9 @@ const TBody: FC<TBodyProps> = ({
             width={width}
             height={entry.height}
             top={entry.y}
+            canSelection={canSelection}
             index={entry.index}
+            onRowSize={(h) => onRowSize(entry.id, h)}
             selected={getSelectionRow(entry.index)}
             rowIndexWidth={rowIndexWidth}
             columnEndIndex={columns.length - 1}
@@ -149,6 +152,7 @@ export interface TBodyProps {
   onSelection(e: Selection): void;
   onSelectionStop(): void;
   onContextMenu(e: MouseEvent, c: number, r: number): void;
+  onRowSize(id: string, height: number): void;
 }
 
 export default TBody;

@@ -7,7 +7,6 @@ import styles from "./style.less";
 import { globalContext } from "../index";
 import { Icon } from "@/packages/design";
 import { useNavigate } from "react-router";
-import { SheetType } from "../../type";
 import dayjs from "dayjs";
 
 const SheetHeader: FC = () => {
@@ -17,7 +16,7 @@ const SheetHeader: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isRename, setIsRename] = useState(false);
 
-  const icon = global.type === SheetType.meta ? "meta-sheet" : "sheet";
+  const icon = "sheet";
   const updatedTime = dayjs(global.updatedTime).format("YYYY年M月D日 HH:mm");
   function onRename() {
     setIsRename(true);

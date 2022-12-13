@@ -3,15 +3,21 @@
  * excel table
  */
 import { FC, useReducer, useEffect, createContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ApplicationLayout from "@/layouts/application";
-import { getSheetById, updateUserSheetName } from "../apis";
 import SheetHeader from "./Header";
 import CommonEditor from "./Common";
 import MetaEditor from "./Meta";
-import { Sheet, SheetType } from "../type";
+import Footer from "./Footer";
+import { Sheet } from "../type";
+import { WorkbookListItem, WorkbookType } from "./type";
+import {
+  getSheetById,
+  updateUserSheetName,
+  getSheetWorkbooksById,
+} from "../apis";
 
-export const initialState: ContextState = {
+export const initialState: Sheet = {
   id: "",
   name: "",
   createdTime: "",
@@ -19,22 +25,34 @@ export const initialState: ContextState = {
   lastOpenTime: "",
   owner: "",
   share: [],
-  type: SheetType.common,
 };
 
 export const globalContext = createContext({} as ContextValue);
 const SheetEditor: FC = () => {
+  const navigate = useNavigate();
   const params = useParams();
+  const [query] = useSearchParams();
+  const workbookId = query.get("wid") || "";
+  const sheetId = params?.sheetId || "";
+
   /** @State */
   const [loading, setLoading] = useState(true);
-  const [state, dispatch] = useReducer(
-    (s: ContextState, p: Partial<ContextState>): ContextState => ({
+  const [sheet, dispatch] = useReducer(
+    (s: Sheet, p: Partial<Sheet>): Sheet => ({
       ...s,
       ...p,
     }),
     initialState
   );
+  const [workbooks, setWorkbooks] = useState<WorkbookListItem[]>([]);
 
+  const workbookType = (() => {
+    const current = workbooks.find((ele) => ele.id === workbookId);
+    if (current) {
+      return current.type;
+    }
+    return null;
+  })();
   /**
    * @Methods
    */
@@ -44,8 +62,16 @@ const SheetEditor: FC = () => {
     });
   }
 
-  function initState(id?: string) {
-    const sheetId = id ?? state.id;
+  function initWorkbooks() {
+    getSheetWorkbooksById(sheetId).then((res) => {
+      setWorkbooks(res);
+      if (!workbookId) {
+        onWorkbook(res[0].id);
+      }
+    });
+  }
+
+  function initState() {
     setLoading(true);
     getSheetById(sheetId)
       .then((data) => {
@@ -62,23 +88,48 @@ const SheetEditor: FC = () => {
     dispatch({
       name,
     });
-    updateUserSheetName(state.id, name);
+    updateUserSheetName(sheet.id, name);
   }
 
+  function onWorkbook(id: string, replace?: boolean) {
+    navigate(
+      {
+        search: `?wid=${id}`,
+      },
+      {
+        replace,
+      }
+    );
+  }
   /**
    * @effect
    */
   useEffect(() => {
-    if (params?.sheetId) {
-      initState(params?.sheetId);
+    if (sheetId) {
+      initState();
+      initWorkbooks();
     }
-  }, [params.sheetId]);
+  }, [sheetId]);
   /** @render */
+
+  const editor = (() => {
+    if (workbookType) {
+      if (workbookType === WorkbookType.common) {
+        return <CommonEditor />;
+      }
+      return <MetaEditor />;
+    }
+    return <></>;
+  })();
 
   return (
     <globalContext.Provider
       value={{
-        ...state,
+        ...sheet,
+        workbookId,
+        workbooks,
+        initWorkbooks,
+        onWorkbook,
         initState,
         onRename,
         onUpdateTime,
@@ -90,15 +141,18 @@ const SheetEditor: FC = () => {
         loading={loading}
         header={<SheetHeader />}
       >
-        {state.type === SheetType.common ? <CommonEditor /> : <MetaEditor />}
+        {editor}
+        <Footer />
       </ApplicationLayout>
     </globalContext.Provider>
   );
 };
 
-export interface ContextState extends Sheet {}
-
-export interface ContextValue extends ContextState {
+export interface ContextValue extends Sheet {
+  workbookId: string;
+  workbooks: WorkbookListItem[];
+  initWorkbooks(): void;
+  onWorkbook(i: string): void;
   initState(): void;
   onRename(n: string): void;
   onUpdateTime(): void;

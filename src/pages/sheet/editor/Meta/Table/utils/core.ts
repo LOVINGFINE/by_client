@@ -1,21 +1,21 @@
 import { MetaColumn, VcColumn, VcEntry, MetaEntry } from "../../type";
 import { Selection } from "@/pages/sheet/editor/type";
-import { DEFAULT_COLUMN_WIDTH, DEFAULT_ROW_HEIGHT } from "../../final";
+import { DEFAULT_COLUMN_WIDTH } from "../../final";
 
 export function getBodyStyle(columns: MetaColumn[], entries: MetaEntry[]) {
   const style = {
     width: 0,
     height: 0,
   };
-  for (let index = 0; index < columns.length; index++) {
-    if (columns[index]) {
-      style.width += columns[index].width;
+  for (let i = 0; i < columns.length; i++) {
+    if (columns[i]) {
+      style.width += columns[i].width;
     } else {
       style.width += DEFAULT_COLUMN_WIDTH;
     }
   }
-  for (let index = 0; index < entries.length; index++) {
-    style.height += DEFAULT_ROW_HEIGHT;
+  for (let i = 0; i < entries.length; i++) {
+    style.height += entries[i].height;
   }
   return style;
 }
@@ -61,7 +61,7 @@ export function filterEntries(
   const target: VcEntry[] = [];
   let y = 0;
   for (let i = 0; i < entries.length; i++) {
-    const height = DEFAULT_ROW_HEIGHT;
+    const height = entries[i].height;
     if (y + height >= scrollTop) {
       if (y <= rowEnd) {
         target.push({
@@ -205,18 +205,10 @@ export function getRefStyle(
   let height = 0;
   for (let i = 0; i < columns.length; i++) {
     if (i < column.start) {
-      if (columns[`${i}`]) {
-        left += columns[`${i}`].width;
-      } else {
-        left += DEFAULT_COLUMN_WIDTH;
-      }
+      left += columns[i].width;
     } else {
       if (i <= column.end) {
-        if (columns[`${i}`]) {
-          width += columns[`${i}`].width;
-        } else {
-          width += DEFAULT_COLUMN_WIDTH;
-        }
+        width += columns[i].width;
       } else {
         break;
       }
@@ -225,12 +217,12 @@ export function getRefStyle(
   for (let i = 0; i < entries.length; i++) {
     if (i < row.start) {
       if (entries[i]) {
-        top += DEFAULT_ROW_HEIGHT;
+        top += entries[i].height;
       }
     } else {
       if (i <= row.end) {
         if (entries[i]) {
-          height += DEFAULT_ROW_HEIGHT;
+          height += entries[i].height;
         }
       } else {
         break;

@@ -1,12 +1,10 @@
 .userCard {
   width: 100%;
   max-width: 860px;
-  padding: 20px 38px 38px;
-  // border: 1px solid #eee;
+  padding: 20px 30px 0;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
-    0 9px 28px 8px #0000000d;
+  border: 1px solid #ddd;
   &-title {
     font-size: 20px;
     color: var(--d-title);
@@ -17,6 +15,28 @@
     color: var(--d-desc);
   }
 }
+
+.userSignalCard {
+  width: calc(50% - 15px);
+  padding: 20px 0 38px;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  min-height: 245px;
+  &-title {
+    font-size: 20px;
+    color: var(--d-title);
+    margin-bottom: 12px;
+    padding: 0 30px;
+  }
+  &-desc {
+    font-size: 14px;
+    color: var(--d-desc);
+    padding: 0 30px;
+    margin-bottom: 12px;
+  }
+}
+
 .option {
   width: 100%;
   display: flex;
@@ -25,7 +45,10 @@
   border-radius: 4px;
   align-items: center;
   cursor: pointer;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid #eee;
+  &:last-child {
+    border-bottom-color: transparent;
+  }
   &-label {
     width: 240px;
     color: var(--d-desc);
@@ -42,7 +65,6 @@
   }
 
   &:hover {
-    border-bottom-color: #eee;
     .option-action {
       display: flex;
     }
@@ -52,12 +74,10 @@
 .formCard {
   width: 100%;
   max-width: 650px;
-  border: 1px solid #eee;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
-    0 9px 28px 8px #0000000d;
   padding: 12px 0 20px;
+  border: 1px solid #ddd;
   &-top {
     display: flex;
     align-items: center;
@@ -104,5 +124,45 @@
   100% {
     transform: translateX(0);
     opacity: 1;
+  }
+}
+
+.activeHistoryCard {
+  width: 100%;
+  max-width: 860px;
+  padding: 20px 0 0;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 8px;
+  &-title {
+    font-size: 20px;
+    color: var(--d-title);
+    margin-bottom: 16px;
+    padding: 0 30px;
+  }
+  .item {
+    width: 100%;
+    display: flex;
+    min-height: 58px;
+    font-size: 16px;
+    border-radius: 4px;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    &:last-child {
+      border-bottom-color: transparent;
+    }
+    padding: 0 30px;
+    &-label {
+      width: 380px;
+    }
+    &-time {
+      flex: 1;
+      min-width: 0;
+      color: var(--d-desc);
+    }
+    &:hover {
+      background-color: #f8f8f8;
+    }
   }
 }

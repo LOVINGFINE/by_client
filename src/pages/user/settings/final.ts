@@ -9,7 +9,9 @@ export const manage_options: ManageOption[] = [
   },
   {
     name: ManageKey.safety,
-    label: "账号与安全",
+    label: "账号安全",
     icon: "lock",
+    description:
+      "确保您当前账号的安全性,和相关活动记录,帮助您更好地使用我们的产品",
   },
 ];

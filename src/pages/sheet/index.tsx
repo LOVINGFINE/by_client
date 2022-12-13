@@ -63,7 +63,7 @@ const UserSheetPage: FC = () => {
   return (
     <ApplicationLayout
       title={"表格"}
-      logo={true}
+      logo={display !== "full"}
       control={display !== "full"}
       settings={
         <Settings settings={userSettings} onSettings={onUserSettings} />
@@ -71,7 +71,12 @@ const UserSheetPage: FC = () => {
       loading={loading}
       header={<Header isTemplate={display === "full"} onSearch={setSearch} />}
     >
-      <Template settings={userSettings} onHide={onHideTemplate} display={display} search={search} />
+      <Template
+        settings={userSettings}
+        onHide={onHideTemplate}
+        display={display}
+        search={search}
+      />
       <UserSheets
         display={display}
         search={search}

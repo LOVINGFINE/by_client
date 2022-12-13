@@ -7,15 +7,16 @@ import styles from "../style.less";
 import { insertUserSheet } from "@/pages/sheet/apis";
 import { useNavigate } from "react-router";
 import { Icon, Tooltip } from "@/packages/design";
-import { SheetType } from "@/pages/sheet/type";
 
-const InsertSheet: FC = () => {
+const InsertSheet: FC<{
+  title: string;
+}> = ({ title }) => {
   const navigate = useNavigate();
   /**
    * @Methods
    */
-  function insertEmptySheet(type: SheetType) {
-    insertUserSheet("未命名标题", type).then((res) => {
+  function insertEmptySheet() {
+    insertUserSheet(title || "未命名标题").then((res) => {
       navigate(`/sheets/${res.id}`);
     });
   }
@@ -37,23 +38,12 @@ const InsertSheet: FC = () => {
             <Icon name="template" />
           </div>
         </Tooltip>
-        <Tooltip title={"新建meta表格"} delay={0.5} placement="left">
-          <div
-            className={styles["insertSheet-openTemplate-btn"]}
-            onClick={() => insertEmptySheet(SheetType.meta)}
-          >
-            <Icon name="meta-sheet" />
-          </div>
-        </Tooltip>
       </div>
       <div className={styles["insertSheet-plus"]}>
         <Icon name="plus" />
       </div>
-      <Tooltip title={"新建普通表格"} delay={0.5} placement="left">
-        <div
-          className={styles["insertSheet-empty"]}
-          onClick={() => insertEmptySheet(SheetType.common)}
-        >
+      <Tooltip title={"新建空白表格"} delay={0.5} placement="left">
+        <div className={styles["insertSheet-empty"]} onClick={insertEmptySheet}>
           <Icon name="sheet" />
         </div>
       </Tooltip>

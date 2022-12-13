@@ -6,7 +6,7 @@ import React, { FC, useRef } from "react";
 import styles from "./style.less";
 import { SimpleValue } from "@/pages/sheet/editor/type";
 import TextInput, { TextInputCore } from "../TextInput";
-import CellContextMenu from "./Menu";
+import CellContextMenu from "../ContextMenu";
 import { getCellStyle } from "./utils";
 import { StyleOption } from "../type";
 

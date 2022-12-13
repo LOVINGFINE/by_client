@@ -36,10 +36,10 @@ const SheetMethods: FC<SheetMethodsProps> = ({ onAction }) => {
 
   /** render */
   return (
-    <Dropdown overlay={overlay} placement='bottomLeft'>
-      <Button round>
+    <Dropdown overlay={overlay} placement="bottomLeft">
+      <Button.Round>
         <Icon name="ellipsis-v" />
-      </Button>
+      </Button.Round>
     </Dropdown>
   );
 };

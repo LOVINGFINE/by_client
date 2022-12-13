@@ -27,15 +27,10 @@ import {
   MetaEntry,
   VcEntry,
 } from "../../type";
-import {
-  filterColumns,
-  filterEntries,
-  getBodyStyle,
-  keydownSelected,
-  keydownSelection,
-} from "../utils";
+import { filterColumns, filterEntries, getBodyStyle } from "../utils";
 import { DEFAULT_INDEX_WIDTH, DEFAULT_CODE_HEIGHT } from "../../final";
 import { init_selection } from "../../../final";
+import { keydownSelected, keydownSelection } from "../../../utils/event";
 
 const classNames = useClassNames(styles);
 
@@ -49,10 +44,11 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
       onCopy,
       onPaste,
       onSelection,
+      onRowSize,
       onColumnSize,
       columnRender,
       codeRender,
-      onAddRow,
+      // onAddRow,
     } = props;
 
     /** @State */
@@ -220,11 +216,7 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
         onKeyDown={onKeyboard}
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <TCorner
-          onAddRow={onAddRow}
-          width={rowIndexWidth}
-          height={DEFAULT_CODE_HEIGHT}
-        />
+        <TCorner width={rowIndexWidth} height={DEFAULT_CODE_HEIGHT} />
         <div className={styles["table-scroll"]} onScroll={onScroll}>
           <Thead
             columns={displayColumns}
@@ -248,6 +240,7 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
             entries={displayEntries}
             columns={displayColumns}
             columnEndIndex={columns.length - 1}
+            onRowSize={onRowSize}
             rowIndexWidth={rowIndexWidth}
             selection={selection}
             onSelection={inSelection}
@@ -281,6 +274,7 @@ export interface VcTableProps {
   onCopy(): void;
   onPaste(): void;
   onSelection(e: Selection): void;
+  onRowSize(i: string, h: number): void;
   onColumnSize(i: string, w: number): void;
   onThContextMenu?(e: MouseEvent, c: number): void;
   onTdContextMenu?(e: MouseEvent, c: number, r: number): void;

@@ -24,7 +24,17 @@ const Cell: FC<CellProps> = ({ value, onChange, column }) => {
   const render = () => {
     switch (column.type) {
       case MetaType.Boolean:
-        return <Checkbox onChange={onChange} checked={!!value} />;
+        return (
+          <Checkbox onChange={onChange} checked={!!value}>
+            {column.meta.boolean.label && (
+              <>
+                {!!value
+                  ? column.meta.boolean.checked
+                  : column.meta.boolean.unChecked}
+              </>
+            )}
+          </Checkbox>
+        );
       default:
         return <TextInput ref={inputRef} value={value} onChange={onChange} />;
     }

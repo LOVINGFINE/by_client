@@ -9,6 +9,8 @@ import { ColorPicker } from "@/components";
 
 const FontColor: FC<FontColorProps> = ({ value, onChange }) => {
   /** render */
+  const borderColor =
+    value === "transparent" || value === "white" ? "#ddd" : value;
   return (
     <ColorPicker value={value} onChange={onChange}>
       <Action>
@@ -18,6 +20,7 @@ const FontColor: FC<FontColorProps> = ({ value, onChange }) => {
             className={styles["font-color-under"]}
             style={{
               background: value,
+              borderColor,
             }}
           />
         </div>

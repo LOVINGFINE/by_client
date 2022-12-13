@@ -4,7 +4,7 @@
  */
 import { FC } from "react";
 import styles from "./style.less";
-import { Button } from "@/packages/design";
+import { Button, Icon } from "@/packages/design";
 import { useNavigate } from "react-router";
 
 const FormCard: FC<FormCardProps> = ({
@@ -53,7 +53,9 @@ const FormCard: FC<FormCardProps> = ({
   return (
     <div className={styles["formCard"]}>
       <div className={styles["formCard-top"]}>
-        <Button size="large" icon="long-arrow-left" round onClick={onBack} />
+        <Button.Round size="large" onClick={onBack}>
+          <Icon name="long-arrow-left" />
+        </Button.Round>
         <div className={styles["formCard-title"]}>{title}</div>
         {actions}
       </div>

@@ -5,7 +5,7 @@
 import { FC, useContext } from "react";
 import styles from "./style.less";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { userContext } from "@/plugins/user";
+import { userContext } from "@/pages/user/provider";
 import Option from "../components/Option";
 import UserCard from "../components/UserCard";
 import { UserAvatar } from "../../components";
@@ -14,6 +14,11 @@ import UpdateUsername from "./modules/Username";
 import UpdateMobile from "./modules/Mobile";
 import UpdateAvatar from "./modules/Avatar";
 import UpdateEmail from "./modules/Email";
+import UserSignalCard from "../components/UserSignalCard";
+import { Button, Icon } from "@/packages/design";
+import UpdatePasswordOld from "./modules/PasswordOld";
+import UpdatePasswordWithCode from "./modules/PasswordWithCode";
+import dayjs from "dayjs";
 
 const UserInformation: FC = () => {
   const context = useContext(userContext);
@@ -21,11 +26,13 @@ const UserInformation: FC = () => {
   const [query] = useSearchParams();
 
   const update = query.get("update");
+
   const nickname = context.user.nickname ? (
     context.user.nickname
   ) : (
     <span className={styles["userValueNone"]}>暂未设置昵称</span>
   );
+
   const mobile = context.user.mobile ? (
     context.user.mobile
   ) : (
@@ -50,6 +57,10 @@ const UserInformation: FC = () => {
       return <UpdateAvatar />;
     case "email":
       return <UpdateEmail />;
+    case "password-with-old":
+      return <UpdatePasswordOld />;
+    case "password-with-emailCode":
+      return <UpdatePasswordWithCode />;
     default:
       return (
         <div className={styles["information"]}>
@@ -91,6 +102,30 @@ const UserInformation: FC = () => {
               onAction={() => onNavUpdate("mobile")}
             />
           </UserCard>
+          <div className={styles["signalBox"]}>
+            <UserSignalCard
+              title={"密码"}
+              desecration={"设置安全的密码,可以有效防止账号泄漏"}
+            >
+              <div className={styles["password"]}>
+                <div className={styles["flex"]}>
+                  <div className={styles["flex-title"]}>********</div>
+                  <span className={styles["flex-desc"]}>
+                    上次修改时间:{" "}
+                    {dayjs(context.user.passwordUpdated).format(
+                      "YYYY年MM月DD日 hh:mm"
+                    )}
+                  </span>
+                </div>
+                <Button.Round
+                  size="large"
+                  onClick={() => onNavUpdate("password-with-old")}
+                >
+                  <Icon name="pencil" />
+                </Button.Round>
+              </div>
+            </UserSignalCard>
+          </div>
         </div>
       );
   }

@@ -17,7 +17,10 @@ const ColorPicker: FC<ColorPickerProps> = ({ onChange, children }) => {
     <Dropdown
       placement="bottomRight"
       overlay={
-        <div className={styles["picker"]}>
+        <div
+          className={styles["picker"]}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
           <div className={styles["picker-content"]}>
             <ul className={styles["ul"]}>
               {picker_colors.map((col) => {

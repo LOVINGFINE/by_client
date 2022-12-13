@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 import { Icon } from "@/packages/design";
 import { UserWithToken } from "../type";
 import SignUpForm from "./components/Form";
-import { userContext } from "@/plugins/user";
+import { userContext } from "@/pages/user/provider";
 
 const SignUpPage: FC = () => {
   const context = useContext(userContext);

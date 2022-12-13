@@ -6,7 +6,7 @@ import InputNormal, { InputProps, InputRef } from "./Input";
 import Password from "./Password";
 import Number from "./Number";
 
-export type { InputRef } from "./Input";
+export type { InputRef };
 
 const Input = InputNormal as React.ForwardRefExoticComponent<
   InputProps & React.RefAttributes<InputRef>

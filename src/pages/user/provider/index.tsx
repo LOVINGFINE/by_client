@@ -1,7 +1,8 @@
 import { ReactElement, FC, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
-import { userInfoWidthToken } from "./api";
-import { User, UserContext } from "./type";
+import { userInfoWidthToken } from "../apis";
+import { UserContext } from "./type";
+import { User } from "../type";
 import { createStorageRef } from "@/plugins/storage";
 import { createContext } from "react";
 
@@ -24,6 +25,7 @@ const Provider: FC<{
     usernameUpdated: "",
     updatedTime: "",
     createdTime: "",
+    passwordUpdated: "",
   });
   const [token, setTokenValue] = useState<string | null>(null);
   const ignore = neglect.includes(route.pathname);
@@ -78,5 +80,6 @@ const Provider: FC<{
     </userContext.Provider>
   );
 };
+export * from "./type";
 
 export default Provider;

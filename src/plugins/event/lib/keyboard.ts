@@ -6,8 +6,8 @@ const {
   copy,
   paste,
   paste_cut,
-  paste_control,
-  paste_cut_control,
+  paste_all,
+  paste_cut_all,
   selected_top,
   selected_bottom,
   selected_left,
@@ -21,30 +21,30 @@ const {
 export function keyboardWindowsOs(event: KeyboardEvent | React.KeyboardEvent) {
   const { ctrlKey, key, altKey, shiftKey } = event;
   const keyCode = key.toLowerCase();
+  if (ctrlKey) {
+    if (keyCode === "v") {
+      // 粘贴
+      if (altKey && shiftKey) {
+        // 粘贴 / 剪切
+        return paste_cut_all;
+      }
+      if (altKey) {
+        // 粘贴 / 剪切
+        return paste_cut;
+      }
+      if (shiftKey) {
+        // 粘贴 / 样式
+        return paste_all;
+      }
+      return paste;
+    }
 
-  if (ctrlKey && altKey && keyCode === "v") {
-    // 粘贴
-    return paste_cut;
+    if (keyCode === "c") {
+      // 拷贝
+      return copy;
+    }
   }
 
-  if (ctrlKey && keyCode === "v") {
-    // 粘贴
-    if (altKey && shiftKey) {
-      return paste_cut_control;
-    }
-    if (!altKey && shiftKey) {
-      return paste_control;
-    }
-    if (altKey && !shiftKey) {
-      return paste_cut;
-    }
-    return paste;
-  }
-
-  if (ctrlKey && keyCode === "c") {
-    // 拷贝
-    return copy;
-  }
   if (altKey) {
     if (keyCode === "arrowup") {
       if (shiftKey) {
@@ -76,42 +76,50 @@ export function keyboardWindowsOs(event: KeyboardEvent | React.KeyboardEvent) {
 export function keyboardMacOs(event: KeyboardEvent | React.KeyboardEvent) {
   const { metaKey, key, altKey, shiftKey } = event;
   const keyCode = key.toLowerCase();
-  if (metaKey && altKey && keyCode === "v") {
-    // 粘贴 / 剪切
-    return paste_cut;
-  }
-
-  if (metaKey && keyCode === "v") {
+  if (metaKey) {
     // 粘贴
-    return paste;
-  }
-
-  if (metaKey && keyCode === "c") {
-    // 拷贝
-    return copy;
-  }
-
-  if (shiftKey) {
-    if (keyCode === "arrowup") {
+    if (keyCode === "v") {
+      if (altKey && shiftKey) {
+        // 粘贴 / 剪切
+        return paste_cut_all;
+      }
       if (altKey) {
+        // 粘贴 / 剪切
+        return paste_cut;
+      }
+      if (shiftKey) {
+        // 粘贴 / 样式
+        return paste_all;
+      }
+      return paste;
+    }
+    // 拷贝
+    if (keyCode === "c") {
+      return copy;
+    }
+  }
+
+  if (altKey) {
+    if (keyCode === "arrowup") {
+      if (shiftKey) {
         return selection_top;
       }
       return selected_top;
     }
     if (keyCode === "arrowdown") {
-      if (altKey) {
+      if (shiftKey) {
         return selection_bottom;
       }
       return selected_bottom;
     }
     if (keyCode === "arrowleft") {
-      if (altKey) {
+      if (shiftKey) {
         return selection_left;
       }
       return selected_left;
     }
     if (keyCode === "arrowright") {
-      if (altKey) {
+      if (shiftKey) {
         return selection_right;
       }
       return selected_right;

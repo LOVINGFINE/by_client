@@ -9,7 +9,7 @@ const ShowRowCount: FC<{
   /** render */
   return (
     <div className={styles['showRowCount']}>
-      <span>显示行数</span>
+      <span>显示序号</span>
       <Switch size="small" checked={value} onChange={onChange} />
     </div>
   );

@@ -1,5 +1,13 @@
 import request from "@/config/request";
-import { User } from "@/plugins/user";
+import { User } from "@/pages/user/type";
+import { ActiveHistory } from "../type";
+
+export function userInfoWidthToken() {
+  return request<User>({
+    method: "get",
+    url: `/token`,
+  });
+}
 
 export function setUserNickname(nickname: string) {
   return request<User>({
@@ -79,5 +87,22 @@ export function setUserEmail(data: { code: string; email: string }) {
     method: "patch",
     url: `/user/email`,
     data,
+  });
+}
+
+export function getActiveHistory() {
+  return request<ActiveHistory[]>({
+    method: "get",
+    url: `/user/active-history`,
+  });
+}
+
+export function deleteActiveHistoryById(id: string) {
+  return request<ActiveHistory[]>({
+    method: "delete",
+    url: `/user/active-history`,
+    params: {
+      id,
+    },
   });
 }

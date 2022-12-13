@@ -4,36 +4,19 @@
  */
 import { Icon } from "@/packages/design";
 import { insertUserSheet } from "@/pages/sheet/apis";
-import { SheetType } from "@/pages/sheet/type";
 import { FC } from "react";
 import { useNavigate } from "react-router";
 import styles from "../style.less";
 
-const TemplateItem: FC<TemplateItemProps> = ({ type, defaultTitle }) => {
+const TemplateEmpty: FC<TemplateEmptyProps> = ({ defaultTitle }) => {
   const navigate = useNavigate();
-  const icon = (() => {
-    if (type === SheetType.common) {
-      return "sheet";
-    }
-    return "meta-sheet";
-  })();
+  const icon = "sheet";
+  const title = "空白表格";
 
-  const title = (() => {
-    if (type === SheetType.common) {
-      return "空白普通表格";
-    }
-    return "空白meta表格";
-  })();
-
-  const description = (() => {
-    if (type === SheetType.common) {
-      return "";
-    }
-    return "";
-  })();
+  const description = "";
 
   function onAddSheetByTemplate() {
-    insertUserSheet(defaultTitle ?? "未命名标题", type).then((res) => {
+    insertUserSheet(defaultTitle ?? "未命名标题").then((res) => {
       navigate(`/sheets/${res.id}`);
     });
   }
@@ -58,9 +41,8 @@ const TemplateItem: FC<TemplateItemProps> = ({ type, defaultTitle }) => {
 /**
  * @interface props
  */
-export interface TemplateItemProps {
-  type: SheetType;
+export interface TemplateEmptyProps {
   defaultTitle: string;
 }
 
-export default TemplateItem;
+export default TemplateEmpty;

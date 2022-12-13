@@ -2,11 +2,10 @@
  * Created by zhangq on 2022/09/09
  * corner
  */
-import { Icon } from "@/packages/design";
 import { FC } from "react";
 import styles from "../style.less";
 
-const Corner: FC<CornerProps> = ({ width, height, onAddRow }) => {
+const Corner: FC<CornerProps> = ({ width, height }) => {
   /** render */
   return (
     <div
@@ -16,9 +15,9 @@ const Corner: FC<CornerProps> = ({ width, height, onAddRow }) => {
       }}
       className={styles["corner"]}
     >
-      <span className={styles["corner-title"]}>序号</span>
-      <div className={styles["corner-addRow"]} onClick={onAddRow}>
-        <Icon name="plus" />
+      <span className={styles["corner-title"]}></span>
+      <div className={styles["corner-cell"]}>
+        序号
       </div>
     </div>
   );
@@ -30,7 +29,6 @@ const Corner: FC<CornerProps> = ({ width, height, onAddRow }) => {
 export interface CornerProps {
   width: number;
   height: number;
-  onAddRow(): void;
 }
 
 export default Corner;

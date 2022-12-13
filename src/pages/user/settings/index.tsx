@@ -68,6 +68,7 @@ const UserSettingsPage: FC<{ children: React.ReactNode }> = ({ children }) => {
             <div className={styles["title"]}>{route.label}</div>
             <div className={styles["desc"]}>{route.description}</div>
             {children}
+            <div style={{ height: 65 }} />
           </div>
         )}
       </div>

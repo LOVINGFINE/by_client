@@ -43,7 +43,7 @@ const SettingsModal = forwardRef<SettingsModalRef | null, SettingsModalProps>(
     return (
       <Modal
         visible={visible}
-        title={"用户设置"}
+        title={"表格-偏好设置"}
         width={620}
         cancelProps={{
           disabled: true,

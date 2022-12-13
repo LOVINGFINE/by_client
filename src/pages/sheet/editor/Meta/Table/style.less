@@ -5,6 +5,10 @@
   user-select: none;
   transition: all 0.3s;
   background-color: #fff;
+  &:focus {
+    border: none;
+    outline: none;
+  }
   &-none {
     opacity: 0;
   }
@@ -20,26 +24,39 @@
   position: absolute;
   left: 0;
   top: 0;
-  background-color: #f6f6f6;
   display: flex;
   flex-direction: column;
   cursor: pointer;
   z-index: 99;
   overflow: hidden;
-  &-addRow {
+  background-color: #fff;
+  &-cell {
     height: 36px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--d-desc);
-    // border-top: 1px solid #ddd;
-    // border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    background-color: #f6f6f6;
     box-sizing: border-box;
-    font-size: 18px;
-    &:hover {
-      background-color: #eee;
-      color: var(--d-hover);
+    position: relative;
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      border-left: 2px solid #ddd;
+      border-right: 2px solid #ddd;
+      transform-origin: 0 0;
+      transform: scale(0.5);
+      z-index: 5;
+      box-sizing: border-box;
     }
   }
   &-title {
@@ -74,9 +91,26 @@
   top: 0;
   font-size: 13px;
   height: 100%;
-  z-index: 5;
+  z-index: 6;
   overflow: hidden;
   background-color: #f6f6f6;
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-left: 2px solid #ddd;
+    border-right: 2px solid #ddd;
+    transform-origin: 0 0;
+    transform: scale(0.5);
+    z-index: 6;
+    box-sizing: border-box;
+  }
   &-selection {
     background-color: #c6dad7;
   }
@@ -85,28 +119,19 @@
 .ref {
   width: 0;
   height: 0;
-  .bgc {
-    position: absolute;
-    z-index: 0;
-    background-color: #13c2c2;
-    opacity: 0.1;
-  }
-  .border {
-    position: absolute;
-    z-index: 7;
-    &-h {
-      border-top: 1px solid #13c2c2;
-    }
-    &-v {
-      border-left: 1px solid #13c2c2;
-    }
+  pointer-events: none;
+  position: absolute;
+  z-index: 11;
+  background-color: #13c2c210;
+  &-border {
+    border: 1px solid #13c2c2;
   }
 }
 
 .drop {
   position: absolute;
   background-color: transparent;
-  z-index: 4;
+  z-index: 6;
   &-ew {
     width: 2px;
     height: 100%;
@@ -121,7 +146,7 @@
   &-ns {
     width: 100%;
     height: 2px;
-    bottom: -1px;
+    bottom: 0px;
     left: 0;
     cursor: ns-resize;
     &:hover {
@@ -192,7 +217,7 @@
   &:first-child {
     .th-column {
       &::before {
-        border-left-width: 2px;
+        border-left-width: 1px;
       }
     }
   }

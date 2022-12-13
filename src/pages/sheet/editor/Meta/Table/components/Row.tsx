@@ -5,6 +5,9 @@
 import { FC, MouseEvent, ReactElement } from "react";
 import styles from "../style.less";
 import { useClassNames } from "@/plugins/style";
+import { dropSizeEvent } from "@/plugins/event";
+import { DropEndProp } from "@/plugins/event/type";
+
 const classNames = useClassNames(styles);
 
 const TRow: FC<TRowProps> = ({
@@ -15,9 +18,26 @@ const TRow: FC<TRowProps> = ({
   top,
   selected,
   rowIndexWidth,
+  canSelection,
+  onRowSize,
   onRowMouseDown,
   onRowMouseEnter,
 }) => {
+  /**
+   * @Methods
+   */
+  function onResize(e: MouseEvent) {
+    e.stopPropagation();
+    const end = (d: DropEndProp) => {
+      onRowSize(d.height);
+    };
+    const opts = {
+      height,
+      offsetWidth: width,
+    };
+    dropSizeEvent(e, opts, end);
+  }
+
   /** render */
   return (
     <li
@@ -41,6 +61,15 @@ const TRow: FC<TRowProps> = ({
         onMouseEnter={onRowMouseEnter}
       >
         {index + 1}
+        {!canSelection && (
+          <div
+            onMouseDown={onResize}
+            className={classNames({
+              drop: true,
+              "drop-ns": true,
+            })}
+          />
+        )}
       </div>
       {children}
     </li>
@@ -59,6 +88,8 @@ export interface TRowProps {
   selected: boolean;
   rowIndexWidth: number;
   columnEndIndex: number;
+  canSelection: boolean;
+  onRowSize(h: number): void;
   onRowMouseDown(e: MouseEvent): void;
   onRowMouseEnter(e: MouseEvent): void;
 }

@@ -7,7 +7,7 @@ export const DEFAULT_ROW_HEIGHT = 32;
 /** 默认code高度 */
 export const DEFAULT_CODE_HEIGHT = 60;
 /** 默认index 宽度 */
-export const DEFAULT_INDEX_WIDTH = 64;
+export const DEFAULT_INDEX_WIDTH = 75;
 
 const { Number, Text, Date, QrCode, Boolean, Options, File } = MetaType;
 export const meta_config: {

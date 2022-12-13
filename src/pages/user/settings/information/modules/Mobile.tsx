@@ -6,8 +6,8 @@ import { FC, useContext, useEffect, useState } from "react";
 import FormLayout from "../../components/FormLayout";
 import FormCard from "../../components/FormCard";
 import { Form, Input, message } from "@/packages/design";
-import { userContext } from "@/plugins/user";
-import { setUserMobile } from "@/pages/user/apis/setting";
+import { userContext } from "@/pages/user/provider";
+import { setUserMobile } from "@/pages/user/apis";
 import { verifyMobile } from "@/plugins/convert";
 
 const UpdateMobile: FC = () => {

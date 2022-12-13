@@ -9,7 +9,6 @@ import TemplateEmpty from "./Empty";
 import { TemplateListItem } from "../type";
 import { Button, Dropdown, Icon, Menu } from "@/packages/design";
 import { useNavigate } from "react-router";
-import { SheetType } from "@/pages/sheet/type";
 
 const TemplateHot: FC<TemplateHotProps> = ({
   dataSource,
@@ -55,16 +54,15 @@ const TemplateHot: FC<TemplateHotProps> = ({
               模版库 <Icon name={`sort`} />
             </div>
             <Dropdown overlay={overlay} placement="bottomLeft">
-              <Button round>
+              <Button.Round>
                 <Icon name="ellipsis-v" />
-              </Button>
+              </Button.Round>
             </Dropdown>
           </div>
         )}
       </div>
       <div className={styles["hot-record"]}>
-        <TemplateEmpty defaultTitle={defaultTitle} type={SheetType.common} />
-        <TemplateEmpty defaultTitle={defaultTitle} type={SheetType.meta} />
+        <TemplateEmpty defaultTitle={defaultTitle} />
         {dataSource.map((item) => {
           return <TemplateItem id={item.id} title={item.title} key={item.id} />;
         })}

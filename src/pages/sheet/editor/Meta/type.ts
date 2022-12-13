@@ -1,17 +1,5 @@
 import { SimpleValue, Selection } from "@/pages/sheet/editor/type";
 
-export interface MetaWorkbookListItem {
-  id: string;
-  name: string;
-  code: string;
-}
-
-export interface MetaWorkbook extends MetaWorkbookListItem {
-  showRowCount: boolean;
-  createdTime: string;
-  updatedTime: string;
-}
-
 export enum MetaType {
   Text = "Text",
   Number = "Number",
@@ -27,11 +15,18 @@ export interface MetaConfig {
   date: MetaDate;
   options: MetaOptions;
   qrCode: MetaQrCode;
+  boolean: MetaBoolean;
 }
 
 export interface MetaNumber {
   unit: string;
   decimal: number;
+}
+
+export interface MetaBoolean {
+  label: boolean;
+  checked: string;
+  unChecked: string;
 }
 
 export interface MetaDate {
@@ -67,6 +62,7 @@ export interface ColumnPayload {
 
 export interface MetaEntry {
   id: string;
+  height: number;
   values: {
     [k: string]: SimpleValue;
   };
@@ -85,7 +81,6 @@ export interface VcColumn extends MetaColumn {
 }
 
 export interface VcEntry extends MetaEntry {
-  height: number;
   y: number;
   index: number;
 }
@@ -113,7 +108,5 @@ export interface EntryQuery {
 }
 
 export interface EntryPayload {
-  [k: string]: {
-    [k: string]: SimpleValue;
-  };
+  [k: string]: Partial<MetaEntry>;
 }

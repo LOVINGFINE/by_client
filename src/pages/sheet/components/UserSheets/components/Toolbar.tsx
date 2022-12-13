@@ -107,28 +107,28 @@ const Toolbar: FC<ToolbarProps> = ({
       >
         <Dropdown overlay={sortOverlay} placement="bottomRight">
           <div className={styles["toolbar-width-label"]}>
-            <Button round>
+            <Button.Round>
               <Icon name="sort" />
-            </Button>
+            </Button.Round>
             {sort && <span>{SORT_OPTIONS[sort].label}</span>}
           </div>
         </Dropdown>
         <div className={styles["toolbar-driver"]} />
         <Dropdown overlay={filterOverlay} placement="bottomRight">
           <div className={styles["toolbar-width-label"]}>
-            <Button round>
+            <Button.Round>
               <Icon name="filter" />
-            </Button>
+            </Button.Round>
             <span>{FILTER_OPTIONS[filter].label}</span>
           </div>
         </Dropdown>
         <div className={styles["toolbar-driver"]} />
-        <Button size="large" round onClick={onUploadFile}>
+        <Button.Round size="large" onClick={onUploadFile}>
           <Icon name={"folder-open"} />
-        </Button>
-        <Button size="large" round onClick={onChangeListMode}>
+        </Button.Round>
+        <Button.Round size="large" onClick={onChangeListMode}>
           <Icon name={`data-${mode}`} />
-        </Button>
+        </Button.Round>
       </Space>
     </div>
   );

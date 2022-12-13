@@ -8,10 +8,10 @@ import {
   KeyboardEvent,
   FormEvent,
   useImperativeHandle,
+  useState,
 } from "react";
 import "./style.less";
 import { InputRef, InputProps } from "./Input";
-import { useVisible } from "@/plugins/event";
 import Icon from "../Icon";
 
 /**
@@ -30,16 +30,11 @@ const InputPassword = forwardRef<InputRef | null, InputPasswordProps>(
       placeholder = "请输入",
       width = "100%",
       style = {},
-      hide = true,
-      onHide,
       change,
       onBlur,
       onEnter,
     } = props;
-    const hideValue = useVisible({
-      value: hide,
-      cb: onHide,
-    });
+    const [hide, setHide] = useState(true);
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -66,7 +61,6 @@ const InputPassword = forwardRef<InputRef | null, InputPasswordProps>(
       }),
       []
     );
-    console.log(hideValue.value);
 
     /** render */
     return (
@@ -74,16 +68,14 @@ const InputPassword = forwardRef<InputRef | null, InputPasswordProps>(
         className="input-wrapper"
         style={{
           width,
+          ...style,
         }}
       >
         <input
           ref={inputRef}
-          type={hideValue.value ? "password" : "text"}
+          type={hide ? "password" : "text"}
           className={`input input-${size}`}
           placeholder={placeholder}
-          style={{
-            ...style,
-          }}
           value={value}
           onBlur={onBlur}
           onKeyDown={onKeyDown}
@@ -91,9 +83,9 @@ const InputPassword = forwardRef<InputRef | null, InputPasswordProps>(
         />
         <span
           className={`input-wrapper-suffix input-wrapper-suffix-${size}`}
-          onClick={() => hideValue.setVisible(!hideValue.value)}
+          onClick={() => setHide(!hide)}
         >
-          <Icon name={hideValue.value ? "eye-slash" : "eye"} />
+          <Icon name={hide ? "eye-slash" : "eye"} />
         </span>
       </div>
     );
