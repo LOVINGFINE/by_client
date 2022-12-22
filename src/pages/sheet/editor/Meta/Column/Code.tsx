@@ -4,7 +4,7 @@
  */
 import { FC } from "react";
 import styles from "./style.less";
-import { VcColumn } from "../type";
+import { MetaColumn } from "../type";
 import { meta_config } from "../final";
 import { Icon } from "@/packages/design";
 
@@ -22,7 +22,7 @@ const CodeRender: FC<CodeRenderProps> = ({ column }) => {
  * @interface props
  */
 export interface CodeRenderProps {
-  column: VcColumn;
+  column: MetaColumn;
 }
 
 export default CodeRender;

@@ -11,8 +11,9 @@ import {
   EntryQuery,
   MetaColumn,
   MetaEntry,
+  InsertEntryPayload,
 } from "../editor/Meta/type";
-import { CommonWorkbook, MetaWorkbook, SimpleValue } from "../editor/type";
+import { CommonWorkbook, MetaWorkbook } from "../editor/type";
 
 // common
 export function getCommonWorkbookById(sheetId: string, workbookId: string) {
@@ -147,9 +148,7 @@ export function getMetaWorkbookEntries(
 export function insertMetaWorkbookEntries(
   id: string,
   workbookId: string,
-  data: {
-    [k: string]: SimpleValue;
-  }[]
+  data: InsertEntryPayload[]
 ) {
   return request<MetaEntry[]>({
     method: "post",

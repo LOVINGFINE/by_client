@@ -7,17 +7,19 @@ import styles from "./style.less";
 import { Button } from "@/packages/design";
 import { User } from "@/pages/user/type";
 import UserAvatar from "./Avatar";
+import { useNavigate } from "react-router";
 
 const UserCarte: FC<UserCarteProps> = ({ user }) => {
+  const navigate = useNavigate();
   /**
    * @Methods
    */
   function onMangeAccent() {
-    location.href = "/user/settings";
+    navigate("/user/settings/information");
   }
 
   function onLogout() {
-    location.replace("/sign-in");
+    navigate("/sign-in");
   }
   /** render */
   return (

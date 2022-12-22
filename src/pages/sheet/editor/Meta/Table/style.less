@@ -1,35 +1,4 @@
-.table {
-  height: 100%;
-  width: 100%;
-  position: relative;
-  user-select: none;
-  transition: all 0.3s;
-  background-color: #fff;
-  &:focus {
-    border: none;
-    outline: none;
-  }
-  &-none {
-    opacity: 0;
-  }
-  &-scroll {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-  }
-}
-
 .corner {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  z-index: 99;
-  overflow: hidden;
-  background-color: #fff;
   &-cell {
     height: 36px;
     width: 100%;
@@ -67,6 +36,28 @@
     justify-content: center;
     color: var(--d-desc);
     box-sizing: border-box;
+  }
+}
+
+.table {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  user-select: none;
+  transition: all 0.3s;
+  background-color: #fff;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+  &-none {
+    opacity: 0;
+  }
+  &-scroll {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
   }
 }
 

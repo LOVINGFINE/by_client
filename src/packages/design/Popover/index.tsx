@@ -2,80 +2,85 @@
  * Created by zhangq on 2022/04/03
  * Popover 组件
  */
-import React, { ReactElement, FC, useRef, useEffect } from "react";
+import React, { ReactElement, FC, useRef, useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import "./style.less";
-import { getArrowStyles, getOffset, setStyles } from "../Tooltip/utils";
-import { useVisible } from "@/plugins/event";
-import { createRoot } from "react-dom/client";
+import {
+  getStyles,
+  getOffset,
+  getArrowStyles,
+  getBarStyles,
+  getInnerStyles,
+} from "../utils/content";
 
 const Popover: FC<PopoverProps> = ({
   overlay,
   placement = "bottom",
   children,
   trigger = "click",
-  visible,
+  visible = false,
   onVisible,
+  zIndex = 1001,
 }: PopoverProps): ReactElement => {
-  const visibleValue = useVisible({
-    value: visible,
-    cb: onVisible,
-  });
-  const childrenRef = useRef<HTMLBaseElement>();
-  const renderId = useRef<string | null>(null);
-  useEffect(() => {
-    return onClose;
-  }, []);
+  const childrenRef = useRef<HTMLElement>(null);
+  const [visibleValue, setVisibleValue] = useState(visible);
 
-  useEffect(() => {
-    if (!renderId.current && overlay && visibleValue.value) {
-      const id = `popover-${new Date().getTime()}`;
-      const div = document.createElement("div");
-      div.id = id;
-      div.className = "popover";
-      div.onmousedown = (e) => {
-        e.stopPropagation();
-        setTimeout(() => {
-          onClose();
-        }, 200);
-      };
-      const offset = getOffset(childrenRef.current);
-      const styles = getArrowStyles(placement, offset);
-      const root = createRoot(div);
-      root.render(
-        <div className="popover-inner" style={styles.inner}>
-          <div className="popover-inner-arrow" style={styles.bar}>
-            <span style={styles.arrow} />
-          </div>
-          <div className="popover-inner-content">{overlay}</div>
-        </div>
-      );
-      setTimeout(() => {
-        setStyles(offset, placement, div);
-      });
-      document.body.appendChild(div);
-      renderId.current = id;
-    }
-  }, [overlay, childrenRef.current, visibleValue.value]);
+  const offset = getOffset(childrenRef.current);
+  const renderStyles = getStyles(offset, placement, 0);
+
+  const innerStyles = (() => {
+    return getInnerStyles(placement);
+  })();
+
+  const barStyles = (() => {
+    return getBarStyles(placement, 10);
+  })();
+
+  const arrowStyles = (() => {
+    return getArrowStyles(placement, offset.offsetWidth, offset.offsetHeight);
+  })();
 
   /**
    * @method
    */
 
-  function onChangeVisible(event?: React.MouseEvent) {
-    event?.preventDefault();
-    visibleValue.setVisible(true);
+  useEffect(() => {
+    if (onVisible) {
+      onVisible(visibleValue);
+    }
+  }, [visibleValue]);
+
+  useEffect(() => {
+    if (visible !== visibleValue) {
+      setVisibleValue(visibleValue);
+    }
+  }, [visible]);
+
+  useEffect(() => {
+    return onClose;
+  }, []);
+
+  /**
+   * @method
+   */
+
+  function onClose() {
+    setTimeout(() => {
+      setVisibleValue(false);
+    });
   }
 
-  function onClose(event?: React.MouseEvent) {
-    event?.preventDefault();
-    visibleValue.setVisible(false);
-    if (renderId.current) {
-      const is = document.getElementById(renderId.current);
-      if (is) {
-        document.body.removeChild(is);
-        renderId.current = null;
-      }
+  function onChangeVisible() {
+    if (!visibleValue) {
+      setTimeout(() => {
+        window.addEventListener("mouseup", onClose, { once: true });
+      });
+    } else {
+      setTimeout(() => {
+        window.removeEventListener("mouseup", onClose);
+      });
     }
+    setVisibleValue(!visibleValue);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -97,16 +102,16 @@ const Popover: FC<PopoverProps> = ({
       };
     }
     return {
-      onMouseDown: (...s: unknown[]) => {
-        if (ele.props?.onClick) {
-          ele.props?.onMouseDown(s);
+      onMouseUp: (...s: unknown[]) => {
+        if (ele.props?.onMouseUp) {
+          ele.props?.onMouseUp(s);
         }
         onChangeVisible();
       },
     };
   }
 
-  const element = (() => {
+  const render = (() => {
     if (!children) return <></>;
     if (typeof children?.type !== "string") {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -121,19 +126,25 @@ const Popover: FC<PopoverProps> = ({
       ...getProps(children),
     });
   })();
-  /** render */
-  return element;
-};
 
-/**
- * @interface props
- */
-export interface OffsetProp {
-  width: number;
-  height: number;
-  left: number;
-  top: number;
-}
+  return (
+    <>
+      {visibleValue &&
+        ReactDOM.createPortal(
+          <div className="popover" style={{ ...renderStyles, zIndex }}>
+            <div className="popover-inner" style={innerStyles}>
+              <div className="popover-inner-arrow" style={barStyles}>
+                <span style={arrowStyles} />
+              </div>
+              <div className="popover-inner-content">{overlay}</div>
+            </div>
+          </div>,
+          document.body
+        )}
+      {render}
+    </>
+  );
+};
 
 export interface PopoverProps {
   placement?:
@@ -155,6 +166,7 @@ export interface PopoverProps {
   onVisible?(e: boolean): void;
   overlay?: ReactElement;
   trigger?: "click" | "hover";
+  zIndex?: number;
 }
 
 export default Popover;

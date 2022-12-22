@@ -1,0 +1,19 @@
+.input {
+  border: none;
+  outline: none;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  padding: 3px 5px;
+  overflow: auto;
+  word-wrap: break-word;
+  caret-color: var(--d-title);
+  display: flex;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &::selection {
+    background-color: #d4f7f1;
+  }
+}

@@ -5,7 +5,7 @@
 
 import React, { ReactElement, FC, useRef, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { covClass } from "@/plugins/style";
+import { classNames } from "@/plugins/style";
 import Option, { SelectOption } from "./Option";
 import "./style.less";
 import { setStyles } from "./utils";
@@ -52,7 +52,7 @@ const Select: FC<SelectProps> = ({
     const current = options.find((ele) => ele.value === value);
     if (current) {
       return (
-        <div className={covClass(["select-option", `select-option-${size}`])}>
+        <div className={classNames(["select-option", `select-option-${size}`])}>
           {current.icon}
           <span>{current.label}</span>
         </div>
@@ -129,7 +129,7 @@ const Select: FC<SelectProps> = ({
   /** render */
   return (
     <div
-      className={covClass(["select", `select-${size}`])}
+      className={classNames(["select", `select-${size}`])}
       ref={selectRef}
       style={{ width }}
       onMouseDown={onVisible}
@@ -137,7 +137,7 @@ const Select: FC<SelectProps> = ({
       {selected}
       <input
         ref={inputRef}
-        className={covClass([
+        className={classNames([
           "select-input",
           `select-input-search-${!!search}`,
         ])}

@@ -1,4 +1,5 @@
-import { SimpleValue, Selection } from "@/pages/sheet/editor/type";
+import { SimpleValue, Selection } from "../components/VcTable";
+import { MetaValue } from "./utils";
 
 export enum MetaType {
   Text = "Text",
@@ -20,7 +21,7 @@ export interface MetaConfig {
 
 export interface MetaNumber {
   unit: string;
-  decimal: number;
+  decimal: number | "";
 }
 
 export interface MetaBoolean {
@@ -37,11 +38,16 @@ export interface MetaOptionsItem {
   color: string;
   value: string;
 }
+export type QrCodeDisplayType = "VIEW" | "LABEL" | "VIEW_LABEL";
+
 export interface MetaQrCode {
   size: number;
+  display: QrCodeDisplayType;
+  text: string;
 }
 
 export interface MetaOptions {
+  multiple: boolean;
   items: MetaOptionsItem[];
 }
 
@@ -85,11 +91,6 @@ export interface VcEntry extends MetaEntry {
   index: number;
 }
 
-export interface VcTableCore {
-  onSelection(e: Selection): void;
-  deSelection(): void;
-}
-
 export enum ContextMenuKey {
   COPY = "COPY",
   PASTE = "PASTE",
@@ -109,4 +110,12 @@ export interface EntryQuery {
 
 export interface EntryPayload {
   [k: string]: Partial<MetaEntry>;
+}
+
+export interface InsertEntryPayload {
+  [k: string]: SimpleValue;
+}
+
+export interface MetaColumnWithMetaValue extends MetaColumn {
+  metaValue: MetaValue;
 }

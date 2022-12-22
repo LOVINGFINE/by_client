@@ -1,8 +1,8 @@
-import { FC, useContext } from "react";
+import { FC } from "react";
 import styles from "./style.less";
 import { Action, Driver } from "./Widgets";
-import { editorContext } from "../index";
-import { StyleOption } from "../type";
+import { Selection } from "../../components/VcTable";
+import { StyleOption, WorkbookCommonData, WorkbookHistory } from "../type";
 import { INIT_CELL, NONE_STYLE } from "../final";
 import FontSize from "./components/FontSize";
 import FontColor from "./components/FontColor";
@@ -11,20 +11,16 @@ import HorizontalAlign from "./components/HorizontalAlign";
 import VerticalAlign from "./components/VerticalAlign";
 import { getKeyByCoord, onChangeStyle } from "../core";
 
-const Toolbar: FC = () => {
-  const editContextValue = useContext(editorContext);
+const Toolbar: FC<ToolbarProps> = ({ selection, history, onChange, data }) => {
   const currentKey = getKeyByCoord(
-    editContextValue.selection.column.current,
-    editContextValue.selection.row.current
+    selection.column.current,
+    selection.row.current
   );
   /** @State */
   const style = (() => {
-    if (
-      editContextValue.selection.column.current > -1 &&
-      editContextValue.selection.row.current > -1
-    ) {
-      if (editContextValue.data[currentKey]) {
-        return editContextValue.data[currentKey].style;
+    if (selection.column.current > -1 && selection.row.current > -1) {
+      if (data[currentKey]) {
+        return data[currentKey].style;
       }
 
       return INIT_CELL.style;
@@ -32,11 +28,9 @@ const Toolbar: FC = () => {
     return NONE_STYLE;
   })();
 
-  const history_back = editContextValue.history.current > 0;
+  const history_back = history.current > 0;
   const history_forward =
-    editContextValue.history.current > -1 &&
-    editContextValue.history.items.length - 1 >
-      editContextValue.history.current;
+    history.current > -1 && history.items.length - 1 > history.current;
   /**
    * @Methods
    */
@@ -47,18 +41,11 @@ const Toolbar: FC = () => {
     k: K,
     v: V
   ) {
-    if (
-      editContextValue.selection.column.current > -1 &&
-      editContextValue.selection.row.current > -1
-    ) {
-      const _data = onChangeStyle(
-        editContextValue.data,
-        editContextValue.selection,
-        {
-          [k]: v,
-        }
-      );
-      editContextValue.onChange(_data);
+    if (selection.column.current > -1 && selection.row.current > -1) {
+      const _data = onChangeStyle(data, selection, {
+        [k]: v,
+      });
+      onChange(_data);
     }
   }
 
@@ -126,4 +113,10 @@ const Toolbar: FC = () => {
   );
 };
 
+export interface ToolbarProps {
+  history: WorkbookHistory;
+  selection: Selection;
+  data: WorkbookCommonData;
+  onChange(e: WorkbookCommonData): void;
+}
 export default Toolbar;

@@ -4,10 +4,16 @@
  */
 import { FC } from "react";
 import styles from "./style.less";
-import { VcColumn } from "../type";
+import { MetaColumn } from "../type";
 import { Icon } from "@/packages/design";
+import { useClassNames } from "@/plugins/style";
 
-const ColumnRender: FC<ColumnRenderProps> = ({ column, onSetting }) => {
+const cn = useClassNames(styles);
+const ColumnRender: FC<ColumnRenderProps> = ({
+  column,
+  onSetting,
+  selection,
+}) => {
   /**
    * @Methods
    */
@@ -17,7 +23,12 @@ const ColumnRender: FC<ColumnRenderProps> = ({ column, onSetting }) => {
   }
   /** render */
   return (
-    <div className={styles["column"]}>
+    <div
+      className={cn({
+        column: true,
+        "column-selection": selection,
+      })}
+    >
       <span className={styles["column-title"]}>{column.title}</span>
       <span className={styles["column-edit"]} onMouseDown={onEdit}>
         <Icon name="setting" />
@@ -30,8 +41,9 @@ const ColumnRender: FC<ColumnRenderProps> = ({ column, onSetting }) => {
  * @interface props
  */
 export interface ColumnRenderProps {
-  column: VcColumn;
-  onSetting(c: VcColumn): void;
+  column: MetaColumn;
+  onSetting(c: MetaColumn): void;
+  selection: boolean;
 }
 
 export default ColumnRender;

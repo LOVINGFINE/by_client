@@ -5,10 +5,20 @@
 import { useState, forwardRef, useImperativeHandle } from "react";
 import { Modal, Input } from "@/packages/design";
 import { Radio, Form } from "@/packages/design";
-import { insert_options } from "./final";
-import { SimpleValue } from "../../type";
+import { SimpleValue } from "../../components/VcTable";
 import { MetaColumn } from "../type";
 import { RowColumnMode } from "./type";
+
+const insert_options = [
+  {
+    value: RowColumnMode.row,
+    label: "添加行",
+  },
+  {
+    value: RowColumnMode.column,
+    label: "添加列",
+  },
+];
 
 const InsertModel = forwardRef<InsertModelRef | null, InsertModelProps>(
   (props, ref) => {

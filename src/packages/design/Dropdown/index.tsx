@@ -5,7 +5,7 @@
 import React, { ReactElement, FC, useRef, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import "./style.less";
-import { getStyles } from "./utils";
+import { getStyles, getOffset } from "../utils/content";
 
 const Dropdown: FC<DropdownProps> = ({
   visible = false,
@@ -17,10 +17,8 @@ const Dropdown: FC<DropdownProps> = ({
 }: DropdownProps): ReactElement => {
   const childrenRef = useRef<HTMLElement>(null);
   const [visibleValue, setVisibleValue] = useState(visible);
-
-  const overlayRenderStyles = (() => {
-    return getStyles(childrenRef.current, placement);
-  })();
+  const offset = getOffset(childrenRef.current);
+  const renderStyles = getStyles(offset, placement);
 
   useEffect(() => {
     if (onVisible) {
@@ -69,19 +67,19 @@ const Dropdown: FC<DropdownProps> = ({
           if (ele.props?.onMouseEnter) {
             ele.props?.onMouseEnter(s);
           }
-          onChangeVisible();
+          setVisibleValue(true);
         },
         onMouseLeave: (...s: unknown[]) => {
           if (ele.props?.onMouseLeave) {
             ele.props?.onMouseLeave(s);
           }
-          onChangeVisible();
+          setVisibleValue(false);
         },
       };
     }
     return {
       onMouseUp: (...s: unknown[]) => {
-        if (ele.props?.onClick) {
+        if (ele.props?.onMouseUp) {
           ele.props?.onMouseUp(s);
         }
         onChangeVisible();
@@ -109,7 +107,7 @@ const Dropdown: FC<DropdownProps> = ({
     <>
       {visibleValue &&
         ReactDOM.createPortal(
-          <div style={overlayRenderStyles} className="dropdown">
+          <div style={renderStyles} className="dropdown">
             <div className="dropdown-overlay">{overlay}</div>
           </div>,
           document.body

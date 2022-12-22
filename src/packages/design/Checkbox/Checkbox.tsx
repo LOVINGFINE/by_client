@@ -4,7 +4,7 @@
  */
 import { FC } from "react";
 import "./style.less";
-import { covClass } from "@/plugins/style";
+import { classNames } from "@/plugins/style";
 
 const Checkbox: FC<CheckboxProps> = ({
   checked = false,
@@ -23,7 +23,7 @@ const Checkbox: FC<CheckboxProps> = ({
     <div className="checkbox-wrapper">
       <div className="checkbox">
         <span
-          className={covClass({
+          className={classNames({
             "checkbox-value": true,
             [`checkbox-value-${size}`]: true,
             "checkbox-value-checked": checked,
@@ -39,7 +39,7 @@ const Checkbox: FC<CheckboxProps> = ({
             disabled ? "checkbox-value-disabled" : ""
           } `}
           type={"checkbox"}
-          checked={checked}
+          checked={!!checked}
           onChange={onCheckedChange}
         />
         {children && <span>{children}</span>}
@@ -52,7 +52,7 @@ const Checkbox: FC<CheckboxProps> = ({
  * @interface props
  */
 export interface CheckboxProps {
-  checked?: boolean;
+  checked?: unknown;
   disabled?: boolean;
   onChange?(e: boolean): void;
   size?: "middle" | "small" | "large";

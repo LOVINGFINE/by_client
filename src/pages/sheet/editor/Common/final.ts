@@ -1,4 +1,66 @@
-import { Vertical, Horizontal, Cell, StyleOption } from "./type";
+import {
+  Vertical,
+  Horizontal,
+  Cell,
+  StyleOption,
+  ContextMenuKey,
+} from "./type";
+import { Selection } from "../components/VcTable";
+import { MenuOptionType } from "../components/ContextMenu";
+import platform, { OsType } from "@/plugins/platform";
+import { getSelectionRef } from "./RefHelper/utils";
+
+const metaKeyIcon = (() => {
+  if (platform.os === OsType.MacOS) {
+    return "command";
+  }
+  return "angle-up";
+})();
+
+const { COPY, PASTE, CLEAR_ONLY, CLEAR_ALL } = ContextMenuKey;
+export const context_menu_options = (
+  s: Selection
+): MenuOptionType<ContextMenuKey>[] => {
+  const selectionRef = getSelectionRef(s);
+  return [
+    {
+      value: COPY,
+      icon: "edit-copy",
+      label: "拷贝",
+      suffix: {
+        icon: metaKeyIcon,
+        label: "C",
+      },
+    },
+    {
+      value: PASTE,
+      icon: "edit-paste",
+      label: `粘贴 ${selectionRef.cellRef}`,
+      suffix: {
+        icon: metaKeyIcon,
+        label: "(⇧/⌥/) V",
+      },
+    },
+    "driver",
+    {
+      value: CLEAR_ONLY,
+      icon: "close",
+      label: `清除单元格 ${selectionRef.cellRef}`,
+      children: [
+        {
+          value: CLEAR_ONLY,
+          icon: "close",
+          label: "仅清除数据",
+        },
+        {
+          value: CLEAR_ALL,
+          icon: "times-circle",
+          label: "清除全部",
+        },
+      ],
+    },
+  ];
+};
 
 export const INIT_CELL: Cell = {
   style: {
@@ -27,12 +89,3 @@ export const NONE_STYLE: StyleOption = {
   underline: false,
   strike: false,
 };
-
-/** 默认列宽 */
-export const DEFAULT_COLUMN_WIDTH = 120;
-/** 默认行高 */
-export const DEFAULT_ROW_HEIGHT = 28;
-/** 默认code高度 */
-export const DEFAULT_CODE_HEIGHT = 28;
-/** 默认index 宽度 */
-export const DEFAULT_INDEX_WIDTH = 28;

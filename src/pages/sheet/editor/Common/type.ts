@@ -1,7 +1,14 @@
-import { Selection, SimpleValue } from "@/pages/sheet/editor/type";
+import { Selection, SimpleValue } from "../components/VcTable";
 
 export interface WorkbookCommonData {
   [k: string]: Cell;
+}
+
+export interface WorkbookHistory {
+  current: number;
+  items: {
+    data: WorkbookCommonData;
+  }[];
 }
 
 export interface WorkbookClipboard {
@@ -80,15 +87,9 @@ export interface UpdateCell {
   comments: Comment[];
 }
 
-export enum CellMenuKey {
+export enum ContextMenuKey {
   COPY = "COPY",
   PASTE = "PASTE",
-  PASTE_CONTROL = "PASTE_CONTROL",
-  PASTE_CUT = "PASTE_CUT",
-  PASTE_CUT_CONTROL = "PASTE_CUT_CONTROL",
-  CLEAR = "CLEAR",
-  INSERT_COLUMN = "INSERT_COLUMN",
-  INSERT_ROW = "INSERT_ROW",
-  REMOVE_COLUMN = "REMOVE_COLUMN",
-  REMOVE_ROW = "REMOVE_ROW",
+  CLEAR_ONLY = "CLEAR_ONLY",
+  CLEAR_ALL = "CLEAR_ALL",
 }

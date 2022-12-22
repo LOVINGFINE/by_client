@@ -4,7 +4,7 @@
  */
 import React, { FC, ReactElement } from "react";
 import "./style.less";
-import { covClass } from "@/plugins/style";
+import { classNames } from "@/plugins/style";
 
 const Option: FC<SelectOptionProp> = ({
   size = "middle",
@@ -18,7 +18,7 @@ const Option: FC<SelectOptionProp> = ({
   /** render */
   return (
     <div
-      className={covClass([
+      className={classNames([
         "select-option",
         "select-option-item",
         `select-option-${size}`,

@@ -1,16 +1,15 @@
 /*
  * Created by zhangq on 2022/08/09
- * Workbook Cell
+ * Workbook CellRender
  */
 import React, { FC, useRef } from "react";
 import styles from "./style.less";
-import { SimpleValue } from "@/pages/sheet/editor/type";
-import TextInput, { TextInputCore } from "../TextInput";
-import CellContextMenu from "../ContextMenu";
+import { SimpleValue } from "../../components/VcTable";
+import TextInput, { TextInputCore } from "../../components/TextInput";
 import { getCellStyle } from "./utils";
 import { StyleOption } from "../type";
 
-const Cell: FC<CellProps> = ({ value, onChange, style }) => {
+const CellRender: FC<CellRenderProps> = ({ value, onChange, style }) => {
   const inputRef = useRef<TextInputCore>(null);
   function onDoubleClick() {
     if (inputRef.current) {
@@ -32,9 +31,9 @@ const Cell: FC<CellProps> = ({ value, onChange, style }) => {
 };
 
 /**
- * @interface CellProps
+ * @interface CellRenderProps
  */
-export interface CellProps {
+export interface CellRenderProps {
   x: number;
   y: number;
   value: SimpleValue;
@@ -42,5 +41,4 @@ export interface CellProps {
   style: StyleOption;
 }
 
-export { CellContextMenu };
-export default Cell;
+export default CellRender;

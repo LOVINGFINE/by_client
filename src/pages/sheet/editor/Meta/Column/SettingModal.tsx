@@ -4,10 +4,10 @@
  */
 import { useImperativeHandle, useState, forwardRef } from "react";
 import styles from "./style.less";
-import MetaTypeEditor from "./components/MetaTypeEditor";
-import MetaEditor from "./components/MetaEditor";
+import MetaTypeEditor from "./MetaEditor/components/MetaTypeEditor";
+import MetaEditor from "./MetaEditor";
 import { Input, Modal, Form } from "@/packages/design";
-import { MetaType, ColumnPayload, VcColumn, MetaConfig } from "../type";
+import { MetaType, ColumnPayload, MetaColumn, MetaConfig } from "../type";
 
 const ColumnSettingModal = forwardRef<
   ColumnSettingModalRef | null,
@@ -39,7 +39,7 @@ const ColumnSettingModal = forwardRef<
   useImperativeHandle(
     ref,
     (): ColumnSettingModalRef => ({
-      mount: (e: VcColumn) => {
+      mount: (e: MetaColumn) => {
         setCode(e.code);
         setTitle(e.title);
         setType(e.type);
@@ -73,7 +73,7 @@ const ColumnSettingModal = forwardRef<
 });
 
 export interface ColumnSettingModalRef {
-  mount(settings: VcColumn): void;
+  mount(settings: MetaColumn): void;
 }
 
 /**

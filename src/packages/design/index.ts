@@ -24,6 +24,7 @@ import Tooltip from "./Tooltip";
 import message from "./Message";
 import Dropdown from "./Dropdown";
 import Popover from "./Popover";
+import DatePicker from "./DatePicker";
 
 import Space from "./Space";
 import Grid from "./Grid";
@@ -48,6 +49,7 @@ export {
   Select,
   message,
   Dropdown,
+  DatePicker,
   Popover,
   Form,
   Switch,

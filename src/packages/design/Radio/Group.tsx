@@ -3,7 +3,7 @@
  * RadioGroup
  */
 import { FC, ReactElement } from "react";
-import { covClass } from "@/plugins/style";
+import { classNames } from "@/plugins/style";
 import Radio from ".";
 
 const RadioGroup: FC<RadioGroupProps> = ({
@@ -14,7 +14,7 @@ const RadioGroup: FC<RadioGroupProps> = ({
 }) => {
   /** render */
   return (
-    <div className={covClass(["radioGroup", `radioGroup-${direction}`])}>
+    <div className={classNames(["radioGroup", `radioGroup-${direction}`])}>
       {options.map((ele, i) => {
         return (
           <Radio

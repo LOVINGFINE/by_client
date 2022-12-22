@@ -3,7 +3,7 @@
  * CheckbookGroup
  */
 import { FC } from "react";
-import { covClass } from "@/plugins/style";
+import { classNames } from "@/plugins/style";
 import Checkbook from "./Checkbox";
 
 const CheckbookGroup: FC<CheckboxGroupProps> = ({
@@ -15,7 +15,7 @@ const CheckbookGroup: FC<CheckboxGroupProps> = ({
   /** render */
   return (
     <div
-      className={covClass(["checkbookGroup", `checkbookGroup-${direction}`])}
+      className={classNames(["checkbookGroup", `checkbookGroup-${direction}`])}
     >
       {options.map((ele, i) => {
         return (

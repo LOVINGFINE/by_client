@@ -54,6 +54,7 @@ export function mouseEventContent(
   const element = document.createElement("div");
   element.id = elementId;
   // ReactDOM.render(children, element);
+  element.onmousedown = (e) => e.stopPropagation();
   const root = createRoot(element);
   root.render(children);
   const offset = getReactElementOffset(element);
@@ -64,7 +65,7 @@ export function mouseEventContent(
       if (is) {
         document.body.removeChild(element);
       }
-    }, 200);
+    }, 50);
   };
 
   document.body.appendChild(element);

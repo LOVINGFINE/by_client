@@ -17,7 +17,7 @@ export function useClassNames(classNames: { [k: string]: string }) {
   return cn;
 }
 
-export function covClass(d: string | string[] | { [k: string]: unknown }) {
+export function classNames(d: string | string[] | { [k: string]: unknown }) {
   if (typeof d === "string") {
     return d;
   } else if (Array.isArray(d)) {

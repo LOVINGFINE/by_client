@@ -1,15 +1,64 @@
-import { MetaType } from "./type";
+import { MetaType, ContextMenuKey } from "./type";
+import { MenuOptionType } from "../components/ContextMenu";
+import platform, { OsType } from "@/plugins/platform";
 
-/** 默认列宽 */
-export const DEFAULT_COLUMN_WIDTH = 180;
-/** 默认行高 */
-export const DEFAULT_ROW_HEIGHT = 32;
-/** 默认code高度 */
-export const DEFAULT_CODE_HEIGHT = 60;
-/** 默认index 宽度 */
-export const DEFAULT_INDEX_WIDTH = 75;
+const metaKeyIcon = (() => {
+  if (platform.os === OsType.MacOS) {
+    return "command";
+  }
+  return "angle-up";
+})();
+
+export const context_menu_options: MenuOptionType<ContextMenuKey>[] = [
+  {
+    value: ContextMenuKey.COPY,
+    icon: "edit-copy",
+    label: "拷贝",
+    suffix: {
+      icon: metaKeyIcon,
+      label: "C",
+    },
+  },
+  {
+    value: ContextMenuKey.PASTE,
+    icon: "edit-paste",
+    label: "粘贴",
+    suffix: {
+      icon: metaKeyIcon,
+      label: "V",
+    },
+  },
+  "driver",
+  {
+    value: ContextMenuKey.INSERT_COLUMN,
+    icon: "plus",
+    label: "添加列",
+  },
+  {
+    value: ContextMenuKey.INSERT_ENTRY,
+    icon: "plus",
+    label: "添加行",
+  },
+  "driver",
+  {
+    value: ContextMenuKey.CLEAR,
+    icon: "close",
+    label: "清除数据",
+  },
+  {
+    value: ContextMenuKey.REMOVE_COLUMN,
+    icon: "edit-remove-col",
+    label: "删除列",
+  },
+  {
+    value: ContextMenuKey.REMOVE_ENTRY,
+    icon: "edit-remove-row",
+    label: "删除行",
+  },
+];
 
 const { Number, Text, Date, QrCode, Boolean, Options, File } = MetaType;
+
 export const meta_config: {
   [k in MetaType]: {
     icon: string;

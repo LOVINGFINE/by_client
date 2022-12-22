@@ -1,5 +1,5 @@
 import { arrayToCsv } from "@/plugins/convert";
-import { Selection } from "@/pages/sheet/editor/type";
+import { Selection } from "../components/VcTable";
 import { INIT_CELL } from "./final";
 import {
   Cell,
@@ -67,7 +67,6 @@ export function onPasteByClipboard(
   clipboard: WorkbookClipboard,
   opts: {
     style: boolean;
-    cut: boolean;
   }
 ): WorkbookCommonData {
   const target: WorkbookCommonData = {};
@@ -82,29 +81,29 @@ export function onPasteByClipboard(
       }
       return null;
     };
-    if (opts.cut) {
-      const rowStart = clipboard.selection.row.start;
-      const rowEnd = clipboard.selection.row.end;
-      const colStart = clipboard.selection.column.start;
-      const colEnd = clipboard.selection.column.end;
-      for (let i = rowStart; i <= rowEnd; i++) {
-        for (let j = colStart; j <= colEnd; j++) {
-          const x = j - colStart;
-          const y = i - rowStart;
-          const source = getSource(x, y);
-          if (source) {
-            // 删除
-            const key = getKeyByCoord(j, i);
-            const style = opts.style ? INIT_CELL.style : source.style;
-            target[key] = {
-              value: "",
-              style,
-              comments: [],
-            };
-          }
-        }
-      }
-    }
+    // if (opts.cut) {
+    //   const rowStart = clipboard.selection.row.start;
+    //   const rowEnd = clipboard.selection.row.end;
+    //   const colStart = clipboard.selection.column.start;
+    //   const colEnd = clipboard.selection.column.end;
+    //   for (let i = rowStart; i <= rowEnd; i++) {
+    //     for (let j = colStart; j <= colEnd; j++) {
+    //       const x = j - colStart;
+    //       const y = i - rowStart;
+    //       const source = getSource(x, y);
+    //       if (source) {
+    //         // 删除
+    //         const key = getKeyByCoord(j, i);
+    //         const style = opts.style ? INIT_CELL.style : source.style;
+    //         target[key] = {
+    //           value: "",
+    //           style,
+    //           comments: [],
+    //         };
+    //       }
+    //     }
+    //   }
+    // }
     const { column, row } = selection;
     const rowStart = row.start;
     const rowEnd = row.end;
@@ -139,6 +138,8 @@ export function getClearBySelection(
   selection: Selection,
   only = true
 ) {
+  console.log(selection);
+
   const { column, row } = selection;
   const target: WorkbookCommonData = {};
   for (let y = row.start; y <= row.end; y++) {

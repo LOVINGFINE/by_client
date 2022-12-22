@@ -66,7 +66,7 @@ const SheetEditor: FC = () => {
     getSheetWorkbooksById(sheetId).then((res) => {
       setWorkbooks(res);
       if (!workbookId) {
-        onWorkbook(res[0].id);
+        onWorkbook(res[0].id, true);
       }
     });
   }

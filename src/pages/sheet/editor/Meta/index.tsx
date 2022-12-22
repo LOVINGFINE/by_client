@@ -5,21 +5,20 @@
  */
 import { FC, useContext, useReducer, createContext, useEffect } from "react";
 import EditableTable from "./Table";
-import Toolbar from "./Toolbar";
 import {
-  MetaWorkbook,
   Selection,
   SimpleValue,
-  WorkbookType,
-} from "@/pages/sheet/editor/type";
-import { init_selection } from "../final";
+  init_selection,
+  VcTableCore,
+} from "../components/VcTable";
+import Toolbar from "./Toolbar";
+import { MetaWorkbook, WorkbookType } from "@/pages/sheet/editor/type";
 import {
   getClearBySelection,
   onCopyToClipboard,
   onPasteByClipboard,
-} from "./core";
+} from "./utils";
 import {
-  VcTableCore,
   MetaClipboard,
   MetaColumn,
   MetaEntry,
@@ -313,7 +312,7 @@ export interface ContextValue extends ContextState {
   onAddEntry(m: { [k: string]: SimpleValue }[]): void;
   onDeleteEntry(): void;
   onCopy(): void;
-  onClear(e: boolean): void;
+  onClear(): void;
   onPaste(): void;
   onChange(m: EntryPayload): void;
   onVcTableRef(ref: VcTableCore | null): void;

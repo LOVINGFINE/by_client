@@ -4,7 +4,7 @@
  */
 import { FC, ReactElement } from "react";
 import "./style.less";
-import { covClass } from "@/plugins/style";
+import { classNames } from "@/plugins/style";
 
 const Switch: FC<SwitchProps> = ({
   checked = false,
@@ -30,7 +30,7 @@ const Switch: FC<SwitchProps> = ({
   /** render */
   return (
     <div
-      className={covClass({
+      className={classNames({
         switch: true,
         [`switch-${size}`]: true,
         "switch-checked": checked,

@@ -1,4 +1,51 @@
 import { OffsetProp } from "./index";
+
+export function getOffset(current?: HTMLElement | null) {
+  if (current) {
+    const { offsetHeight = 0, offsetWidth = 0 } = current;
+    const offsetLeft = current.getBoundingClientRect().left;
+    const offsetTop = current.getBoundingClientRect().top;
+    return {
+      offsetWidth,
+      offsetHeight,
+      offsetLeft,
+      offsetTop,
+    };
+  }
+  return {
+    offsetWidth: 0,
+    offsetHeight: 0,
+    offsetLeft: 0,
+    offsetTop: 0,
+  };
+}
+
+export function getStyles(childrenRef: HTMLElement | null, placement: string) {
+  const { offsetHeight, offsetWidth, offsetTop, offsetLeft } =
+    getOffset(childrenRef);
+  const centerH = offsetLeft + offsetWidth / 2;
+  const extra = 6;
+  switch (placement) {
+    case "top":
+      return {
+        width: offsetWidth,
+        left: centerH,
+        top: offsetTop - extra,
+        transform: `translate(-50%,-100%)`,
+        paddingBottom: extra,
+      };
+    default:
+      return {
+        // bottom
+        width: offsetWidth,
+        left: centerH,
+        transform: `translateX(-50%)`,
+        top: offsetTop + offsetHeight + extra,
+        paddingTop: extra,
+      };
+  }
+}
+
 export function setStyles(
   element: HTMLDivElement,
   offset: OffsetProp,

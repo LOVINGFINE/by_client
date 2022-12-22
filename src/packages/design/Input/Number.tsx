@@ -18,6 +18,8 @@ import { InputRef, InputProps } from "./Input";
 export interface InputNumberProps extends InputProps {
   min?: number;
   max?: number;
+  value: string | number;
+  change(e: string | number): void;
 }
 
 const InputPassword = forwardRef<InputRef | null, InputNumberProps>(
@@ -43,7 +45,11 @@ const InputPassword = forwardRef<InputRef | null, InputNumberProps>(
     function onInput(e: FormEvent<HTMLInputElement>) {
       const input = e.currentTarget.value || "";
       if (change) {
-        change(input);
+        if (Number.isNaN(parseFloat(input))) {
+          change(input);
+        } else {
+          change(parseFloat(input));
+        }
       }
     }
 

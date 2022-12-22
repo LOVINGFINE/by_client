@@ -1,67 +1,51 @@
 /*
- * Created by zhangq on 2022/03/11
- * Tooltip
+ * Created by zhangq on 2022/04/03
+ * Tooltip 组件
  */
-import React, { ReactElement, FC, useRef, useEffect } from "react";
-import { createRoot } from "react-dom/client";
+import React, { ReactElement, FC, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 import "./style.less";
-import { getOffset, getTooltipArrowStyles, setStyles } from "./utils";
+import {
+  getStyles,
+  getOffset,
+  getArrowStyles,
+  getBarStyles,
+  getInnerStyles,
+} from "../utils/content";
 
 const Tooltip: FC<TooltipProps> = ({
   title = "",
-  placement = "top",
+  placement = "bottom",
   children,
   delay = 0,
+  zIndex = 1001,
 }: TooltipProps): ReactElement => {
-  const childrenRef = useRef<HTMLBaseElement>(null);
-  const renderId = useRef<string | null>(null);
+  const childrenRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    return onClose;
-  }, []);
+  const offset = getOffset(childrenRef.current);
+  const renderStyles = getStyles(offset, placement, 0);
+
+  const innerStyles = (() => {
+    return getInnerStyles(placement, 7);
+  })();
+
+  const barStyles = (() => {
+    return getBarStyles(placement, 7);
+  })();
+
+  const arrowStyles = (() => {
+    return getArrowStyles(placement, offset.offsetWidth, offset.offsetHeight);
+  })();
 
   /**
    * @method
    */
-  function onOpen() {
-    if (!renderId.current && title) {
-      const id = `tooltip-${new Date().getTime()}`;
-      const div = document.createElement("div");
-      div.id = id;
-      div.className = "tooltip";
-      div.onmousedown = (e) => {
-        e.stopPropagation();
-        setTimeout(() => {
-          onClose();
-        }, 200);
-      };
-      const offset = getOffset(childrenRef.current);
-      const styles = getTooltipArrowStyles(placement, offset);
-      const root = createRoot(div);
-      root.render(
-        <div className="tooltip-inner" style={styles.inner}>
-          <div className="tooltip-inner-arrow" style={styles.bar}>
-            <span style={styles.arrow} />
-          </div>
-          <div className="tooltip-inner-content">{title}</div>
-        </div>
-      );
-      setTimeout(() => {
-        setStyles(offset, placement, div);
-      });
-      document.body.appendChild(div);
-      renderId.current = id;
-    }
-  }
 
   function onClose() {
-    if (renderId.current) {
-      const is = document.getElementById(renderId.current);
-      if (is) {
-        document.body.removeChild(is);
-        renderId.current = null;
-      }
-    }
+    setTimeout(() => {
+      setVisible(false);
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,7 +56,7 @@ const Tooltip: FC<TooltipProps> = ({
           ele.props?.onMouseEnter(s);
         }
         setTimeout(() => {
-          onOpen();
+          setVisible(true);
         }, delay * 1000);
       },
       onMouseLeave: (...s: unknown[]) => {
@@ -86,7 +70,7 @@ const Tooltip: FC<TooltipProps> = ({
     };
   }
 
-  const element = (() => {
+  const render = (() => {
     if (!children) return <></>;
     if (typeof children?.type !== "string") {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -102,19 +86,24 @@ const Tooltip: FC<TooltipProps> = ({
     });
   })();
 
-  /** render */
-  return element;
+  return (
+    <>
+      {visible &&
+        ReactDOM.createPortal(
+          <div className="tooltip" style={{ ...renderStyles, zIndex }}>
+            <div className="tooltip-inner" style={innerStyles}>
+              <div className="tooltip-inner-arrow" style={barStyles}>
+                <span style={arrowStyles} />
+              </div>
+              <div className="tooltip-inner-content">{title}</div>
+            </div>
+          </div>,
+          document.body
+        )}
+      {render}
+    </>
+  );
 };
-
-/**
- * @interface props
- */
-export interface OffsetProp {
-  width: number;
-  height: number;
-  left: number;
-  top: number;
-}
 
 export interface TooltipProps {
   placement?:
@@ -130,10 +119,10 @@ export interface TooltipProps {
     | "right"
     | "rightTop"
     | "rightBottom";
-
-  children?: ReactElement;
-  title?: ReactElement | string;
   delay?: number;
+  children?: ReactElement;
+  title?: React.ReactNode;
+  zIndex?: number;
 }
 
 export default Tooltip;
