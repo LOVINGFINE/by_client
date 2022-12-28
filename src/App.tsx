@@ -5,7 +5,7 @@
 import { FC } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { AppRouter } from "@/plugins/router";
-import { LocaleProvider } from "@/plugins/i18n";
+import { I18nProvider } from "@/plugins/i18n";
 import UserProvider from "@/pages/user/provider";
 import routes, { ACCESS_TOKEN_NEGLECT } from "@/config/router";
 import i18n from "@/locales";
@@ -16,9 +16,9 @@ const App: FC = () => {
   return (
     <Router>
       <UserProvider neglect={ACCESS_TOKEN_NEGLECT}>
-        <LocaleProvider initial={i18n} defaultNs="zh-CN">
+        <I18nProvider initial={i18n} defaultNs="zh-CN">
           {AppRouter(routes)}
-        </LocaleProvider>
+        </I18nProvider>
       </UserProvider>
     </Router>
   );

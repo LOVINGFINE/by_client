@@ -1,3 +1,4 @@
+import { render } from "react-dom";
 import { file_types } from "../final";
 import { FileSize, FileType } from "../type";
 import { FileInfo } from "../type";
@@ -69,25 +70,36 @@ export const readFileInfo = (file: File | FileInfo, url?: string): FileInfo => {
  */
 export function readFileBinaryProgress(
   file: File,
-  end: (err: boolean, res: string) => void,
-  progress?: (t: number, l?: number, p?: number) => void
+  opts?: {
+    type?: "string" | "arrayBuffer";
+    progress?: (t: number, l?: number, p?: number) => void;
+  }
 ) {
-  const reader = new FileReader();
-  reader.addEventListener("load", (event) => {
-    const result = event?.target?.result as string;
-    if (result) {
-      end(false, result);
+  return new Promise((resolve, reject) => {
+    const { type = "string", progress } = opts || {};
+    const reader = new FileReader();
+    reader.addEventListener("load", (event) => {
+      const result = event?.target?.result;
+      if (result) {
+        resolve(result);
+      } else {
+        reject();
+      }
+    });
+    if (progress) {
+      reader.addEventListener("progress", (event) => {
+        if (event.loaded && event.total) {
+          const percent = (event.loaded / event.total) * 100;
+          progress(event.total, event.loaded, percent);
+        }
+      });
+    }
+    if (type === "arrayBuffer") {
+      reader.readAsArrayBuffer(file);
     } else {
-      end(false, "");
+      reader.readAsDataURL(file);
     }
   });
-  reader.addEventListener("progress", (event) => {
-    if (event.loaded && event.total && progress) {
-      const percent = (event.loaded / event.total) * 100;
-      progress(event.total, event.loaded, percent);
-    }
-  });
-  reader.readAsDataURL(file);
 }
 
 /**

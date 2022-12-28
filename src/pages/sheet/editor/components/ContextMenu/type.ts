@@ -7,6 +7,7 @@ export interface ContextMenuOption<K> {
     icon?: string;
   };
   children?: MenuOptionType<K>[];
+  disabled?:boolean;
 }
 
 export type MenuOptionType<K> = ContextMenuOption<K> | "driver";

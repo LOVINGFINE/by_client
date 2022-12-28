@@ -19,7 +19,7 @@ import { useClassNames } from "@/plugins/style";
 import THead from "./components/THead";
 import TCorner from "./components/TCorner";
 import TBody from "./components/TBody";
-import { Selection } from "./type";
+import { Selection, VcMerge } from "./type";
 import { filterColumns, filterRows, getBodyStyle } from "./utils";
 import { init_selection } from "./final";
 import { keydownSelected, keydownSelection } from "./event";
@@ -35,6 +35,8 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
       indexWidth,
       headHeight,
       corner,
+      selection,
+      merge = [],
       children,
       onCopy,
       onPaste,
@@ -51,10 +53,6 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
       width: 0,
       height: 0,
     });
-    const [selection, setSelection] = useState<Selection>({
-      ...init_selection,
-    });
-    const _selection = useRef<Selection>(selection);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [scrollTop, setScrollTop] = useState(0);
 
@@ -124,20 +122,16 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
     }
 
     function inSelection(e: Selection) {
-      setSelection(e);
+      onSelection(e);
     }
 
     function onSelectionStop(e?: Selection) {
       if (e) {
-        setSelection(e);
         onSelection(e);
-      } else {
-        onSelection(_selection.current);
       }
     }
 
     function deSelection() {
-      setSelection({ ...init_selection });
       onSelection({ ...init_selection });
     }
 
@@ -166,14 +160,14 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
     }
 
     function onMoveSelected(type: KeyboardType) {
-      const s = keydownSelected(type, _selection.current);
+      const s = keydownSelected(type, selection);
       if (s) {
         inSelection(s);
       }
     }
 
     function onMoveSelection(type: KeyboardType) {
-      const s = keydownSelection(type, _selection.current);
+      const s = keydownSelection(type, selection);
       if (s) {
         inSelection(s);
       }
@@ -218,11 +212,6 @@ const VcTable = forwardRef<VcTableCore | null | undefined, VcTableProps>(
     /**
      * @Effect
      */
-
-    useEffect(() => {
-      _selection.current = selection;
-    }, [selection]);
-
     useEffect(() => {
       setBodyStyle(getBodyStyle(columns, rows));
     }, [columns, rows]);
@@ -334,6 +323,8 @@ export interface VcTableProps {
   indexWidth: number;
   headHeight: number;
   corner: React.ReactNode;
+  selection: Selection;
+  merge?: VcMerge[];
   scrollBottomEnd?(): void;
   scrollRightEnd?(): void;
   refs?(can: boolean): React.ReactNode;

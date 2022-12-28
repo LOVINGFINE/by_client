@@ -114,7 +114,11 @@ const TBody: FC<TBodyProps> = ({
                   selected={s}
                   left={column.x + indexWidth}
                   width={column.width}
-                  height={row.height}
+                  height={
+                    row.index === 0 && column.index === 0
+                      ? row.height * 2
+                      : row.height
+                  }
                   onMouseDown={(e) =>
                     onCellMouseDown(e, column.index, row.index)
                   }

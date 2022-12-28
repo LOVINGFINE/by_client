@@ -1,10 +1,10 @@
 import request from "@/config/request";
 import {
-  ColumnConfig,
-  RowConfig,
+  ColumnSet,
+  RowSet,
   DataPayload,
-  WorkbookCommonData,
-} from "../editor/Common/type";
+  CommonDataSource,
+} from "../editor/SpreadSheet/type";
 import {
   ColumnPayload,
   EntryPayload,
@@ -12,7 +12,7 @@ import {
   MetaColumn,
   MetaEntry,
   InsertEntryPayload,
-} from "../editor/Meta/type";
+} from "../editor/MetaSheet/type";
 import { CommonWorkbook, MetaWorkbook } from "../editor/type";
 
 // common
@@ -24,7 +24,7 @@ export function getCommonWorkbookById(sheetId: string, workbookId: string) {
 }
 
 export function getCommonWorkbookData(sheetId: string, workbookId: string) {
-  return request<WorkbookCommonData>({
+  return request<CommonDataSource>({
     method: "get",
     url: `/sheets/${sheetId}/common/${workbookId}/data`,
   });
@@ -33,9 +33,9 @@ export function getCommonWorkbookData(sheetId: string, workbookId: string) {
 export function updateCommonWorkbookColumn(
   sheetId: string,
   workbookId: string,
-  data: ColumnConfig
+  data: ColumnSet
 ) {
-  return request<ColumnConfig>({
+  return request<ColumnSet>({
     method: "patch",
     url: `/sheets/${sheetId}/common/${workbookId}/column`,
     data,
@@ -45,9 +45,9 @@ export function updateCommonWorkbookColumn(
 export function updateCommonWorkbookRow(
   sheetId: string,
   workbookId: string,
-  data: RowConfig
+  data: RowSet
 ) {
-  return request<RowConfig>({
+  return request<RowSet>({
     method: "patch",
     url: `/sheets/${sheetId}/common/${workbookId}/row`,
     data,
@@ -59,7 +59,7 @@ export function updateCommonWorkbookData(
   workbookId: string,
   data: DataPayload
 ) {
-  return request<WorkbookCommonData>({
+  return request<CommonDataSource>({
     method: "patch",
     url: `/sheets/${sheetId}/common/${workbookId}/data`,
     data,

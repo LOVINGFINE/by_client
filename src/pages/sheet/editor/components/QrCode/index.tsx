@@ -10,7 +10,7 @@ import { Icon } from "@/packages/design";
 import { getStyles } from "./utils";
 import { SimpleValue } from "../VcTable";
 import ReactDOM from "react-dom";
-import { QrCodeDisplayType } from "../../Meta/type";
+import { QrCodeDisplayType } from "../../MetaSheet/type";
 
 const QrCodePlayer: FC<QrCodePlayerProps> = ({
   placement = "bottom",

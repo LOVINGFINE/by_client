@@ -1,0 +1,40 @@
+.corner {
+  &-cell {
+    height: 36px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--d-desc);
+    border-top: 1px solid #ddd;
+    background-color: #f6f6f6;
+    box-sizing: border-box;
+    position: relative;
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      border-left: 2px solid #ddd;
+      border-right: 2px solid #ddd;
+      transform-origin: 0 0;
+      transform: scale(0.5);
+      z-index: 5;
+      box-sizing: border-box;
+    }
+  }
+  &-title {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--d-desc);
+    box-sizing: border-box;
+  }
+}

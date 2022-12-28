@@ -1,4 +1,4 @@
-import { OsType } from "../type";
+import { OsType } from "./type";
 
 export function getOs() {
   const { userAgent } = navigator;

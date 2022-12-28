@@ -1,5 +1,5 @@
 import { CSSProperties, ReactElement } from "react";
-import { ColumnConfig, RowConfig } from "./Common/type";
+import { CommonConfigure } from "./SpreadSheet/type";
 
 export interface SelectionRef {
   scope: Selection;
@@ -21,10 +21,7 @@ export interface WorkbookListItem {
 }
 
 export interface CommonWorkbook extends WorkbookListItem {
-  config: {
-    column: ColumnConfig;
-    row: RowConfig;
-  };
+  configure: CommonConfigure;
 }
 
 export interface MetaWorkbook extends WorkbookListItem {

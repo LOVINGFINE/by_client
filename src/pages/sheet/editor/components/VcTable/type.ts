@@ -3,10 +3,21 @@ export interface VcColumn {
   x: number;
   width: number;
 }
+
 export interface VcRow {
   index: number;
   y: number;
   height: number;
+}
+
+export interface VcMergeOption {
+  start: number;
+  end: number;
+}
+
+export interface VcMerge {
+  x: VcMergeOption;
+  y: VcMergeOption;
 }
 
 export type SimpleValue = string | number | boolean;

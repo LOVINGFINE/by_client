@@ -5,10 +5,10 @@
 import { FC, useReducer, useEffect, createContext, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ApplicationLayout from "@/layouts/application";
-import SheetHeader from "./Header";
-import CommonEditor from "./Common";
-import MetaEditor from "./Meta";
-import Footer from "./Footer";
+import SheetHeader from "./components/Header";
+import Footer from "./components/Footer";
+import SpreadSheet from "./SpreadSheet";
+import MetaSheet from "./MetaSheet";
 import { Sheet } from "../type";
 import { WorkbookListItem, WorkbookType } from "./type";
 import {
@@ -115,9 +115,9 @@ const SheetEditor: FC = () => {
   const editor = (() => {
     if (workbookType) {
       if (workbookType === WorkbookType.common) {
-        return <CommonEditor />;
+        return <SpreadSheet />;
       }
-      return <MetaEditor />;
+      return <MetaSheet />;
     }
     return <></>;
   })();
