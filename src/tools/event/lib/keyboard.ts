@@ -1,6 +1,6 @@
 import React from "react";
 import { KeyboardType } from "../type";
-import platform, { OsType } from "@/plugins/platform";
+import platform, { OsType } from "@/tools/platform";
 
 const {
   copy,

@@ -4,7 +4,7 @@
  */
 import { FC } from "react";
 import "./style.less";
-import { classNames } from "@/plugins/style";
+import { classNames } from "@/tools/style";
 
 const Checkbox: FC<CheckboxProps> = ({
   checked = false,

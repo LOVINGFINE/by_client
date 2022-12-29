@@ -1,4 +1,4 @@
-import { toStringByCSSProperties } from "@/plugins/style";
+import { toStringByCSSProperties } from "@/tools/style";
 import { DropEndProp, DropEventOption } from "../type";
 
 const init_option: DropEventOption = {

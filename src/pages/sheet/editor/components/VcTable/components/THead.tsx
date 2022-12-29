@@ -2,9 +2,9 @@ import React, { FC, MouseEvent, useState } from "react";
 import styles from "../style.less";
 import { Selection } from "../type";
 import { getInitColumnSelection, getColumnMoveSelection } from "../utils";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 import { VcColumn } from "../type";
-import { DropEndProp, dropSizeEvent } from "@/plugins/event";
+import { DropEndProp, dropSizeEvent } from "@/tools/event";
 
 const classNames = useClassNames(styles);
 

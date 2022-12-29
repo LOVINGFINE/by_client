@@ -6,7 +6,7 @@ import { FC } from "react";
 import { Action } from "../Widgets";
 import { Icon } from "@/packages/design";
 import styles from "../style.less";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 import { ColorPicker } from "@/components";
 
 const cn = useClassNames(styles);

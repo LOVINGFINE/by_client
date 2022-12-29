@@ -5,7 +5,7 @@
 
 import React, { ReactElement, FC, useRef, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { classNames } from "@/plugins/style";
+import { classNames } from "@/tools/style";
 import Option, { SelectOption } from "./Option";
 import "./style.less";
 import { setStyles } from "./utils";

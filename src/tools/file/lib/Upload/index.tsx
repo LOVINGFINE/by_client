@@ -5,9 +5,6 @@
 import { Button } from "@/packages/design";
 import { FC, useEffect, useState } from "react";
 import styles from "./style.less";
-// import { useClassNames } from "@/plugins/style";
-
-// const classNames = useClassNames(styles);
 
 const UploadFileModal: FC<UploadFileModalProps> = ({ onOk }) => {
   /** @State */

@@ -2,11 +2,17 @@
  * Created by zhangq on 2022/07/25 13:31
  * app router
  */
-import { Route, Outlet, Routes } from "react-router-dom";
-import { lazy } from "react";
+import {
+  Route,
+  Outlet,
+  Routes,
+  BrowserRouter as Router,
+} from "react-router-dom";
+
+import { FC, lazy } from "react";
 import { RouteProp } from "./type";
 
-function AppRouter(routes: RouteProp[]) {
+function getAppRoutes(routes: RouteProp[]) {
   function renderCurrentRoute(
     path: string,
     opts?: {
@@ -60,5 +66,10 @@ function AppRouter(routes: RouteProp[]) {
   }
   return <Routes>{getElements(routes)}</Routes>;
 }
+
+const AppRouter: FC<{ routes: RouteProp[] }> = ({ routes }) => {
+  /** @render */
+  return <Router>{getAppRoutes(routes)}</Router>;
+};
 
 export default AppRouter;

@@ -1,5 +1,5 @@
-import esUS from "./es-US.json";
-import zhCN from "./zh-CN.json";
+import esUS from "./lib/es-US.json";
+import zhCN from "./lib/zh-CN.json";
 
 const i18n = {
   "zh-CN": {

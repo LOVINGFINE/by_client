@@ -4,7 +4,7 @@
  */
 import ReactDOM from "react-dom";
 import React, { ReactElement, FC, useRef, useState } from "react";
-import { classNames } from "@/plugins/style";
+import { classNames } from "@/tools/style";
 import Option, { SelectOption } from "./Option";
 import "./style.less";
 import { getStyles } from "./utils";

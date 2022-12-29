@@ -4,7 +4,7 @@
  */
 import { FC } from "react";
 import styles from "../style.less";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 import { Selection } from "../type";
 import { getRefStyle } from "../utils";
 

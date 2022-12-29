@@ -6,7 +6,7 @@ import { CSSProperties, FC, MouseEvent } from "react";
 import styles from "../style.less";
 import { week_days } from "../final";
 import { Day, WeekDay } from "../type";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 import { getMonthWeeks } from "../utils";
 
 const cn = useClassNames(styles);

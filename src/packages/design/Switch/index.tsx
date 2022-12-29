@@ -4,7 +4,7 @@
  */
 import { FC, ReactElement } from "react";
 import "./style.less";
-import { classNames } from "@/plugins/style";
+import { classNames } from "@/tools/style";
 
 const Switch: FC<SwitchProps> = ({
   checked = false,

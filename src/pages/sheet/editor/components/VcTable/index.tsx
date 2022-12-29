@@ -14,8 +14,8 @@ import React, {
 } from "react";
 import styles from "./style.less";
 import { debounce, throttle } from "lodash";
-import { KeyboardType, keyboardEventKey } from "@/plugins/event";
-import { useClassNames } from "@/plugins/style";
+import { KeyboardType, keyboardEventKey } from "@/tools/event";
+import { useClassNames } from "@/tools/style";
 import THead from "./components/THead";
 import TCorner from "./components/TCorner";
 import TBody from "./components/TBody";

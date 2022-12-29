@@ -4,7 +4,7 @@
  */
 import { FC, ReactElement, MouseEvent } from "react";
 import { Icon } from "@/packages/design";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 import styles from "../style.less";
 
 const classNames = useClassNames(styles);

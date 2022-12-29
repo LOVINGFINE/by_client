@@ -9,7 +9,7 @@ import FormCard from "../../components/FormCard";
 import { Button, message } from "@/packages/design";
 import { userContext } from "@/pages/user/provider";
 import { setUserAvatar } from "@/pages/user/apis";
-import { uploadFile } from "@/plugins/file";
+import { uploadFile } from "@/tools/file";
 
 const UpdateAvatar: FC = () => {
   const context = useContext(userContext);

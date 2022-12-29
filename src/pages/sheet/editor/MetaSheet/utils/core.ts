@@ -1,4 +1,4 @@
-import { arrayToCsv } from "@/plugins/convert";
+import { arrayToCsv } from "@/tools/convert";
 import { MetaColumn, MetaEntry, MetaClipboard, EntryPayload } from "../type";
 import { Selection, SimpleValue } from "../../components/VcTable";
 

@@ -5,7 +5,7 @@
 import { FC, useEffect, useState, useRef, KeyboardEvent } from "react";
 import styles from "../style.less";
 import { SimpleValue, Selection } from "../../../components/VcTable";
-import { getCodeByIndex } from "@/plugins/convert";
+import { getCodeByIndex } from "@/tools/convert";
 import { getKeyByCoord } from "../../Table/core";
 import { CommonCell, CommonDataSource } from "../../type";
 

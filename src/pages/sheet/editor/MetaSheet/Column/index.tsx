@@ -6,7 +6,7 @@ import { FC } from "react";
 import styles from "./style.less";
 import { MetaColumn } from "../type";
 import { Icon } from "@/packages/design";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 
 const cn = useClassNames(styles);
 const ColumnRender: FC<ColumnRenderProps> = ({

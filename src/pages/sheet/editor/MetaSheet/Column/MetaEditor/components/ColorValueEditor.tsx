@@ -4,7 +4,7 @@
  */
 import { FC, useState } from "react";
 import styles from "../../style.less";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 import { MetaOptionsItem } from "../../../type";
 import { Icon, Input } from "@/packages/design";
 import { ColorPicker } from "@/components";

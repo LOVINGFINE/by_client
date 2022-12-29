@@ -4,7 +4,7 @@
  */
 import { FC, MouseEvent, useEffect, useRef } from "react";
 import styles from "../style.less";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 import { getTimeDataSource } from "../utils";
 
 const cn = useClassNames(styles);

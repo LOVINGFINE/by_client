@@ -4,7 +4,7 @@
  */
 import React, { FC, ReactElement } from "react";
 import "./style.less";
-import { classNames } from "@/plugins/style";
+import { classNames } from "@/tools/style";
 
 const Option: FC<SelectOptionProp> = ({
   size = "middle",

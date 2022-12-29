@@ -3,7 +3,7 @@
  * TimePicker
  */
 import { FC, MouseEvent, useEffect, useRef } from "react";
-import { classNames } from "@/plugins/style";
+import { classNames } from "@/tools/style";
 import { getTimeDataSource } from "../utils";
 
 export interface TimeOptionProps {

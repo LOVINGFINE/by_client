@@ -3,7 +3,7 @@
  * RadioGroup
  */
 import { FC, ReactElement } from "react";
-import { classNames } from "@/plugins/style";
+import { classNames } from "@/tools/style";
 import Radio from ".";
 
 const RadioGroup: FC<RadioGroupProps> = ({

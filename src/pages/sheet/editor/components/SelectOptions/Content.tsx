@@ -3,7 +3,7 @@
  * SelectContent
  */
 import { CSSProperties, FC } from "react";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 import styles from "./style.less";
 import { SimpleValue } from "../VcTable";
 import { OptionsSelect } from "./index";

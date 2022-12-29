@@ -8,7 +8,7 @@ import FormCard from "../../components/FormCard";
 import { Form, Input, message } from "@/packages/design";
 import { userContext } from "@/pages/user/provider";
 import { setUserMobile } from "@/pages/user/apis";
-import { verifyMobile } from "@/plugins/verify";
+import { verifyMobile } from "@/tools/verify";
 
 const UpdateMobile: FC = () => {
   const context = useContext(userContext);

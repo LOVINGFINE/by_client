@@ -1,8 +1,13 @@
-import { RouteProp } from "@/plugins/router";
+import { RouteProp } from "@/packages/router";
 const routes: RouteProp[] = [
   {
     path: "/__test__",
-    view: "pages/__test__",
+    view: "pages/__test__/index",
+    title: "测试页面",
+  },
+  {
+    path: "/__test__/select",
+    view: "pages/__test__/select_date",
     title: "测试页面",
   },
   {
@@ -54,6 +59,6 @@ const routes: RouteProp[] = [
   },
 ];
 
-export const ACCESS_TOKEN_NEGLECT = ["/sign-in", "/sign-up", "__test__"];
+export const ACCESS_TOKEN_NEGLECT = ["/sign-in", "/sign-up", "/__test__"];
 
 export default routes;

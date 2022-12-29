@@ -1,4 +1,4 @@
-import { getCodeByIndex, getIndexByCode } from "@/plugins/convert";
+import { getCodeByIndex, getIndexByCode } from "@/tools/convert";
 import { Selection, init_selection } from "../../components/VcTable";
 
 export function getSelectionRef(selection: Selection) {

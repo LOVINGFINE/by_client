@@ -29,8 +29,8 @@ import {
 } from "../type";
 import ContextMenu, { ContextMenuRef } from "../../components/ContextMenu";
 import CellRender from "../Cell";
-import { getCodeByIndex } from "@/plugins/convert";
-import { useClassNames } from "@/plugins/style";
+import { getCodeByIndex } from "@/tools/convert";
+import { useClassNames } from "@/tools/style";
 import { context_menu_options } from "../final";
 
 const cn = useClassNames(styles);

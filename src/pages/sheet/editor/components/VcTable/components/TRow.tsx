@@ -4,9 +4,9 @@
  */
 import { FC, MouseEvent, ReactElement } from "react";
 import styles from "../style.less";
-import { useClassNames } from "@/plugins/style";
-import { dropSizeEvent } from "@/plugins/event";
-import { DropEndProp } from "@/plugins/event/type";
+import { useClassNames } from "@/tools/style";
+import { dropSizeEvent } from "@/tools/event";
+import { DropEndProp } from "@/tools/event/type";
 
 const classNames = useClassNames(styles);
 

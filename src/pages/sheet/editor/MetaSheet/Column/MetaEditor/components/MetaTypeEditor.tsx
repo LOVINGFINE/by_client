@@ -4,7 +4,7 @@
  */
 import { FC } from "react";
 import styles from "../../style.less";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 import { meta_config } from "../../../final";
 import { MetaType } from "../../../type";
 import { Icon } from "@/packages/design";

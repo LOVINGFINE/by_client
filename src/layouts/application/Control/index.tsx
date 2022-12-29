@@ -6,7 +6,7 @@ import { FC, useState } from "react";
 import styles from "./style.less";
 import { Icon } from "@/packages/design";
 import ControlDriver from "./Driver";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 
 const cn = useClassNames(styles);
 

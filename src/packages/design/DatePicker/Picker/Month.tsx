@@ -3,7 +3,7 @@
  * MonthPicker
  */
 import { FC, MouseEvent } from "react";
-import { classNames } from "@/plugins/style";
+import { classNames } from "@/tools/style";
 import { getYearMonths } from "../utils";
 
 export interface MonthOptionProps {

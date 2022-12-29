@@ -1,4 +1,4 @@
-import { keyboardEventKey, KeyboardType } from "@/plugins/event";
+import { keyboardEventKey, KeyboardType } from "@/tools/event";
 import { Selection } from "./type";
 
 export function createKeyboardEvent() {

@@ -1,7 +1,7 @@
-import { axios } from "@/plugins/request";
+import { axios } from "@/packages/request";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 
-import { createStorageRef } from "@/plugins/storage";
+import { createStorageRef } from "@/tools/storage";
 const accessToken = createStorageRef("access-token");
 
 function beforeRequest(config: AxiosRequestConfig) {

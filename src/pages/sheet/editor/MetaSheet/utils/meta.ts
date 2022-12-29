@@ -1,4 +1,4 @@
-import { testColorDarkOrLight } from "@/plugins/color";
+import { testColorDarkOrLight } from "@/tools/color";
 import dayjs from "dayjs";
 import { OptionsSelect } from "../../components/SelectOptions";
 import { SimpleValue } from "../../components/VcTable";

@@ -11,7 +11,7 @@ import FormCard from "../../components/FormCard";
 import { Form, Icon, Input, message } from "@/packages/design";
 import { userContext } from "@/pages/user/provider";
 import { setUserUsername } from "@/pages/user/apis";
-import { verifyAccent } from "@/plugins/verify";
+import { verifyAccent } from "@/tools/verify";
 
 const afterDays = (time: string) => {
   return dayjs(time).add(30, "d").isBefore(dayjs(new Date()));

@@ -4,7 +4,7 @@
  */
 import { FC, useContext } from "react";
 import styles from "./style.less";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 import { globalContext } from "../../index";
 import { Dropdown, Icon, Menu } from "@/packages/design";
 import { WorkbookType } from "../../type";

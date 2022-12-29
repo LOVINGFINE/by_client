@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router";
 import { userInfoWidthToken } from "../apis";
 import { UserContext } from "./type";
 import { User } from "../type";
-import { createStorageRef } from "@/plugins/storage";
+import { createStorageRef } from "@/tools/storage";
 import { createContext } from "react";
 
 const accessToken = createStorageRef<string>("access-token");

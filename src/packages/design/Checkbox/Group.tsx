@@ -3,7 +3,7 @@
  * CheckbookGroup
  */
 import { FC } from "react";
-import { classNames } from "@/plugins/style";
+import { classNames } from "@/tools/style";
 import Checkbook from "./Checkbox";
 
 const CheckbookGroup: FC<CheckboxGroupProps> = ({

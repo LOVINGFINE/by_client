@@ -3,7 +3,7 @@
  * size picker
  */
 import { FC, ReactElement } from "react";
-import { useClassNames } from "@/plugins/style";
+import { useClassNames } from "@/tools/style";
 import styles from "./style.less";
 import { picker_sizes } from "./final";
 import { Dropdown } from "@/packages/design";

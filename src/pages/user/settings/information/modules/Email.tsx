@@ -14,7 +14,7 @@ import {
   sendUserEmailUpdateCode,
 } from "@/pages/user/apis";
 import SendCodeTimer from "@/pages/user/components/SendCodeTimer";
-import { verifyEmail } from "@/plugins/verify";
+import { verifyEmail } from "@/tools/verify";
 
 const UpdateEmail: FC = () => {
   const navigate = useNavigate();
